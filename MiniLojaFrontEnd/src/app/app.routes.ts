@@ -12,6 +12,7 @@ export const routes: Routes = [
     children: [
       { path: 'catalogo', loadChildren: () => import('./features/catalog/catalog.routes').then((m) => m.CATALOG_ROUTES) },
       { path: 'produtos', loadChildren: () => import('./features/catalog/catalog.routes').then((m) => m.PRODUCT_ROUTES) },
+      { path: '', pathMatch: 'full', loadChildren: () => import('./features/home/home.routes').then((m) => m.HOME_ROUTES) },
       // [routes:shop]
       { path: '**', component: NotFoundPage },
     ],

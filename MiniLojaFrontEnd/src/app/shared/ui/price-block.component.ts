@@ -7,7 +7,7 @@ import { discountPct, installments } from '../utils/price';
   standalone: true,
   imports: [BrlPipe],
   template: `
-    <s class="old">@if (originalPrice() && off()) { {{ originalPrice() | brl }} } @else { &nbsp; }</s>
+    @if (originalPrice() && off()) { <s class="old">{{ originalPrice() | brl }}</s> } @else { <span class="old">&nbsp;</span> }
     <div class="now"><span class="price">{{ price() | brl }}</span>@if (off()) { <span class="off">{{ off() }}% OFF</span> }</div>
     @if (parcels() > 1) { <div class="inst">em {{ parcels() }}x {{ price() / parcels() | brl }} sem juros</div> }`,
   host: { '[attr.data-size]': 'size()' },
