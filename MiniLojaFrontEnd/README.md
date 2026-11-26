@@ -81,10 +81,12 @@ src/app/
 ├─ shared/          UI sem regra de negócio: button, badge, icon, logo, product-card, price-block,
 │                   product-thumb, pagination, modal, empty-state · pipes (brl, order-status) · models · utils
 └─ features/        1 pasta por assunto: home, catalog, cart, auth, checkout, orders, admin
-                    (cada uma com pages/, components/, data/ e <feature>.routes.ts, carregada em lazy loading)
+                    (cada uma com pages/, components/ e data/; as páginas são carregadas em lazy loading pelo app.routes.ts)
 ```
 
-Cada componente tem 4 arquivos: `x.component.ts` (lógica), `x.component.html` (template), `x.component.scss` (estilos) e `x.component.spec.ts` (testes). Dados de exemplo dos specs ficam em `src/testing/fixtures.ts`.
+Cada componente vive na **própria pasta**, com 4 arquivos: `x/x.component.ts` (lógica), `x.component.html` (template), `x.component.scss` (estilos) e `x.component.spec.ts` (testes). O mesmo vale para páginas (`pages/cart/cart.page.*`) e pipes.
+
+**Rotas:** todas as URLs estão em `src/app/app.routes.ts`, agrupadas por shell (enxuto, admin, loja). Só o admin tem arquivo próprio (`features/admin/admin.routes.ts`) porque tem várias páginas internas. Dados de exemplo dos specs ficam em `src/testing/fixtures.ts`.
 
 Regras seguidas (seção 9 do planejamento):
 
