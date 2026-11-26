@@ -12,14 +12,9 @@ const TINTS: [string, string][] = [
   selector: 'ui-product-thumb',
   standalone: true,
   imports: [IconComponent],
-  template: `
-    @if (imageUrl()) { <img [src]="imageUrl()" [alt]="alt()" /> }
-    @else { <ui-icon name="cube" [size]="iconSize()" [stroke]="1.5" /> }`,
+  templateUrl: './product-thumb.component.html',
   host: { '[style.background]': 'tint()[0]', '[style.color]': 'tint()[1]' },
-  styles: [`
-    :host { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; overflow: hidden; }
-    img { width: 100%; height: 100%; object-fit: cover; }
-  `],
+  styleUrl: './product-thumb.component.scss',
 })
 export class ProductThumbComponent {
   readonly seed = input.required<number>();

@@ -1,0 +1,28 @@
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+button {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  display: inline-grid;
+  place-items: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+button:hover:not(:disabled) {
+  border-color: var(--brand);
+}
+button.active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

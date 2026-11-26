@@ -1,0 +1,62 @@
+:host {
+  display: grid;
+  gap: 0;
+}
+section {
+  display: grid;
+  gap: 4px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.opt {
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  text-align: left;
+  color: var(--ink2);
+}
+.opt:hover {
+  color: var(--brand);
+}
+.opt.active {
+  color: var(--ink);
+  font-weight: 600;
+}
+.price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.price input {
+  width: 70px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid #c9c9c9;
+  border-radius: var(--radius);
+  font: inherit;
+}
+.price button {
+  width: 30px;
+  height: 34px;
+  border: 1px solid var(--brand);
+  border-radius: var(--radius);
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-weight: 700;
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink2);
+  cursor: pointer;
+}

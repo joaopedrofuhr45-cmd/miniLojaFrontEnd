@@ -1,0 +1,18 @@
+<div class="thumb"><ui-product-thumb [seed]="item().productId" [imageUrl]="item().imageUrl" [alt]="item().name" [iconSize]="34" /></div>
+<div class="info">
+  <a [routerLink]="['/produtos', item().productId]" class="name">{{ item().name }}</a>
+  <span class="muted">{{ item().categoryName }}</span>
+  <div class="links">
+    <button type="button" class="link" (click)="remove.emit()">Remover</button>
+    <button type="button" class="link" (click)="saved.set(!saved())">{{ saved() ? 'Salvo nos favoritos ✓' : 'Salvar nos favoritos' }}</button>
+  </div>
+</div>
+<div class="stepper" role="group" [attr.aria-label]="'Quantidade de ' + item().name">
+  <button type="button" aria-label="Diminuir" (click)="quantityChange.emit(item().quantity - 1)"><ui-icon name="minus" [size]="12" /></button>
+  <output>{{ item().quantity }}</output>
+  <button type="button" aria-label="Aumentar" [disabled]="item().quantity >= item().stock" (click)="quantityChange.emit(item().quantity + 1)"><ui-icon name="plus" [size]="12" /></button>
+</div>
+<div class="price">
+  @if (item().originalPrice) { <s>{{ item().originalPrice! * item().quantity | brl }}</s> }
+  <b>{{ item().price * item().quantity | brl }}</b>
+</div>

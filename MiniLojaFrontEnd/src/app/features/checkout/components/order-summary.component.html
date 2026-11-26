@@ -1,0 +1,19 @@
+<div class="card box">
+  <h2>Resumo do pedido</h2>
+  <ul>
+    @for (i of cart.items(); track i.productId) {
+      <li>
+        <span class="thumb"><ui-product-thumb [seed]="i.productId" [imageUrl]="i.imageUrl" [iconSize]="22" /></span>
+        <span class="name"><b>{{ short(i.name) }}</b><small>Qtd {{ i.quantity }}</small></span>
+        <b>{{ i.price * i.quantity | brl }}</b>
+      </li>
+    }
+  </ul>
+  <p class="row"><span>Produtos</span><span>{{ cart.subtotal() | brl }}</span></p>
+  <p class="row"><span>Frete</span>@if (cart.shipping() === 0) { <b class="free">Grátis</b> } @else { <span>{{ cart.shipping() | brl }}</span> }</p>
+  <p class="row total"><b>Total</b><b>{{ cart.total() | brl }}</b></p>
+  <button uiButton variant="cta" size="lg" [block]="true" type="button" [disabled]="busy()" (click)="confirm.emit()">{{ busy() ? 'Confirmando…' : 'Confirmar pedido' }}</button>
+  <p class="trust"><ui-icon name="lock" [size]="14" /> Pagamento seguro</p>
+  <p class="trust"><ui-icon name="return" [size]="14" /> Troca em até 7 dias</p>
+</div>
+<a class="back" routerLink="/carrinho"><ui-icon name="arrow-left" [size]="14" /> Voltar ao carrinho</a>

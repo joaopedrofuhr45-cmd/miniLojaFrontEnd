@@ -1,0 +1,8 @@
+@if (open()) {
+  <div class="backdrop" (click)="closed.emit()"></div>
+  <div class="dialog" role="dialog" aria-modal="true" [attr.aria-label]="title()">
+    <h2>{{ title() }}</h2>
+    <div class="content"><ng-content /></div>
+    <footer><ng-content select="[actions]" /></footer>
+  </div>
+}

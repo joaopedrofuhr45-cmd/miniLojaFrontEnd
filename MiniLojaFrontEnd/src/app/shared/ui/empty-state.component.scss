@@ -1,0 +1,15 @@
+:host {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+h3 {
+  color: var(--ink);
+  font-size: 18px;
+}
+p {
+  max-width: 420px;
+}

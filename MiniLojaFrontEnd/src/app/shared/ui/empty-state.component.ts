@@ -6,15 +6,8 @@ import { IconComponent } from './icon.component';
   selector: 'ui-empty-state',
   standalone: true,
   imports: [IconComponent],
-  template: `
-    <ui-icon [name]="icon()" [size]="40" [stroke]="1.4" />
-    <h3>{{ title() }}</h3>
-    @if (message()) { <p>{{ message() }}</p> }
-    <ng-content />`,
-  styles: [`
-    :host { display: grid; justify-items: center; gap: 8px; padding: 48px 16px; text-align: center; color: var(--muted); }
-    h3 { color: var(--ink); font-size: 18px; } p { max-width: 420px; }
-  `],
+  templateUrl: './empty-state.component.html',
+  styleUrl: './empty-state.component.scss',
 })
 export class EmptyStateComponent {
   readonly icon = input('cube');

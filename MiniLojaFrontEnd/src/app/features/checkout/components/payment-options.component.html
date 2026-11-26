@@ -1,0 +1,10 @@
+<div role="radiogroup" aria-label="Forma de pagamento">
+  @for (o of options; track o.value) {
+    <label [class.on]="value() === o.value">
+      <input type="radio" name="payment" [value]="o.value" [checked]="value() === o.value" (change)="valueChange.emit(o.value)" />
+      <span class="radio" aria-hidden="true"></span>
+      <ui-icon [name]="o.icon" [size]="22" />
+      <span class="txt"><b>{{ o.title }}</b><small>{{ o.hint }}</small></span>
+    </label>
+  }
+</div>

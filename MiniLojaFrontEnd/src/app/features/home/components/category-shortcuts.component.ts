@@ -9,22 +9,8 @@ interface Shortcut { label: string; query: Record<string, string | number>; tint
   selector: 'app-category-shortcuts',
   standalone: true,
   imports: [RouterLink, ProductThumbComponent],
-  template: `
-    <ul class="card">
-      @for (s of shortcuts(); track s.label) {
-        <li>
-          <a routerLink="/catalogo" [queryParams]="s.query">
-            <span class="circle"><ui-product-thumb [seed]="s.tint" [iconSize]="30" /></span>
-            {{ s.label }}
-          </a>
-        </li>
-      }
-    </ul>`,
-  styles: [`
-    ul { display: flex; justify-content: space-around; gap: 16px; padding: 20px; overflow-x: auto; }
-    a { display: grid; justify-items: center; gap: 10px; color: var(--ink); font-size: 13px; white-space: nowrap; }
-    .circle { display: block; width: 60px; height: 60px; border-radius: 50%; overflow: hidden; }
-  `],
+  templateUrl: './category-shortcuts.component.html',
+  styleUrl: './category-shortcuts.component.scss',
 })
 export class CategoryShortcutsComponent {
   readonly categories = input.required<Category[]>();

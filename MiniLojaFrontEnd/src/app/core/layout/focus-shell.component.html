@@ -1,0 +1,8 @@
+<header>
+  <div class="container row">
+    <a routerLink="/" aria-label="MiniLoja — início"><ui-logo /></a>
+    <span class="note">@if (icon) { <ui-icon [name]="icon" [size]="16" /> } {{ note }}</span>
+  </div>
+</header>
+<main><router-outlet /></main>
+<app-shop-footer />

@@ -1,0 +1,24 @@
+.narrow {
+  width: min(calc(100% - 32px), 1000px);
+}
+h1 {
+  font-size: 30px;
+  font-weight: 700;
+}
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tabs button {
+  padding: 8px 18px;
+  border: 1px solid #cfcfcf;
+  border-radius: 999px;
+  background: #fff;
+}
+.tabs .on {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-weight: 600;
+}

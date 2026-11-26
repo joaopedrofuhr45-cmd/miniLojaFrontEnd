@@ -1,0 +1,37 @@
+<div class="container page">
+  <app-checkout-steps />
+  <div class="cols">
+    <div class="left">
+      @if (error()) { <p class="alert error" role="alert">{{ error() }}</p> }
+      <section class="card">
+        <h1>Endereço de entrega</h1>
+        <form [formGroup]="form" class="grid" novalidate>
+          <div class="field cep"><label for="cep">CEP</label>
+            <input id="cep" formControlName="cep" inputmode="numeric" maxlength="9" autocomplete="postal-code" placeholder="00000-000" (input)="maskCep($event)" />
+            @if (invalid('cep')) { <span class="error">{{ message('cep') }}</span> }</div>
+          <div class="field street"><label for="street">Rua</label>
+            <input id="street" formControlName="street" autocomplete="address-line1" placeholder="Rua Exemplo" />
+            @if (invalid('street')) { <span class="error">{{ message('street') }}</span> }</div>
+          <div class="field num"><label for="number">Número</label>
+            <input id="number" formControlName="number" placeholder="123" />
+            @if (invalid('number')) { <span class="error">{{ message('number') }}</span> }</div>
+          <div class="field comp"><label for="complement">Complemento</label>
+            <input id="complement" formControlName="complement" autocomplete="address-line2" placeholder="Apto 4" /></div>
+          <div class="field dist"><label for="district">Bairro</label>
+            <input id="district" formControlName="district" placeholder="Centro" />
+            @if (invalid('district')) { <span class="error">{{ message('district') }}</span> }</div>
+          <div class="field city"><label for="city">Cidade</label>
+            <input id="city" formControlName="city" autocomplete="address-level2" placeholder="Maracaí" />
+            @if (invalid('city')) { <span class="error">{{ message('city') }}</span> }</div>
+          <div class="field uf"><label for="state">UF</label>
+            <select id="state" formControlName="state">@for (u of ufs; track u) { <option [value]="u">{{ u }}</option> }</select></div>
+        </form>
+      </section>
+      <section class="card">
+        <h2>Forma de pagamento <span class="chip">simulado no MVP</span></h2>
+        <app-payment-options [value]="payment()" (valueChange)="payment.set($event)" />
+      </section>
+    </div>
+    <app-order-summary [busy]="busy()" (confirm)="confirm()" />
+  </div>
+</div>

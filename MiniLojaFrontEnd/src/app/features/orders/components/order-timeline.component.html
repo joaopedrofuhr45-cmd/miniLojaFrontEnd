@@ -1,0 +1,7 @@
+<ol [attr.aria-label]="'Andamento do pedido: ' + steps[reached()]">
+  @for (s of steps; track s; let i = $index) {
+    <li [class.done]="i < reached() || (reached() === 3 && i === 3)" [class.now]="i === reached() && reached() < 3" [attr.aria-current]="i === reached() ? 'step' : null">
+      <span class="dot"></span><span class="label">{{ s }}</span>
+    </li>
+  }
+</ol>

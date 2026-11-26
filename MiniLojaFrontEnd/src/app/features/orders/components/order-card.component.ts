@@ -13,42 +13,8 @@ const PAYMENT: Record<PaymentMethod, string> = { PIX: 'Pix', CARD: 'Cartão de c
   selector: 'app-order-card',
   standalone: true,
   imports: [DatePipe, BrlPipe, ButtonComponent, OrderStatusBadgeComponent, ProductThumbComponent, OrderTimelineComponent],
-  template: `
-    <article class="card">
-      <header>
-        <ui-order-status-badge [status]="order().status" />
-        <time [attr.datetime]="order().createdAt">{{ order().createdAt | date: 'dd/MM/yyyy' }}</time>
-        <b class="id">Pedido #{{ order().id }}</b>
-      </header>
-      <div class="main">
-        <div class="thumbs">@for (i of firstItems(); track i.productId) { <span><ui-product-thumb [seed]="i.productId" [imageUrl]="i.imageUrl" [iconSize]="24" /></span> }</div>
-        <b class="title">{{ title() }}</b>
-        <div class="total"><small>Total</small><b>{{ order().total | brl }}</b></div>
-        <div class="actions">
-          <button uiButton variant="outline" size="sm" type="button" [attr.aria-expanded]="open()" (click)="toggle.emit()">{{ open() ? 'Ocultar detalhes' : 'Ver detalhes' }}</button>
-          @if (order().status === 'DELIVERED') { <button uiButton variant="line" size="sm" type="button" (click)="reorder.emit()">Comprar de novo</button> }
-        </div>
-      </div>
-      @if (open()) {
-        <div class="details">
-          @if (order().status === 'CANCELED') { <p class="canceled">Este pedido foi cancelado.</p> } @else { <app-order-timeline [status]="order().status" /> }
-          <ul>@for (i of order().items; track i.productId) { <li><span>{{ i.quantity }} × {{ i.name }}</span><span>{{ i.unitPrice * i.quantity | brl }}</span></li> }</ul>
-          <p class="meta">Entrega em: {{ order().address.street }}, {{ order().address.number }} — {{ order().address.city }}/{{ order().address.state }} · Pagamento: {{ payment() }}</p>
-          @if (order().status === 'PENDING') { <button uiButton variant="danger" size="sm" type="button" (click)="cancel.emit()">Cancelar pedido</button> }
-        </div>
-      }
-    </article>`,
-  styles: [`
-    article { overflow: hidden; border: 1px solid var(--line); }
-    header { display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: #f7f7f7; color: var(--muted); } .id { margin-left: auto; color: var(--ink); }
-    .main { display: flex; align-items: center; gap: 16px; padding: 18px 20px; flex-wrap: wrap; }
-    .thumbs { display: flex; gap: 12px; } .thumbs span { width: 54px; height: 54px; border-radius: 4px; overflow: hidden; }
-    .title { flex: 1; min-width: 140px; } .total { display: grid; justify-items: end; margin-left: auto; } .total small { font-size: 11px; color: var(--muted); } .total b { font-size: 24px; font-weight: 600; }
-    .actions { display: grid; gap: 8px; }
-    .details { display: grid; gap: 14px; padding: 4px 20px 20px; } .canceled { color: var(--danger); font-weight: 600; }
-    ul { display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid var(--line); } li { display: flex; justify-content: space-between; color: var(--ink2); }
-    .meta { text-align: center; font-size: 12px; color: var(--ink2); } button[uiButton] { justify-self: start; }
-  `],
+  templateUrl: './order-card.component.html',
+  styleUrl: './order-card.component.scss',
 })
 export class OrderCardComponent {
   readonly order = input.required<Order>();

@@ -1,0 +1,9 @@
+@if (totalPages() > 1) {
+  <nav aria-label="Paginação">
+    <button type="button" aria-label="Página anterior" [disabled]="page() <= 1" (click)="go(page() - 1)"><ui-icon name="chevron-left" [size]="14" /></button>
+    @for (p of pages(); track p) {
+      <button type="button" [class.active]="p === page()" [attr.aria-current]="p === page() ? 'page' : null" (click)="go(p)">{{ p }}</button>
+    }
+    <button type="button" aria-label="Próxima página" [disabled]="page() >= totalPages()" (click)="go(page() + 1)"><ui-icon name="chevron-right" [size]="14" /></button>
+  </nav>
+}
