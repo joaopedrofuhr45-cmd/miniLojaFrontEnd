@@ -1,0 +1,35 @@
+import { Component, input } from '@angular/core';
+
+export type ButtonVariant = 'cta' | 'outline' | 'line' | 'ghost' | 'danger';
+
+/** Uso: <button uiButton variant="cta">Comprar</button> ou <a uiButton ...> */
+@Component({
+  selector: 'button[uiButton], a[uiButton]',
+  standalone: true,
+  template: '<ng-content />',
+  host: { '[attr.data-variant]': 'variant()', '[attr.data-size]': 'size()', '[class.block]': 'block()' },
+  styles: [`
+    :host { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 40px; padding: 0 18px;
+      border: 1px solid transparent; border-radius: var(--radius); font-size: 14px; font-weight: 600; line-height: 1;
+      white-space: nowrap; text-decoration: none; cursor: pointer; transition: background .15s, border-color .15s; }
+    :host(.block) { display: flex; width: 100%; }
+    :host([data-size='sm']) { height: 32px; padding: 0 12px; font-size: 13px; }
+    :host([data-size='lg']) { height: 46px; font-size: 15px; }
+    :host([data-variant='cta']) { background: var(--cta); color: #fff; }
+    :host([data-variant='cta']:hover) { background: var(--cta-hover); }
+    :host([data-variant='outline']) { background: #fff; color: var(--brand); border-color: var(--brand); }
+    :host([data-variant='outline']:hover) { background: var(--brand-soft); }
+    :host([data-variant='line']) { background: #fff; color: var(--ink); border-color: #cfcfcf; }
+    :host([data-variant='line']:hover) { background: #f7f7f7; }
+    :host([data-variant='ghost']) { background: transparent; color: var(--brand); }
+    :host([data-variant='ghost']:hover) { background: var(--brand-soft); }
+    :host([data-variant='danger']) { background: var(--danger-soft); color: var(--danger); }
+    :host([data-variant='danger']:hover) { background: #f9d0d7; }
+    :host(:disabled), :host([disabled]) { opacity: .55; cursor: not-allowed; pointer-events: none; }
+  `],
+})
+export class ButtonComponent {
+  readonly variant = input<ButtonVariant>('outline');
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  readonly block = input(false);
+}

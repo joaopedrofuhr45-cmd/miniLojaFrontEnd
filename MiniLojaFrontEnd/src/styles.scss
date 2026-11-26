@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --brand: #0b6e69; --brand-dark: #084f4b; --brand-deep: #0b3f3c; --brand-soft: #e6f4f3;
+  --cta: #c93d1b; --cta-hover: #ad3416; --accent: #f6c453;
+  --ok: #067a40; --ok-soft: #e3f5ea; --warn: #8f5408; --warn-soft: #fff3cd;
+  --info: #1d4ed8; --info-soft: #e3edff; --danger: #c62839; --danger-soft: #fce4e8;
+  --bg: #f2f2f2; --ink: #262626; --ink2: #666666; --muted: #6b6b6b; --line: #e3e3e3;
+  --radius: 6px; --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --container: 1312px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 14px/1.4 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, p, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+a { color: var(--brand); text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.container { width: min(calc(100% - 32px), var(--container)); margin-inline: auto; }
+.page { padding: 20px 0 56px; display: grid; gap: 20px; }
+.card { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.section-title { font-size: 20px; font-weight: 600; }
+.link { background: none; border: 0; padding: 0; color: var(--brand); font-weight: 600; font-size: 13px; cursor: pointer; }
+.link:hover { text-decoration: underline; }
+.muted { color: var(--muted); }
+
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 4px; font-size: 12px; color: var(--muted); }
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a::after { content: '›'; margin-left: 4px; }
+.breadcrumb [aria-current] { color: var(--ink); font-weight: 600; }
+
+/* formulários */
+.field { display: grid; gap: 6px; align-content: start; }
+.field > label { font-size: 12px; font-weight: 600; }
+.field input, .field select, .field textarea, .input {
+  width: 100%; height: 40px; padding: 0 12px; background: #fff; color: var(--ink);
+  border: 1px solid #c9c9c9; border-radius: var(--radius); font: inherit;
+}
+.field textarea { height: auto; padding: 10px 12px; resize: vertical; }
+.field input[type='checkbox'], .field input[type='radio'] { width: auto; height: auto; }
+.field input:focus, .field select:focus, .field textarea:focus, .input:focus { outline: 2px solid var(--brand); outline-offset: -1px; border-color: var(--brand); }
+.field .ng-invalid.ng-touched { border-color: var(--danger); }
+.field .hint { font-size: 11px; color: var(--muted); }
+.field .error { font-size: 12px; color: var(--danger); }
+::placeholder { color: #9a9a9a; }
+
+.alert { padding: 10px 12px; border-radius: var(--radius); font-size: 13px; font-weight: 500; }
+.alert.error { background: var(--danger-soft); color: var(--danger); }
+.alert.warn { background: var(--warn-soft); color: var(--warn); }
+.alert.ok { background: var(--ok-soft); color: var(--ok); }
+
+.skeleton { background: linear-gradient(90deg, #ececec 25%, #f6f6f6 37%, #ececec 63%); background-size: 400% 100%; animation: shimmer 1.4s ease infinite; border-radius: var(--radius); }
+@keyframes shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
