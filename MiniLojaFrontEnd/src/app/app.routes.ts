@@ -30,6 +30,7 @@ export const routes: Routes = [
       { path: 'produtos', loadChildren: () => import('./features/catalog/catalog.routes').then((m) => m.PRODUCT_ROUTES) },
       { path: '', pathMatch: 'full', loadChildren: () => import('./features/home/home.routes').then((m) => m.HOME_ROUTES) },
       { path: 'carrinho', loadChildren: () => import('./features/cart/cart.routes').then((m) => m.CART_ROUTES) },
+      { path: 'pedidos', canActivate: [authGuard], loadChildren: () => import('./features/orders/orders.routes').then((m) => m.ORDERS_ROUTES) },
       // [routes:shop]
       { path: '**', component: NotFoundPage },
     ],
