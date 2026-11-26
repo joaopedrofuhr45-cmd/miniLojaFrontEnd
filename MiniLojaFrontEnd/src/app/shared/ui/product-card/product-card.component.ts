@@ -1,11 +1,11 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Product } from '../../models/product';
-import { discountPct } from '../../utils/price';
-import { ButtonComponent } from '../button/button.component';
-import { IconComponent } from '../icon/icon.component';
-import { PriceBlockComponent } from '../price-block/price-block.component';
-import { ProductThumbComponent } from '../product-thumb/product-thumb.component';
+import { Product } from '@shared/models/product';
+import { discountPct } from '@shared/utils/price';
+import { ButtonComponent } from '@shared/ui/button/button.component';
+import { IconComponent } from '@shared/ui/icon/icon.component';
+import { PriceBlockComponent } from '@shared/ui/price-block/price-block.component';
+import { ProductThumbComponent } from '@shared/ui/product-thumb/product-thumb.component';
 
 /** Card denso: dá pra decidir a compra sem abrir o produto. Não conhece o carrinho: só emite (add). */
 @Component({

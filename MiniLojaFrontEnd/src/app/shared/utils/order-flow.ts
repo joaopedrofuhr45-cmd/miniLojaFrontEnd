@@ -1,4 +1,4 @@
-import { OrderStatus } from '../models/order';
+import { OrderStatus } from '@shared/models/order';
 
 /** Transições válidas: PENDENTE → PAGO → ENVIADO → ENTREGUE (ou CANCELADO antes de entregar). */
 const FLOW: Record<OrderStatus, OrderStatus[]> = {

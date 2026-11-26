@@ -76,35 +76,39 @@ export const environment = {
 
 ```
 src/app/
-├─ core/            singletons: interceptors, guards, AuthStore, CartStore, StoreInfoStore,
-│                   layouts (shop / focus / admin), APIs compartilhadas (products, categories, orders) e o mock
+├─ core/            singletons: auth/ (service + guards), http/ (interceptors), cart/, store-info/, catalog/ e orders/ (services),
+│                   layout/ (shop / focus / admin) e mock/
 ├─ shared/          UI sem regra de negócio: button, badge, icon, logo, product-card, price-block,
 │                   product-thumb, pagination, modal, empty-state · pipes (brl, order-status) · models · utils
-└─ features/        1 pasta por assunto: home, catalog, cart, auth, checkout, orders, admin
-                    (cada uma com pages/, components/ e data/; as páginas são carregadas em lazy loading pelo app.routes.ts)
+└─ features/        1 pasta por assunto: home, catalog, product, cart, auth, checkout, orders, admin
+                    (cada uma com pages/, components/, services/ quando precisa, e <feature>.routes.ts)
 ```
 
-Cada componente vive na **própria pasta**, com 4 arquivos: `x/x.component.ts` (lógica), `x.component.html` (template), `x.component.scss` (estilos) e `x.component.spec.ts` (testes). O mesmo vale para páginas (`pages/cart/cart.page.*`) e pipes.
+Cada componente vive na **própria pasta**, com 4 arquivos: `x/x.component.ts` (lógica), `x.component.html` (template), `x.component.scss` (estilos) e `x.component.spec.ts` (testes). O mesmo vale para páginas (`pages/cart/cart.component.*`) e pipes.
 
-**Rotas:** todas as URLs estão em `src/app/app.routes.ts`, agrupadas por shell (enxuto, admin, loja). Só o admin tem arquivo próprio (`features/admin/admin.routes.ts`) porque tem várias páginas internas. Dados de exemplo dos specs ficam em `src/testing/fixtures.ts`.
+**Rotas:** `src/app/app.routes.ts` monta cada feature sob demanda (lazy) em um dos 3 shells (enxuto, admin, loja), e cada feature tem o seu `<feature>.routes.ts`.
+
+**Services:** ficam em `services/<nome>.service.ts` (HTTP e estado com signals juntos, como `AuthService`, `CartService`, `ProductsService`). Os de uso geral em `core/*/services/`, os exclusivos do admin em `features/admin/*/services/`.
+
+**Imports:** aliases `@core/*`, `@shared/*`, `@features/*`, `@environment/*` e `@testing/*` (definidos no `tsconfig.json`). Dados de exemplo dos specs ficam em `src/testing/fixtures.ts`.
 
 Regras seguidas (seção 9 do planejamento):
 
 1. `features/*` **não importam** umas das outras, só `core` e `shared`.
-2. Componente não chama `HttpClient`: quem chama é um `*.api.ts`.
+2. Componente não chama `HttpClient`: quem chama é um `*.service.ts`.
 3. `shared` não tem regra de negócio. O `product-card` não conhece o carrinho: só emite `(add)`.
 4. Dinheiro é formatado pelo `brl` pipe. Frete e total no front são **só para exibir**; o back recalcula no `POST /orders`.
 5. Os models em `shared/models` espelham os DTOs do back.
 
-Fluxo de dados: `página → store/api → HttpClient → interceptors (auth, erro, mock) → Spring Boot`. Estado com **signals** (`AuthStore`, `CartStore`, `StoreInfoStore`); filtros do catálogo e dos pedidos vivem na **URL** (query params), então dá para compartilhar o link e o botão voltar funciona. Toda lista tem estados de carregando (skeleton), vazio e erro.
+Fluxo de dados: `página → service → HttpClient → interceptors (auth, erro, mock) → Spring Boot`. Estado com **signals** (`AuthService`, `CartService`, `StoreInfoService`); filtros do catálogo e dos pedidos vivem na **URL** (query params), então dá para compartilhar o link e o botão voltar funciona. Toda lista tem estados de carregando (skeleton), vazio e erro.
 
 ### Onde a implementação difere do `PLANEJAMENTO-FRONT.md`
 
 | Planejamento | Implementado | Motivo |
 |---|---|---|
-| `cart.store.ts` em `features/cart` | `core/cart/cart.store.ts` | catálogo, detalhe, home e checkout também usam; features não podem importar umas das outras |
-| `products.api.ts` / `categories.api.ts` em `features/catalog/data` | `core/catalog/` | home, catálogo, detalhe, header e pedidos usam |
-| `orders.api.ts` em `features/orders/data` | `core/orders/orders.api.ts` | checkout (POST) e pedidos (GET/cancelar) usam |
+| `cart.store.ts` em `features/cart` | `core/cart/services/cart.service.ts` | catálogo, detalhe, home e checkout também usam; features não podem importar umas das outras |
+| `products` / `categories` (`.api.ts`) em `features/catalog/data` | `core/catalog/services/` | home, catálogo, detalhe, header e pedidos usam |
+| `orders.api.ts` em `features/orders/data` | `core/orders/services/orders.service.ts` | checkout (POST) e pedidos (GET/cancelar) usam |
 | `Product`, `Category`, `Order` em cada feature | `shared/models/` | usados por mais de uma feature |
 | `ui-input` como componente | classes globais `.field` / `.input` | formulários são Reactive Forms; classe CSS resolve sem boilerplate |
 | Container de 1180px | 1312px | é a largura real das telas do Figma (1440px com margem de 64px) |

@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
-import { BrlPipe } from '../../pipes/brl/brl.pipe';
-import { discountPct, installments } from '../../utils/price';
+import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
+import { discountPct, installments } from '@shared/utils/price';
 
 @Component({
   selector: 'ui-price-block',

@@ -1,4 +1,4 @@
-import { nextStatuses } from './order-flow';
+import { nextStatuses } from '@shared/utils/order-flow';
 
 describe('nextStatuses', () => {
   it('segue PENDENTE → PAGO → ENVIADO → ENTREGUE, com cancelamento antes da entrega', () => {

@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../../../shared/ui/button/button.component';
-import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { ButtonComponent } from '@shared/ui/button/button.component';
+import { IconComponent } from '@shared/ui/icon/icon.component';
 
 interface Slide { tag: string; title: string; text: string; cta: string; query: Record<string, string | number>; }
 

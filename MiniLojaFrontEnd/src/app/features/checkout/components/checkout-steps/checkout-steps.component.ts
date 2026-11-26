@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { IconComponent } from '@shared/ui/icon/icon.component';
 
 /** Etapas: Carrinho (feito) → Entrega e pagamento (atual) → Confirmação. */
 @Component({

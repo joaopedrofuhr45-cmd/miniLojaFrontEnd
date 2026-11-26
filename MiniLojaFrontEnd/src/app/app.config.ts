@@ -3,9 +3,9 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
-import { authInterceptor } from './core/interceptors/auth.interceptor';
-import { errorInterceptor } from './core/interceptors/error.interceptor';
-import { mockApiInterceptor } from './core/mock/mock-api.interceptor';
+import { authInterceptor } from '@core/http/auth.interceptor';
+import { errorInterceptor } from '@core/http/error.interceptor';
+import { mockApiInterceptor } from '@core/mock/mock-api.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

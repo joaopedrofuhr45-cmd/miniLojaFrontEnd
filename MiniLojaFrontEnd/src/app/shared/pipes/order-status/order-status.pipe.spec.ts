@@ -1,5 +1,5 @@
-import { OrderStatus } from '../../models/order';
-import { ORDER_STATUS, OrderStatusPipe } from './order-status.pipe';
+import { OrderStatus } from '@shared/models/order';
+import { ORDER_STATUS, OrderStatusPipe } from '@shared/pipes/order-status/order-status.pipe';
 
 describe('OrderStatusPipe', () => {
   const pipe = new OrderStatusPipe();

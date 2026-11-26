@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Category } from '../../../../shared/models/category';
+import { Category } from '@shared/models/category';
 
 export type FilterChange = Record<string, string | number | null>;
 

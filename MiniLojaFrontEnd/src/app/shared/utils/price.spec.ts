@@ -1,4 +1,4 @@
-import { discountPct, installments, MIN_INSTALLMENT } from './price';
+import { discountPct, installments, MIN_INSTALLMENT } from '@shared/utils/price';
 
 describe('price utils', () => {
   describe('discountPct', () => {

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Tone } from '../../pipes/order-status/order-status.pipe';
+import { Tone } from '@shared/pipes/order-status/order-status.pipe';
 
 @Component({
   selector: 'ui-badge',

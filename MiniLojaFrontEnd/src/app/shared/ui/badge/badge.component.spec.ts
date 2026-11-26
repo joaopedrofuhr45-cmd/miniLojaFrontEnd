@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { BadgeComponent } from './badge.component';
+import { BadgeComponent } from '@shared/ui/badge/badge.component';
 
 describe('BadgeComponent', () => {
   let fixture: ComponentFixture<BadgeComponent>;

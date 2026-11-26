@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { OrderStatusBadgeComponent } from './order-status-badge.component';
+import { OrderStatusBadgeComponent } from '@shared/ui/order-status-badge/order-status-badge.component';
 
 describe('OrderStatusBadgeComponent', () => {
   let fixture: ComponentFixture<OrderStatusBadgeComponent>;

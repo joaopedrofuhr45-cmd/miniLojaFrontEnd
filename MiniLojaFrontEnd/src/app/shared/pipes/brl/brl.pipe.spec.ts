@@ -1,4 +1,4 @@
-import { BrlPipe } from './brl.pipe';
+import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
 
 describe('BrlPipe', () => {
   const pipe = new BrlPipe();

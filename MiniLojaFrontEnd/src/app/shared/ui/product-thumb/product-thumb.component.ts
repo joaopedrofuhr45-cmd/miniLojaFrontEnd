@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { IconComponent } from '../icon/icon.component';
+import { IconComponent } from '@shared/ui/icon/icon.component';
 
 /** [fundo, traço] — o ciclo bate com as telas do Figma (Produto 01 = índigo, 02 = rosa...). */
 const TINTS: [string, string][] = [

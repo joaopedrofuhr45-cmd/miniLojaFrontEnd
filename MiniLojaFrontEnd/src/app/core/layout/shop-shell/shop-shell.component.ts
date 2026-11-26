@@ -2,14 +2,14 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { catchError, of } from 'rxjs';
-import { BrlPipe } from '../../../shared/pipes/brl/brl.pipe';
-import { Category } from '../../../shared/models/category';
-import { IconComponent } from '../../../shared/ui/icon/icon.component';
-import { LogoComponent } from '../../../shared/ui/logo/logo.component';
-import { AuthStore } from '../../auth/auth.store';
-import { CartStore } from '../../cart/cart.store';
-import { CategoriesApi } from '../../catalog/categories.api';
-import { StoreInfoStore } from '../../store-info/store-info.store';
+import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
+import { Category } from '@shared/models/category';
+import { IconComponent } from '@shared/ui/icon/icon.component';
+import { LogoComponent } from '@shared/ui/logo/logo.component';
+import { AuthService } from '@core/auth/services/auth.service';
+import { CartService } from '@core/cart/services/cart.service';
+import { CategoriesService } from '@core/catalog/services/categories.service';
+import { StoreInfoService } from '@core/store-info/services/store-info.service';
 import { ShopFooterComponent } from '../shop-footer/shop-footer.component';
 
 /** Layout da loja: faixa de benefícios, header com busca, menu de categorias, conteúdo e footer. */
@@ -21,11 +21,11 @@ import { ShopFooterComponent } from '../shop-footer/shop-footer.component';
   styleUrl: './shop-shell.component.scss',
 })
 export class ShopShellComponent {
-  protected readonly auth = inject(AuthStore);
-  protected readonly cart = inject(CartStore);
+  protected readonly auth = inject(AuthService);
+  protected readonly cart = inject(CartService);
   private readonly router = inject(Router);
-  protected readonly info = inject(StoreInfoStore).info;
-  protected readonly categories = toSignal(inject(CategoriesApi).list().pipe(catchError(() => of([] as Category[]))), { initialValue: [] as Category[] });
+  protected readonly info = inject(StoreInfoService).info;
+  protected readonly categories = toSignal(inject(CategoriesService).list().pipe(catchError(() => of([] as Category[]))), { initialValue: [] as Category[] });
 
   protected search(e: Event, term: string): void {
     e.preventDefault();
