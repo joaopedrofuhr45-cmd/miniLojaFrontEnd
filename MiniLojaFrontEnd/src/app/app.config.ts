@@ -1,8 +1,16 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { mockApiInterceptor } from './core/mock/mock-api.interceptor';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes)]
+  providers: [
+    provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
+    // O mock precisa ser o último: ele responde sem chamar o próximo handler (só liga com environment.useMock).
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor, mockApiInterceptor])),
+  ],
 };
