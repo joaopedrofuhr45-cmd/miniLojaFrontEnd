@@ -1,10 +1,19 @@
 import { Routes } from '@angular/router';
+import { guestGuard } from './core/guards/guards';
+import { FocusShellComponent } from './core/layout/focus-shell.component';
 import { NotFoundPage } from './core/layout/not-found.page';
 import { ShopShellComponent } from './core/layout/shop-shell.component';
 
 // Cada branch de feature acrescenta suas rotas nos marcadores abaixo.
 // Ordem importa: rotas com shell próprio (foco/admin) vêm antes do shell da loja.
 export const routes: Routes = [
+  {
+    path: 'entrar',
+    component: FocusShellComponent,
+    data: { note: 'Precisa de ajuda?' },
+    canActivate: [guestGuard],
+    loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
+  },
   // [routes:standalone]
   {
     path: '',
