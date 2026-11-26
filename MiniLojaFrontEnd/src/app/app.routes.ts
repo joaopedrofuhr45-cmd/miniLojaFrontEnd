@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { guestGuard } from './core/guards/guards';
+import { authGuard, guestGuard } from './core/guards/guards';
 import { FocusShellComponent } from './core/layout/focus-shell.component';
 import { NotFoundPage } from './core/layout/not-found.page';
 import { ShopShellComponent } from './core/layout/shop-shell.component';
@@ -13,6 +13,13 @@ export const routes: Routes = [
     data: { note: 'Precisa de ajuda?' },
     canActivate: [guestGuard],
     loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
+  },
+  {
+    path: 'checkout',
+    component: FocusShellComponent,
+    data: { note: 'Compra 100% segura', icon: 'lock' },
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/checkout/checkout.routes').then((m) => m.CHECKOUT_ROUTES),
   },
   // [routes:standalone]
   {
