@@ -10,6 +10,8 @@ export const routes: Routes = [
     path: '',
     component: ShopShellComponent,
     children: [
+      { path: 'catalogo', loadChildren: () => import('./features/catalog/catalog.routes').then((m) => m.CATALOG_ROUTES) },
+      { path: 'produtos', loadChildren: () => import('./features/catalog/catalog.routes').then((m) => m.PRODUCT_ROUTES) },
       // [routes:shop]
       { path: '**', component: NotFoundPage },
     ],
