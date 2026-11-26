@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard } from './core/guards/guards';
+import { adminGuard, authGuard, guestGuard } from './core/guards/guards';
+import { AdminShellComponent } from './core/layout/admin-shell.component';
 import { FocusShellComponent } from './core/layout/focus-shell.component';
 import { NotFoundPage } from './core/layout/not-found.page';
 import { ShopShellComponent } from './core/layout/shop-shell.component';
@@ -20,6 +21,12 @@ export const routes: Routes = [
     data: { note: 'Compra 100% segura', icon: 'lock' },
     canActivate: [authGuard],
     loadChildren: () => import('./features/checkout/checkout.routes').then((m) => m.CHECKOUT_ROUTES),
+  },
+  {
+    path: 'admin',
+    component: AdminShellComponent,
+    canActivate: [adminGuard],
+    loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
   // [routes:standalone]
   {
