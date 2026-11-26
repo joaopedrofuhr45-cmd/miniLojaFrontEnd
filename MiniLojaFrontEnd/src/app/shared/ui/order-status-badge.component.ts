@@ -7,7 +7,7 @@ import { BadgeComponent } from './badge.component';
   selector: 'ui-order-status-badge',
   standalone: true,
   imports: [BadgeComponent],
-  template: `<ui-badge [tone]="info().tone">{{ info().label.toUpperCase() }}</ui-badge>`,
+  templateUrl: './order-status-badge.component.html',
 })
 export class OrderStatusBadgeComponent {
   readonly status = input.required<OrderStatus>();

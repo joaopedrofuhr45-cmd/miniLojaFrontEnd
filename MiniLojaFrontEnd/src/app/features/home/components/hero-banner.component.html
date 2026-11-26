@@ -1,0 +1,18 @@
+<section class="hero" aria-roledescription="carrossel">
+  <div class="copy">
+    <span class="tag">{{ slide().tag }}</span>
+    <h1>{{ slide().title }}</h1>
+    <p>{{ slide().text }}</p>
+    <a uiButton variant="cta" size="lg" routerLink="/catalogo" [queryParams]="slide().query">{{ slide().cta }}</a>
+  </div>
+  <div class="art" aria-hidden="true">
+    <span class="sq a"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span>
+    <span class="sq b"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span>
+    <span class="sq c"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span>
+  </div>
+  <div class="dots">
+    @for (s of slides; track $index) {
+      <button type="button" [class.on]="$index === i()" [attr.aria-label]="'Slide ' + ($index + 1)" [attr.aria-current]="$index === i()" (click)="i.set($index)"></button>
+    }
+  </div>
+</section>

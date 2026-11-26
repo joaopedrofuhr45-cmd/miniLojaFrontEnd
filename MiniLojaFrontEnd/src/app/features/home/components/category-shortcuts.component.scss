@@ -1,0 +1,22 @@
+ul {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+  padding: 20px;
+  overflow-x: auto;
+}
+a {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.circle {
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+}

@@ -1,0 +1,14 @@
+@if (!product().imageUrl) {
+  <div class="thumbs" role="tablist" aria-label="Imagens do produto">
+    @for (seed of seeds(); track seed; let i = $index) {
+      <button type="button" role="tab" [class.on]="i === selected()" [attr.aria-selected]="i === selected()" (click)="selected.set(i)">
+        <ui-product-thumb [seed]="seed" [iconSize]="22" />
+      </button>
+    }
+  </div>
+}
+<div class="main">
+  <ui-product-thumb [seed]="seeds()[selected()]" [imageUrl]="product().imageUrl" [alt]="product().name" [iconSize]="150" />
+  @if (off()) { <span class="tag">{{ off() }}% OFF</span> }
+  <button type="button" class="fav" aria-label="Favoritar" [attr.aria-pressed]="fav()" (click)="fav.set(!fav())"><ui-icon name="heart" [size]="18" [filled]="fav()" /></button>
+</div>

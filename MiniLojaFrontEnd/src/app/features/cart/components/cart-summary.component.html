@@ -1,0 +1,13 @@
+<div class="ship" [class.done]="cart.missingForFreeShipping() === 0">
+  <b>{{ cart.missingForFreeShipping() === 0 ? 'Você ganhou frete grátis!' : 'Faltam ' + (cart.missingForFreeShipping() | brl) + ' para o frete grátis' }}</b>
+  <div class="bar" role="progressbar" [attr.aria-valuenow]="cart.freeShippingProgress()" aria-valuemin="0" aria-valuemax="100"><span [style.width.%]="cart.freeShippingProgress()"></span></div>
+</div>
+<div class="card box">
+  <h2>Resumo da compra</h2>
+  <p class="row"><span>Produtos ({{ cart.count() }})</span><span>{{ cart.subtotal() | brl }}</span></p>
+  <p class="row"><span>Frete</span>@if (cart.shipping() === 0) { <b class="free">Grátis</b> } @else { <span>{{ cart.shipping() | brl }}</span> }</p>
+  <p class="row total"><b>Total</b><b>{{ cart.total() | brl }}</b></p>
+  @if (parcels() > 1) { <p class="inst">ou em {{ parcels() }}x {{ cart.total() / parcels() | brl }} sem juros</p> }
+  <button uiButton variant="cta" size="lg" [block]="true" (click)="next()">Continuar a compra</button>
+  <p class="note">Você faz login na próxima etapa, se precisar</p>
+</div>

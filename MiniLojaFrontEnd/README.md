@@ -43,7 +43,8 @@ npm start            # ng serve em http://localhost:4200
 |---|---|
 | `npm start` | servidor de desenvolvimento |
 | `npm run build` | build de produção em `dist/mini-loja-front-end` (usa `environment.prod.ts`) |
-| `npm test` | testes unitários (Karma + Jasmine) |
+| `npm test` | testes unitários (Karma + Jasmine), modo watch |
+| `npm run test:ci` | testes uma vez, em Chrome headless sem sandbox (`CHROME_BIN` deve apontar para um Chrome/Chromium) |
 
 > O build de produção baixa a fonte Inter do Google Fonts para inlinar o CSS crítico, então precisa de internet.
 
@@ -82,6 +83,8 @@ src/app/
 └─ features/        1 pasta por assunto: home, catalog, cart, auth, checkout, orders, admin
                     (cada uma com pages/, components/, data/ e <feature>.routes.ts, carregada em lazy loading)
 ```
+
+Cada componente tem 4 arquivos: `x.component.ts` (lógica), `x.component.html` (template), `x.component.scss` (estilos) e `x.component.spec.ts` (testes). Dados de exemplo dos specs ficam em `src/testing/fixtures.ts`.
 
 Regras seguidas (seção 9 do planejamento):
 

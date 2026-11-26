@@ -1,0 +1,24 @@
+<article class="card">
+  <header>
+    <ui-order-status-badge [status]="order().status" />
+    <time [attr.datetime]="order().createdAt">{{ order().createdAt | date: 'dd/MM/yyyy' }}</time>
+    <b class="id">Pedido #{{ order().id }}</b>
+  </header>
+  <div class="main">
+    <div class="thumbs">@for (i of firstItems(); track i.productId) { <span><ui-product-thumb [seed]="i.productId" [imageUrl]="i.imageUrl" [iconSize]="24" /></span> }</div>
+    <b class="title">{{ title() }}</b>
+    <div class="total"><small>Total</small><b>{{ order().total | brl }}</b></div>
+    <div class="actions">
+      <button uiButton variant="outline" size="sm" type="button" [attr.aria-expanded]="open()" (click)="toggle.emit()">{{ open() ? 'Ocultar detalhes' : 'Ver detalhes' }}</button>
+      @if (order().status === 'DELIVERED') { <button uiButton variant="line" size="sm" type="button" (click)="reorder.emit()">Comprar de novo</button> }
+    </div>
+  </div>
+  @if (open()) {
+    <div class="details">
+      @if (order().status === 'CANCELED') { <p class="canceled">Este pedido foi cancelado.</p> } @else { <app-order-timeline [status]="order().status" /> }
+      <ul>@for (i of order().items; track i.productId) { <li><span>{{ i.quantity }} × {{ i.name }}</span><span>{{ i.unitPrice * i.quantity | brl }}</span></li> }</ul>
+      <p class="meta">Entrega em: {{ order().address.street }}, {{ order().address.number }} — {{ order().address.city }}/{{ order().address.state }} · Pagamento: {{ payment() }}</p>
+      @if (order().status === 'PENDING') { <button uiButton variant="danger" size="sm" type="button" (click)="cancel.emit()">Cancelar pedido</button> }
+    </div>
+  }
+</article>

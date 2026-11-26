@@ -1,0 +1,8 @@
+<div class="head"><h2 class="section-title">{{ title() }}</h2><a routerLink="/catalogo" [queryParams]="query()">Ver todas ›</a></div>
+<div class="grid">
+  @if (products(); as list) {
+    @for (p of list; track p.id) { <ui-product-card [product]="p" (add)="add.emit($event)" /> }
+  } @else {
+    @for (i of [1, 2, 3, 4]; track i) { <div class="skeleton" style="height:390px"></div> }
+  }
+</div>

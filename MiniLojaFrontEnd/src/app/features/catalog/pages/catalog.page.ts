@@ -31,64 +31,8 @@ const toNum = (v: string | null) => (v !== null && v !== '' && !isNaN(Number(v))
   selector: 'app-catalog-page',
   standalone: true,
   imports: [RouterLink, ButtonComponent, EmptyStateComponent, IconComponent, PaginationComponent, ProductCardComponent, ProductFiltersComponent],
-  template: `
-    <div class="container page">
-      <nav class="breadcrumb" aria-label="Você está aqui"><a routerLink="/">Início</a><span aria-current="page">Catálogo</span></nav>
-      <div class="layout">
-        <aside>
-          <h1>Catálogo</h1>
-          <p class="muted count">{{ total() === null ? '…' : total() + ' resultados' }}</p>
-          <app-product-filters [categories]="categories()" [categoria]="f().categoria" [de]="f().de" [ate]="f().ate" [desconto]="f().desconto" (filtersChange)="set($event)" />
-        </aside>
-        <section>
-          <div class="bar">
-            <div class="chips">
-              @for (c of chips(); track c.label) {
-                <button type="button" class="chip" (click)="set(c.clear)">{{ c.label }} <ui-icon name="x" [size]="12" /></button>
-              }
-              @if (chips().length) { <button type="button" class="link" (click)="clearAll()">Limpar tudo</button> }
-            </div>
-            <label class="sort">Ordenar por
-              <select (change)="onSort($event)" aria-label="Ordenar por">
-                @for (o of sortOptions; track o.value) { <option [value]="o.value" [selected]="o.value === f().ordem">{{ o.label }}</option> }
-              </select>
-            </label>
-          </div>
-
-          @if (state(); as s) {
-          @if (s.status === 'loading') {
-            <div class="grid">@for (i of skeletons; track i) { <div class="skeleton card-sk"></div> }</div>
-          } @else if (s.status === 'error') {
-            <div class="card"><ui-empty-state icon="x" title="Não deu pra carregar os produtos" message="Verifique a conexão e tente de novo.">
-              <button uiButton variant="cta" (click)="reload.set(reload() + 1)">Tentar de novo</button>
-            </ui-empty-state></div>
-          } @else if (s.page.content.length === 0) {
-            <div class="card"><ui-empty-state title="Nenhum produto encontrado" message="Tente remover algum filtro.">
-              <button uiButton variant="outline" (click)="clearAll()">Limpar filtros</button>
-            </ui-empty-state></div>
-          } @else {
-            <div class="grid">@for (p of s.page.content; track p.id) { <ui-product-card [product]="p" (add)="cart.add($event)" /> }</div>
-            <ui-pagination [page]="f().page" [totalPages]="s.page.totalPages" (pageChange)="set({ page: $event })" />
-          }
-          }
-        </section>
-      </div>
-    </div>`,
-  styles: [`
-    .layout { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; }
-    h1 { font-size: 24px; font-weight: 700; } .count { margin: 8px 0 18px; }
-    section { display: grid; gap: 16px; min-width: 0; }
-    .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; min-height: 40px; }
-    .chips { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--brand); border-radius: 999px; background: var(--brand-soft); color: var(--brand); font-size: 13px; font-weight: 500; }
-    .sort { display: flex; align-items: center; gap: 8px; color: var(--muted); }
-    .sort select { height: 38px; padding: 0 12px; border: 1px solid #cfcfcf; border-radius: var(--radius); background: #fff; color: var(--ink); font: inherit; }
-    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-    .card-sk { height: 390px; }
-    @media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media (max-width: 860px) { .layout { grid-template-columns: 1fr; } .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
-  `],
+  templateUrl: './catalog.page.html',
+  styleUrl: './catalog.page.scss',
 })
 export class CatalogPage {
   private readonly route = inject(ActivatedRoute);

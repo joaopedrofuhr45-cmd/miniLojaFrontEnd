@@ -1,0 +1,52 @@
+:host {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+.head p {
+  margin-top: 2px;
+}
+.box {
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 190px 190px;
+  gap: 12px;
+}
+.thumb {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.w-thumb {
+  width: 70px;
+}
+td s {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+}
+@media (max-width: 640px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

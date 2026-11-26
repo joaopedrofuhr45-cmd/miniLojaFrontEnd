@@ -23,72 +23,8 @@ const sameAsPassword = (g: AbstractControl): ValidationErrors | null =>
   selector: 'app-auth-page',
   standalone: true,
   imports: [ReactiveFormsModule, ButtonComponent, IconComponent],
-  template: `
-    <div class="container wrap">
-      <section class="card" [class.hide]="tab() !== 'entrar'" aria-labelledby="t-login">
-        <div class="tabs" role="tablist">
-          <button type="button" role="tab" class="on" aria-selected="true">Entrar</button>
-          <button type="button" role="tab" aria-selected="false" (click)="go('cadastro')">Criar conta</button>
-        </div>
-        <h1 id="t-login">Que bom te ver de novo</h1>
-        <p class="sub">Entre para acompanhar pedidos e comprar mais rápido.</p>
-        <form [formGroup]="login" (ngSubmit)="submitLogin()" novalidate>
-          @if (loginError()) { <p class="alert error" role="alert">{{ loginError() }}</p> }
-          <div class="field"><label for="l-email">E-mail</label>
-            <input id="l-email" type="email" formControlName="email" autocomplete="email" placeholder="voce@email.com" />
-            @if (err(login, 'email'); as m) { <span class="error">{{ m }}</span> }</div>
-          <div class="field"><label for="l-pass">Senha</label>
-            <input id="l-pass" type="password" formControlName="password" autocomplete="current-password" placeholder="••••••••" />
-            @if (err(login, 'password'); as m) { <span class="error">{{ m }}</span> }</div>
-          <div class="between">
-            <label class="check"><input type="checkbox" formControlName="remember" /> Manter conectado</label>
-            <a href="#" class="forgot" (click)="$event.preventDefault()">Esqueci a senha</a>
-          </div>
-          <button uiButton variant="cta" size="lg" [block]="true" type="submit" [disabled]="busy()">{{ busy() ? 'Entrando…' : 'Entrar' }}</button>
-          <p class="note"><ui-icon name="lock" [size]="14" /> Seus dados ficam protegidos</p>
-        </form>
-      </section>
-
-      <section class="card" [class.hide]="tab() !== 'cadastro'" aria-labelledby="t-reg">
-        <div class="tabs" role="tablist">
-          <button type="button" role="tab" aria-selected="false" (click)="go('entrar')">Entrar</button>
-          <button type="button" role="tab" class="on" aria-selected="true">Criar conta</button>
-        </div>
-        <h1 id="t-reg">Crie sua conta</h1>
-        <p class="sub">Leva menos de um minuto.</p>
-        <form [formGroup]="register" (ngSubmit)="submitRegister()" novalidate>
-          @if (registerError()) { <p class="alert error" role="alert">{{ registerError() }}</p> }
-          <div class="field"><label for="r-name">Nome completo</label>
-            <input id="r-name" formControlName="name" autocomplete="name" placeholder="João Pedro" />
-            @if (err(register, 'name'); as m) { <span class="error">{{ m }}</span> }</div>
-          <div class="field"><label for="r-email">E-mail</label>
-            <input id="r-email" type="email" formControlName="email" autocomplete="email" placeholder="voce@email.com" />
-            @if (err(register, 'email'); as m) { <span class="error">{{ m }}</span> }</div>
-          <div class="two">
-            <div class="field"><label for="r-pass">Senha</label>
-              <input id="r-pass" type="password" formControlName="password" autocomplete="new-password" placeholder="••••••••" />
-              @if (err(register, 'password'); as m) { <span class="error">{{ m }}</span> }</div>
-            <div class="field"><label for="r-conf">Confirmar senha</label>
-              <input id="r-conf" type="password" formControlName="confirm" autocomplete="new-password" placeholder="••••••••" />
-              @if (register.controls['confirm'].touched && register.errors?.['mismatch']) { <span class="error">{{ msg('mismatch') }}</span> }</div>
-          </div>
-          <button uiButton variant="cta" size="lg" [block]="true" type="submit" [disabled]="busy()">{{ busy() ? 'Criando…' : 'Criar conta' }}</button>
-          <p class="note">Mínimo de 8 caracteres na senha</p>
-        </form>
-      </section>
-    </div>`,
-  styles: [`
-    .wrap { display: flex; justify-content: center; align-items: flex-start; gap: 24px; padding: 56px 0 72px; }
-    .card { width: 440px; padding: 32px; } .hide { display: none; }
-    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 3px; margin-bottom: 20px; background: #ececec; border-radius: 8px; }
-    .tabs button { height: 34px; border: 0; border-radius: 6px; background: none; color: var(--muted); font-weight: 500; } .tabs .on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
-    h1 { font-size: 24px; font-weight: 700; } .sub { margin: 4px 0 18px; color: var(--ink2); }
-    form { display: grid; gap: 14px; } .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .between { display: flex; justify-content: space-between; align-items: center; } .check { display: flex; align-items: center; gap: 8px; color: var(--ink2); cursor: pointer; }
-    .forgot { font-weight: 600; } .note { display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
-    @media (min-width: 861px) { .hide { display: block; } .tabs button { cursor: pointer; } }
-    @media (max-width: 480px) { .card { padding: 20px; } .two { grid-template-columns: 1fr; } }
-  `],
+  templateUrl: './auth.page.html',
+  styleUrl: './auth.page.scss',
 })
 export class AuthPage {
   private readonly fb = inject(NonNullableFormBuilder);

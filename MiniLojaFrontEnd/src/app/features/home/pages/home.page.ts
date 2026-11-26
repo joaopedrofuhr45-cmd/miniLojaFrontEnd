@@ -15,19 +15,7 @@ import { ProductShowcaseComponent } from '../components/product-showcase.compone
   selector: 'app-home-page',
   standalone: true,
   imports: [HeroBannerComponent, BenefitsStripComponent, CategoryShortcutsComponent, ProductShowcaseComponent],
-  template: `
-    <div class="container page">
-      <app-hero-banner />
-      <app-benefits-strip />
-      <h2 class="section-title">Navegue por categoria</h2>
-      <app-category-shortcuts [categories]="categories()" />
-      @if (offers() === null || offers()!.length) {
-        <app-product-showcase title="Ofertas da semana" [products]="offers()" [query]="{ desconto: 1 }" (add)="cart.add($event)" />
-      }
-      @if (latest() === null || latest()!.length) {
-        <app-product-showcase title="Lançamentos" [products]="latest()" [query]="{ ordem: 'lancamentos' }" (add)="cart.add($event)" />
-      }
-    </div>`,
+  templateUrl: './home.page.html',
 })
 export class HomePage {
   private readonly api = inject(ProductsApi);

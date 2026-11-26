@@ -1,0 +1,29 @@
+<div class="card box">
+  <span class="cat">{{ product().category.name }}</span>
+  <h1>{{ product().name }}</h1>
+  <ui-price-block size="detail" [price]="product().price" [originalPrice]="product().originalPrice" [maxInstallments]="info().maxInstallments" />
+  <button type="button" class="link pay">Ver meios de pagamento</button>
+  <hr />
+  <p class="ship"><ui-icon name="truck" [size]="18" /> <span><span><b class="ok">Frete grátis</b> acima de {{ info().freeShippingThreshold | brl: 0 }}</span><small>Frete fixo de {{ info().shippingFee | brl }} nas demais compras.</small></span></p>
+  <form class="cep" (submit)="$event.preventDefault(); cepClicked.set(true)">
+    <input class="input" placeholder="CEP 00000-000" aria-label="CEP" inputmode="numeric" maxlength="9" />
+    <button uiButton variant="outline" type="submit">Calcular</button>
+  </form>
+  @if (cepClicked()) { <p class="hint">O cálculo por CEP chega na v2. Por enquanto vale a regra acima.</p> }
+  <p class="stock">
+    @if (product().stock > 0) { <b>Estoque disponível</b> · {{ product().stock }} unidades } @else { <b class="warn">Sem estoque no momento</b> }
+  </p>
+  @if (product().stock > 0) {
+    <div class="qty"><span>Quantidade</span>
+      <div class="stepper">
+        <button type="button" aria-label="Diminuir" [disabled]="qty() <= 1" (click)="qty.set(qty() - 1)"><ui-icon name="minus" [size]="12" /></button>
+        <output aria-live="polite">{{ qty() }}</output>
+        <button type="button" aria-label="Aumentar" [disabled]="qty() >= product().stock" (click)="qty.set(qty() + 1)"><ui-icon name="plus" [size]="12" /></button>
+      </div>
+    </div>
+  }
+  <button uiButton variant="cta" size="lg" [block]="true" [disabled]="product().stock === 0" (click)="buyNow()">Comprar agora</button>
+  <button uiButton variant="outline" size="lg" [block]="true" [disabled]="product().stock === 0" (click)="addToCart()">{{ added() ? 'Adicionado ✓' : 'Adicionar ao carrinho' }}</button>
+  <p class="trust"><ui-icon name="return" [size]="14" /> Devolução grátis em até {{ info().returnDays }} dias</p>
+  <p class="trust"><ui-icon name="lock" [size]="14" /> Compra segura, dados protegidos</p>
+</div>

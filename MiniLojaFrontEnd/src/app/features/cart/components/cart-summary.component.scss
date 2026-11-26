@@ -1,0 +1,66 @@
+:host {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.ship {
+  padding: 12px 16px;
+  border: 1px solid #bfe3cd;
+  border-radius: var(--radius);
+  background: var(--ok-soft);
+  color: var(--ok);
+  display: grid;
+  gap: 8px;
+}
+.bar {
+  height: 5px;
+  border-radius: 3px;
+  background: #c8e8d4;
+  overflow: hidden;
+}
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--ok);
+  transition: width 0.3s;
+}
+.box {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+}
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink2);
+}
+.free {
+  color: var(--ok);
+}
+.total {
+  align-items: baseline;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+}
+.total b:first-child {
+  font-size: 20px;
+}
+.total b:last-child {
+  font-size: 28px;
+}
+.inst {
+  justify-self: end;
+  font-size: 12px;
+  color: var(--ok);
+}
+.note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}

@@ -1,0 +1,17 @@
+<article class="card">
+  <a class="media" [routerLink]="['/produtos', product().id]" [attr.aria-label]="product().name">
+    <ui-product-thumb [seed]="product().id" [imageUrl]="product().imageUrl" [alt]="product().name" />
+  </a>
+  @if (off()) { <span class="tag">{{ off() }}% OFF</span> }
+  <button class="fav" type="button" aria-label="Favoritar" [attr.aria-pressed]="fav()" (click)="fav.set(!fav())">
+    <ui-icon name="heart" [size]="16" [filled]="fav()" />
+  </button>
+  <div class="body">
+    <a class="title" [routerLink]="['/produtos', product().id]">{{ product().name }}</a>
+    <ui-price-block [price]="product().price" [originalPrice]="product().originalPrice" />
+    <span class="cat">{{ product().category.name }}</span>
+    <button uiButton variant="outline" size="sm" [block]="true" [disabled]="product().stock === 0" (click)="onAdd()">
+      {{ product().stock === 0 ? 'Sem estoque' : added() ? 'Adicionado ✓' : 'Adicionar ao carrinho' }}
+    </button>
+  </div>
+</article>

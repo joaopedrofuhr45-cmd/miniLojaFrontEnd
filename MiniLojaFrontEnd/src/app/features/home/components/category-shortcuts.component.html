@@ -1,0 +1,10 @@
+<ul class="card">
+  @for (s of shortcuts(); track s.label) {
+    <li>
+      <a routerLink="/catalogo" [queryParams]="s.query">
+        <span class="circle"><ui-product-thumb [seed]="s.tint" [iconSize]="30" /></span>
+        {{ s.label }}
+      </a>
+    </li>
+  }
+</ul>

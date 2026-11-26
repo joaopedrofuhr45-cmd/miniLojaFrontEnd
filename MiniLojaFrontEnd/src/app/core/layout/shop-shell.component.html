@@ -1,0 +1,45 @@
+<div class="strip">
+  <b>Frete grátis</b>&nbsp;em compras acima de {{ info().freeShippingThreshold | brl: 0 }}&nbsp;·&nbsp;Parcele em até&nbsp;<b>{{ info().maxInstallments }}x sem juros</b>
+</div>
+<header class="hdr">
+  <div class="container row">
+    <a routerLink="/" class="logo" aria-label="MiniLoja — início"><ui-logo /></a>
+    <form class="search" role="search" (submit)="search($event, q.value)">
+      <input #q type="search" name="q" placeholder="Buscar produtos, categorias e muito mais…" aria-label="Buscar produtos" />
+      <button type="submit" aria-label="Buscar"><ui-icon name="search" [size]="18" /></button>
+    </form>
+    <nav class="actions" aria-label="Conta">
+      <div class="account">
+        @if (auth.isLoggedIn()) {
+          <button type="button" class="acc-btn"><strong>Olá, {{ auth.firstName() }}</strong><small>Minha conta ▾</small></button>
+          <div class="menu">
+            <a routerLink="/pedidos">Meus pedidos</a>
+            @if (auth.isAdmin()) { <a routerLink="/admin/produtos">Painel admin</a> }
+            <button type="button" (click)="logout()">Sair</button>
+          </div>
+        } @else {
+          <a routerLink="/entrar" class="acc-btn"><strong>Entrar</strong><small>ou cadastre-se</small></a>
+        }
+      </div>
+      <a routerLink="/pedidos" class="acc-btn"><strong>Meus</strong><small>pedidos</small></a>
+      <a routerLink="/catalogo" class="icon" aria-label="Favoritos"><ui-icon name="heart" [size]="24" /></a>
+      <a routerLink="/carrinho" class="icon" [attr.aria-label]="'Carrinho, ' + cart.count() + ' itens'">
+        <ui-icon name="cart" [size]="26" />
+        @if (cart.count() > 0) { <span class="count">{{ cart.count() }}</span> }
+      </a>
+    </nav>
+  </div>
+</header>
+<nav class="menu-bar" aria-label="Categorias">
+  <div class="container row">
+    <a routerLink="/catalogo" class="all"><ui-icon name="menu" [size]="14" /> Categorias</a>
+    @for (c of categories(); track c.id) {
+      <a routerLink="/catalogo" [queryParams]="{ categoria: c.id }">{{ c.name }}</a>
+    }
+    <a routerLink="/catalogo" [queryParams]="{ desconto: 1 }" class="hot">Ofertas</a>
+    <a routerLink="/catalogo" [queryParams]="{ ordem: 'lancamentos' }">Lançamentos</a>
+    <a href="#" class="help">Ajuda</a>
+  </div>
+</nav>
+<main><router-outlet /></main>
+<app-shop-footer />

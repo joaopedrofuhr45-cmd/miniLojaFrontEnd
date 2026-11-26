@@ -28,11 +28,7 @@ const ICONS: Record<string, string[]> = {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'aria-hidden': 'true', style: 'display:inline-flex;line-height:0' },
-  template: `
-    <svg [attr.width]="size()" [attr.height]="size()" viewBox="0 0 24 24" [attr.fill]="filled() ? 'currentColor' : 'none'"
-         stroke="currentColor" [attr.stroke-width]="stroke()" stroke-linecap="round" stroke-linejoin="round">
-      @for (d of paths(); track $index) { <path [attr.d]="d" /> }
-    </svg>`,
+  templateUrl: './icon.component.html',
 })
 export class IconComponent {
   readonly name = input.required<string>();

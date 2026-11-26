@@ -1,0 +1,71 @@
+.page {
+  gap: 24px;
+}
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 370px;
+  gap: 24px;
+  align-items: start;
+}
+.left {
+  display: grid;
+  gap: 20px;
+}
+section {
+  padding: 28px;
+}
+h1,
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #ececec;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink2);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px 16px;
+}
+.cep {
+  grid-column: span 2;
+}
+.street {
+  grid-column: span 4;
+}
+.num {
+  grid-column: span 2;
+}
+.comp {
+  grid-column: span 2;
+}
+.dist {
+  grid-column: span 2;
+}
+.city {
+  grid-column: span 5;
+}
+.uf {
+  grid-column: span 1;
+}
+@media (max-width: 960px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .grid > * {
+    grid-column: 1 / -1 !important;
+  }
+}
