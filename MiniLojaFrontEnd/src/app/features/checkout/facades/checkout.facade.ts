@@ -2,19 +2,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { AuthService } from '@core/auth/services/auth.service';
 import { CartService } from '@core/cart/services/cart.service';
-import { OrdersService } from '@core/orders/services/orders.service';
 import { PaymentMethod } from '@shared/models/order';
 import { Address } from '@shared/models/user';
 import { ServerError, toServerError } from '@shared/utils/server-error';
+import { CheckoutService } from '../services/checkout.service';
 
 /** Checkout: endereço salvo do cliente e criação do pedido (POST /orders). */
 @Injectable()
 export class CheckoutFacade {
   private readonly cart = inject(CartService);
-  private readonly orders = inject(OrdersService);
-  private readonly auth = inject(AuthService);
+  private readonly checkout = inject(CheckoutService);
   private readonly router = inject(Router);
 
   readonly busy = signal(false);
@@ -27,7 +25,7 @@ export class CheckoutFacade {
 
   /** Endereço do cadastro (GET /users/me), para pré-preencher. */
   savedAddress(): Promise<Address | null> {
-    return firstValueFrom(this.auth.me().pipe(catchError(() => of(null)))).then((u) => u?.address ?? null);
+    return firstValueFrom(this.checkout.profile().pipe(catchError(() => of(null)))).then((u) => u?.address ?? null);
   }
 
   /** Cria o pedido. Em caso de erro (ex.: estoque) mantém o carrinho e devolve os erros por campo. */
@@ -36,7 +34,7 @@ export class CheckoutFacade {
     this.error.set('');
     this.busy.set(true);
     try {
-      await firstValueFrom(this.orders.create({
+      await firstValueFrom(this.checkout.create({
         items: this.cart.items().map((i) => ({ productId: i.productId, quantity: i.quantity })),
         address,
         paymentMethod,

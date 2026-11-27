@@ -2,17 +2,16 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { environment } from '@environment/environment';
-import { ProductsService } from './products.service';
+import { CatalogService } from './catalog.service';
 
-describe('ProductsService', () => {
-  let service: ProductsService;
+describe('CatalogService', () => {
+  let service: CatalogService;
   let http: HttpTestingController;
   const api = environment.apiUrl;
 
   beforeEach(() => {
-    localStorage.clear();
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
-    service = TestBed.inject(ProductsService);
+    service = TestBed.inject(CatalogService);
     http = TestBed.inject(HttpTestingController);
   });
 
@@ -37,10 +36,5 @@ describe('ProductsService', () => {
     expect(req.request.params.get('size')).toBe('8');
     expect(req.request.params.has('search')).toBeFalse();
     req.flush({ content: [], totalPages: 0 });
-  });
-
-  it('get busca por id', () => {
-    service.get(7).subscribe();
-    http.expectOne(`${api}/products/7`).flush({});
   });
 });

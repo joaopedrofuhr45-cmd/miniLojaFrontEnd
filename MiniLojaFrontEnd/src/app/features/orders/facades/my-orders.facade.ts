@@ -4,11 +4,10 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, firstValueFrom, forkJoin, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { CartService } from '@core/cart/services/cart.service';
-import { ProductsService } from '@core/catalog/services/products.service';
-import { OrdersService } from '@core/orders/services/orders.service';
 import { Order, OrderStatus } from '@shared/models/order';
 import { Page } from '@shared/models/page';
 import { Product } from '@shared/models/product';
+import { MyOrdersService } from '../services/my-orders.service';
 
 export type MyOrdersState = { status: 'loading' } | { status: 'error' } | { status: 'ok'; page: Page<Order> };
 export const ORDER_TABS: { key: string; label: string; status: OrderStatus | null }[] = [
@@ -22,8 +21,7 @@ export const ORDER_TABS: { key: string; label: string; status: OrderStatus | nul
 /** Meus pedidos: lista (aba e página vêm da URL), cancelar e "comprar de novo". */
 @Injectable()
 export class MyOrdersFacade {
-  private readonly orders = inject(OrdersService);
-  private readonly products = inject(ProductsService);
+  private readonly orders = inject(MyOrdersService);
   private readonly cart = inject(CartService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -70,7 +68,7 @@ export class MyOrdersFacade {
 
   /** "Comprar de novo": busca o produto atual (preço/estoque de hoje), põe no carrinho e abre /carrinho. */
   async reorder(o: Order): Promise<void> {
-    const rows = await firstValueFrom(forkJoin(o.items.map((i) => this.products.get(i.productId).pipe(map((p) => ({ p, q: i.quantity })), catchError(() => of(null))))));
+    const rows = await firstValueFrom(forkJoin(o.items.map((i) => this.orders.product(i.productId).pipe(map((p) => ({ p, q: i.quantity })), catchError(() => of(null))))));
     const found = rows.filter((r): r is { p: Product; q: number } => r !== null);
     found.forEach(({ p, q }) => this.cart.add(p, q));
     if (found.length < rows.length) this.actionError.set('Alguns produtos não estão mais disponíveis.');

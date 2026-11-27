@@ -1,18 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { environment } from '@environment/environment';
-import { AuthResponse, UserProfile } from '@shared/models/user';
+import { Injectable, computed, effect, signal } from '@angular/core';
+import { AuthResponse } from '@shared/models/user';
 
 const KEY = 'miniloja.auth';
 
 /**
- * Autenticação: chamadas ao back (login, cadastro, perfil) e sessão do usuário (token JWT + dados),
- * que persiste em localStorage e é restaurada ao iniciar.
+ * Sessão do usuário (token JWT + dados). Persiste em localStorage e é restaurada ao iniciar.
+ * As chamadas de login/cadastro ficam em features/auth/services.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly http = inject(HttpClient);
-  private readonly url = environment.apiUrl;
   private readonly state = signal<AuthResponse | null>(this.load());
 
   readonly token = computed(() => this.state()?.token ?? null);
@@ -28,12 +24,6 @@ export class AuthService {
     });
   }
 
-  // ── back ──
-  login(body: { email: string; password: string }) { return this.http.post<AuthResponse>(`${this.url}/auth/login`, body); }
-  register(body: { name: string; email: string; password: string }) { return this.http.post<AuthResponse>(`${this.url}/auth/register`, body); }
-  me() { return this.http.get<UserProfile>(`${this.url}/users/me`); }
-
-  // ── sessão ──
   startSession(res: AuthResponse): void { this.state.set(res); }
   logout(): void { this.state.set(null); }
 

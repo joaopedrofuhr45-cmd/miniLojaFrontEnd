@@ -3,8 +3,9 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map, Observable, of, startWith, switchMap } from 'rxjs';
 import { CategoriesService } from '@core/catalog/services/categories.service';
-import { ProductSort, ProductsService } from '@core/catalog/services/products.service';
+import { CatalogService } from '../services/catalog.service';
 import { Page } from '@shared/models/page';
+import { ProductSort } from '@shared/models/product-filters';
 import { Product } from '@shared/models/product';
 import { FilterChange } from '../models/filter-change';
 import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
@@ -20,7 +21,7 @@ const toNum = (v: string | null) => (v !== null && v !== '' && !isNaN(Number(v))
 export class CatalogFacade {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly products = inject(ProductsService);
+  private readonly catalog = inject(CatalogService);
   private readonly brl = new BrlPipe();
 
   readonly categories = inject(CategoriesService).categories;
@@ -39,7 +40,7 @@ export class CatalogFacade {
   readonly state = toSignal(
     toObservable(computed(() => ({ f: this.f(), r: this.reload() }))).pipe(
       switchMap(({ f }): Observable<CatalogState> =>
-        this.products.list({
+        this.catalog.list({
           page: f.page - 1, size: 8, search: f.q || undefined, category: f.categoria ?? undefined, minPrice: f.de ?? undefined,
           maxPrice: f.ate ?? undefined, onSale: f.desconto, sort: SORT[f.ordem],
         }).pipe(map((page): CatalogState => ({ status: 'ok', page })), startWith<CatalogState>({ status: 'loading' }), catchError(() => of<CatalogState>({ status: 'error' }))),

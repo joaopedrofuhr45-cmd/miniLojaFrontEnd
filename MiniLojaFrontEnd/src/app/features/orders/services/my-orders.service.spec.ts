@@ -2,17 +2,16 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { environment } from '@environment/environment';
-import { OrdersService } from './orders.service';
+import { MyOrdersService } from './my-orders.service';
 
-describe('OrdersService', () => {
-  let service: OrdersService;
+describe('MyOrdersService', () => {
+  let service: MyOrdersService;
   let http: HttpTestingController;
   const api = environment.apiUrl;
 
   beforeEach(() => {
-    localStorage.clear();
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
-    service = TestBed.inject(OrdersService);
+    service = TestBed.inject(MyOrdersService);
     http = TestBed.inject(HttpTestingController);
   });
 
@@ -32,5 +31,10 @@ describe('OrdersService', () => {
     const req = http.expectOne(`${api}/orders/5/cancel`);
     expect(req.request.method).toBe('PATCH');
     req.flush({});
+  });
+
+  it('product busca o produto atual por id', () => {
+    service.product(9).subscribe();
+    http.expectOne(`${api}/products/9`).flush({});
   });
 });

@@ -98,7 +98,7 @@ Cada componente vive na **própria pasta**, com 4 arquivos: `x/x.component.ts` (
 
 A facade é fornecida pelo próprio componente (`providers: [XFacade]`), então nasce e morre com a página.
 
-**Services:** ficam em `services/<nome>.service.ts` (`ProductsService`, `OrdersService`...; `AuthService`, `CartService` e `StoreInfoService` também guardam o estado global). Os de uso geral em `core/*/services/`, os exclusivos do admin em `features/admin/*/services/`.
+**Services:** cada módulo tem a própria pasta `services/` com as chamadas que ele faz ao back (`CatalogService`, `ProductService`, `MyOrdersService`, `CheckoutService`, `AuthApiService`, `HomeService`, e no admin `AdminProductsService` / `AdminOrdersService`). Em `core/` ficam só os que mais de um módulo precisa: `AuthService` (sessão), `CartService` (carrinho), `StoreInfoService` (GET /store-info) e `CategoriesService` (GET /categories, usado também no header).
 
 **Imports:** aliases `@core/*`, `@shared/*`, `@features/*`, `@environment/*` e `@testing/*` (definidos no `tsconfig.json`). Dados de exemplo dos specs ficam em `src/testing/fixtures.ts`.
 
@@ -117,8 +117,7 @@ Fluxo de dados: `página → service → HttpClient → interceptors (auth, erro
 | Planejamento | Implementado | Motivo |
 |---|---|---|
 | `cart.store.ts` em `features/cart` | `core/cart/services/cart.service.ts` | catálogo, detalhe, home e checkout também usam; features não podem importar umas das outras |
-| `products` / `categories` (`.api.ts`) em `features/catalog/data` | `core/catalog/services/` | home, catálogo, detalhe, header e pedidos usam |
-| `orders.api.ts` em `features/orders/data` | `core/orders/services/orders.service.ts` | checkout (POST) e pedidos (GET/cancelar) usam |
+| `categories.api.ts` em `features/catalog/data` | `core/catalog/services/categories.service.ts` | o header (core) também usa |
 | `Product`, `Category`, `Order` em cada feature | `shared/models/` | usados por mais de uma feature |
 | `ui-input` como componente | classes globais `.field` / `.input` | formulários são Reactive Forms; classe CSS resolve sem boilerplate |
 | Container de 1180px | 1312px | é a largura real das telas do Figma (1440px com margem de 64px) |
