@@ -1,11 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { CheckoutFacade } from '../../facades/checkout.facade';
 import { Component, inject, signal } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '@core/auth/services/auth.service';
-import { CartService } from '@core/cart/services/cart.service';
-import { OrdersService } from '@core/orders/services/orders.service';
-import { ApiError } from '@shared/models/api-error';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PaymentMethod } from '@shared/models/order';
 import { CheckoutStepsComponent } from '../../components/checkout-steps/checkout-steps.component';
 import { OrderSummaryComponent } from '../../components/order-summary/order-summary.component';
@@ -17,19 +12,18 @@ const UFS = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', '
   selector: 'app-checkout-page',
   standalone: true,
   imports: [ReactiveFormsModule, CheckoutStepsComponent, OrderSummaryComponent, PaymentOptionsComponent],
+  providers: [CheckoutFacade],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent {
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly cart = inject(CartService);
-  private readonly orders = inject(OrdersService);
-  private readonly router = inject(Router);
+  private readonly checkout = inject(CheckoutFacade);
 
   protected readonly ufs = UFS;
   protected readonly payment = signal<PaymentMethod>('PIX');
-  protected readonly busy = signal(false);
-  protected readonly error = signal('');
+  protected readonly busy = this.checkout.busy;
+  protected readonly error = this.checkout.error;
 
   protected readonly form = this.fb.group({
     cep: ['', [Validators.required, Validators.pattern(/^\d{5}-?\d{3}$/)]],
@@ -38,9 +32,9 @@ export class CheckoutComponent {
   });
 
   constructor() {
-    if (this.cart.items().length === 0) this.router.navigate(['/carrinho']);
-    // pré-preenche com o endereço do cadastro (GET /users/me), se existir
-    inject(AuthService).me().subscribe({ next: (u) => u.address && this.form.patchValue(u.address), error: () => undefined });
+    this.checkout.redirectIfCartEmpty();
+    // pré-preenche com o endereço do cadastro, se existir
+    void this.checkout.savedAddress().then((a) => a && this.form.patchValue(a));
   }
 
   protected maskCep(e: Event): void {
@@ -55,26 +49,10 @@ export class CheckoutComponent {
     return e['server'] ?? (e['pattern'] ? 'CEP inválido' : 'Campo obrigatório');
   }
 
-  protected confirm(): void {
+  protected async confirm(): Promise<void> {
     this.error.set('');
     if (this.form.invalid) { this.form.markAllAsTouched(); this.error.set('Confira os campos de endereço.'); return; }
-    if (this.busy()) return; // evita pedido duplicado
-    this.busy.set(true);
-    this.orders.create({
-      items: this.cart.items().map((i) => ({ productId: i.productId, quantity: i.quantity })),
-      address: this.form.getRawValue(),
-      paymentMethod: this.payment(),
-    }).subscribe({
-      next: () => { this.cart.clear(); this.router.navigate(['/pedidos']); },
-      error: (e: HttpErrorResponse) => this.fail(e, this.form),
-    });
-  }
-
-  private fail(e: HttpErrorResponse, form: FormGroup): void {
-    this.busy.set(false);
-    const api = e.error as Partial<ApiError> | null;
-    api?.fields?.forEach((f) => form.get(f.field.split('.').pop()!)?.setErrors({ server: f.message }));
-    // 409/422 (ex.: estoque): mostra a mensagem do back e mantém o carrinho
-    this.error.set(e.status === 0 ? 'Sem conexão com o servidor. Tente de novo.' : e.status >= 500 ? 'Algo deu errado do nosso lado. Tente de novo.' : (api?.message ?? 'Não foi possível confirmar o pedido.'));
+    const fail = await this.checkout.confirm(this.form.getRawValue(), this.payment());
+    fail?.fields.forEach((f) => this.form.get(f.field.split('.').pop()!)?.setErrors({ server: f.message }));
   }
 }

@@ -88,14 +88,24 @@ Cada componente vive na **própria pasta**, com 4 arquivos: `x/x.component.ts` (
 
 **Rotas:** `src/app/app.routes.ts` monta cada feature sob demanda (lazy) em um dos 3 shells (enxuto, admin, loja), e cada feature tem o seu `<feature>.routes.ts`.
 
-**Services:** ficam em `services/<nome>.service.ts` (HTTP e estado com signals juntos, como `AuthService`, `CartService`, `ProductsService`). Os de uso geral em `core/*/services/`, os exclusivos do admin em `features/admin/*/services/`.
+**Três camadas por módulo:**
+
+| Camada | Faz | Não faz |
+|---|---|---|
+| `components/` e `pages/` | DOM: template, formulário, eventos, modal | chamar o back, usar rxjs, tratar erro HTTP |
+| `facades/*.facade.ts` | estado da tela (loading / erro / ok), filtros na URL, ações (criar, cancelar, salvar) e mensagens de erro | mexer no DOM |
+| `services/*.service.ts` | chamar o back (`HttpClient`) | guardar estado de tela |
+
+A facade é fornecida pelo próprio componente (`providers: [XFacade]`), então nasce e morre com a página.
+
+**Services:** ficam em `services/<nome>.service.ts` (`ProductsService`, `OrdersService`...; `AuthService`, `CartService` e `StoreInfoService` também guardam o estado global). Os de uso geral em `core/*/services/`, os exclusivos do admin em `features/admin/*/services/`.
 
 **Imports:** aliases `@core/*`, `@shared/*`, `@features/*`, `@environment/*` e `@testing/*` (definidos no `tsconfig.json`). Dados de exemplo dos specs ficam em `src/testing/fixtures.ts`.
 
 Regras seguidas (seção 9 do planejamento):
 
 1. `features/*` **não importam** umas das outras, só `core` e `shared`.
-2. Componente não chama `HttpClient`: quem chama é um `*.service.ts`.
+2. Componente não chama o back nem usa rxjs: a página injeta a facade da feature, e só os `*.service.ts` usam `HttpClient`.
 3. `shared` não tem regra de negócio. O `product-card` não conhece o carrinho: só emite `(add)`.
 4. Dinheiro é formatado pelo `brl` pipe. Frete e total no front são **só para exibir**; o back recalcula no `POST /orders`.
 5. Os models em `shared/models` espelham os DTOs do back.

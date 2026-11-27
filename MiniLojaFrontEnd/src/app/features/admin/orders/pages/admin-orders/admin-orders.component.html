@@ -18,7 +18,7 @@
     @if (state(); as s) {
       @if (s.status === 'loading') { <div class="skeleton" style="height:320px"></div> }
       @else if (s.status === 'error') {
-        <ui-empty-state icon="x" title="Não deu pra carregar os pedidos"><button uiButton variant="cta" (click)="reload.set(reload() + 1)">Tentar de novo</button></ui-empty-state>
+        <ui-empty-state icon="x" title="Não deu pra carregar os pedidos"><button uiButton variant="cta" (click)="retry()">Tentar de novo</button></ui-empty-state>
       } @else if (s.page.content.length === 0) { <ui-empty-state icon="doc" title="Nenhum pedido encontrado" message="Ajuste a busca ou o filtro." /> }
       @else {
         <div class="table-wrap">
@@ -30,13 +30,13 @@
                   <td><b>#{{ o.id }}</b></td><td>{{ o.customerName }}</td>
                   <td class="muted">{{ o.createdAt | date: 'dd/MM/yyyy' }}</td><td><b>{{ o.total | brl }}</b></td>
                   <td><ui-order-status-badge [status]="o.status" /></td>
-                  <td class="right"><button uiButton variant="outline" size="sm" type="button" [attr.aria-pressed]="o.id === activeId()" (click)="selectedId.set(o.id)">Detalhes</button></td>
+                  <td class="right"><button uiButton variant="outline" size="sm" type="button" [attr.aria-pressed]="o.id === activeId()" (click)="select(o.id)">Detalhes</button></td>
                 </tr>
               }
             </tbody>
           </table>
         </div>
-        <ui-pagination [page]="page()" [totalPages]="s.page.totalPages" (pageChange)="page.set($event)" />
+        <ui-pagination [page]="page()" [totalPages]="s.page.totalPages" (pageChange)="setPage($event)" />
       }
     }
   </section>

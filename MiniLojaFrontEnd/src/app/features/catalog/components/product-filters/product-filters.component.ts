@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { Category } from '@shared/models/category';
+import { FilterChange } from '../../models/filter-change';
 
-export type FilterChange = Record<string, string | number | null>;
 
 /** Sidebar do catálogo: categoria, faixa de preço e "somente com desconto". Só emite o que mudou. */
 @Component({

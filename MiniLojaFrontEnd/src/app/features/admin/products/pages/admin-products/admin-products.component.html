@@ -19,7 +19,7 @@
     @if (s.status === 'loading') { <div class="skeleton" style="height:360px"></div> }
     @else if (s.status === 'error') {
       <ui-empty-state icon="x" title="Não deu pra carregar os produtos" message="Tente de novo em instantes.">
-        <button uiButton variant="cta" (click)="reload.set(reload() + 1)">Tentar de novo</button></ui-empty-state>
+        <button uiButton variant="cta" (click)="retry()">Tentar de novo</button></ui-empty-state>
     } @else if (s.page.content.length === 0) {
       <ui-empty-state title="Nenhum produto encontrado" message="Ajuste a busca ou os filtros." />
     } @else {
@@ -50,7 +50,7 @@
       </div>
       <footer>
         <span class="muted">Mostrando {{ from(s.page) }}–{{ to(s.page) }} de {{ s.page.totalElements }}</span>
-        <ui-pagination [page]="page()" [totalPages]="s.page.totalPages" (pageChange)="page.set($event)" />
+        <ui-pagination [page]="page()" [totalPages]="s.page.totalPages" (pageChange)="setPage($event)" />
       </footer>
     }
   }

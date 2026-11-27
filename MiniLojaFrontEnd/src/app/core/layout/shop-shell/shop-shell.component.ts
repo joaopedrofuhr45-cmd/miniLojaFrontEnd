@@ -1,9 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { catchError, of } from 'rxjs';
 import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
-import { Category } from '@shared/models/category';
 import { IconComponent } from '@shared/ui/icon/icon.component';
 import { LogoComponent } from '@shared/ui/logo/logo.component';
 import { AuthService } from '@core/auth/services/auth.service';
@@ -25,7 +22,7 @@ export class ShopShellComponent {
   protected readonly cart = inject(CartService);
   private readonly router = inject(Router);
   protected readonly info = inject(StoreInfoService).info;
-  protected readonly categories = toSignal(inject(CategoriesService).list().pipe(catchError(() => of([] as Category[]))), { initialValue: [] as Category[] });
+  protected readonly categories = inject(CategoriesService).categories;
 
   protected search(e: Event, term: string): void {
     e.preventDefault();

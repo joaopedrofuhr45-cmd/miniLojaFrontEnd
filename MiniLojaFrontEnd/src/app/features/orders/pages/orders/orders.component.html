@@ -11,13 +11,13 @@
       <div class="skeleton" style="height:150px"></div><div class="skeleton" style="height:150px"></div>
     } @else if (s.status === 'error') {
       <div class="card"><ui-empty-state icon="x" title="Não deu pra carregar seus pedidos" message="Tente de novo em instantes.">
-        <button uiButton variant="cta" (click)="reload.set(reload() + 1)">Tentar de novo</button></ui-empty-state></div>
+        <button uiButton variant="cta" (click)="retry()">Tentar de novo</button></ui-empty-state></div>
     } @else if (s.page.content.length === 0) {
       <div class="card"><ui-empty-state icon="doc" title="Nenhum pedido por aqui" message="Quando você comprar, o acompanhamento aparece nesta tela.">
         <a uiButton variant="cta" routerLink="/catalogo">Ver catálogo</a></ui-empty-state></div>
     } @else {
       @for (o of s.page.content; track o.id) {
-        <app-order-card [order]="o" [open]="isOpen(o, s.page.content)" (toggle)="toggle(o)" (cancel)="toCancel.set(o)" (reorder)="reorder(o)" />
+        <app-order-card [order]="o" [open]="isOpen(o, s.page.content)" (toggle)="toggle(o, s.page.content)" (cancel)="toCancel.set(o)" (reorder)="reorder(o)" />
       }
       <ui-pagination [page]="page()" [totalPages]="s.page.totalPages" (pageChange)="setPage($event)" />
     }

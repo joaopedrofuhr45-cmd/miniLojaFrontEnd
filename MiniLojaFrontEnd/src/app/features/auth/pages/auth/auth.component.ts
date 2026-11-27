@@ -1,11 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { ServerError } from '@shared/utils/server-error';
+import { AuthFlowFacade } from '../../facades/auth-flow.facade';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '@core/auth/services/auth.service';
-import { ApiError } from '@shared/models/api-error';
-import { AuthResponse } from '@shared/models/user';
 import { ButtonComponent } from '@shared/ui/button/button.component';
 import { IconComponent } from '@shared/ui/icon/icon.component';
 
@@ -22,20 +20,21 @@ const sameAsPassword = (g: AbstractControl): ValidationErrors | null =>
   selector: 'app-auth-page',
   standalone: true,
   imports: [ReactiveFormsModule, ButtonComponent, IconComponent],
+  providers: [AuthFlowFacade],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent {
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly auth = inject(AuthService);
+  private readonly flow = inject(AuthFlowFacade);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
   private readonly query = toSignal(this.route.queryParamMap, { initialValue: this.route.snapshot.queryParamMap });
   protected readonly tab = computed<Tab>(() => (this.query().get('aba') === 'cadastro' ? 'cadastro' : 'entrar'));
-  protected readonly busy = signal(false);
-  protected readonly loginError = signal('');
-  protected readonly registerError = signal('');
+  protected readonly busy = this.flow.busy;
+  protected readonly loginError = this.flow.loginError;
+  protected readonly registerError = this.flow.registerError;
 
   protected readonly login = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -61,40 +60,23 @@ export class AuthComponent {
     return server ?? this.msg(Object.keys(c.errors)[0]);
   }
 
-  protected submitLogin(): void {
+  protected async submitLogin(): Promise<void> {
     this.loginError.set('');
     if (this.login.invalid) return this.login.markAllAsTouched();
     const { email, password } = this.login.getRawValue();
-    this.busy.set(true);
-    this.auth.login({ email, password }).subscribe({
-      next: (res) => this.done(res),
-      error: (e: HttpErrorResponse) => this.fail(e, this.login, this.loginError, 'E-mail ou senha inválidos'),
-    });
+    this.showServerErrors(this.login, await this.flow.login(email, password));
   }
 
-  protected submitRegister(): void {
+  protected async submitRegister(): Promise<void> {
     this.registerError.set('');
     if (this.register.invalid) return this.register.markAllAsTouched();
     const { name, email, password } = this.register.getRawValue();
-    this.busy.set(true);
-    this.auth.register({ name, email, password }).subscribe({
-      next: (res) => this.done(res),
-      error: (e: HttpErrorResponse) => this.fail(e, this.register, this.registerError, 'Não foi possível criar a conta'),
-    });
+    this.showServerErrors(this.register, await this.flow.register(name, email, password));
   }
 
-  private done(res: AuthResponse): void {
-    this.auth.startSession(res);
-    const back = this.route.snapshot.queryParamMap.get('returnUrl');
-    // só aceita caminho interno (evita open redirect via ?returnUrl=//site-malicioso)
-    this.router.navigateByUrl(back && back.startsWith('/') && !back.startsWith('//') ? back : '/catalogo');
-  }
-
-  private fail(e: HttpErrorResponse, form: FormGroup, target: ReturnType<typeof signal<string>>, fallback: string): void {
-    this.busy.set(false);
-    const api = e.error as Partial<ApiError> | null;
-    api?.fields?.forEach((f) => form.controls[f.field]?.setErrors({ server: f.message }));
+  private showServerErrors(form: FormGroup, error: ServerError | null): void {
+    if (!error) return;
+    error.fields.forEach((f) => form.controls[f.field]?.setErrors({ server: f.message }));
     form.markAllAsTouched();
-    target.set(e.status === 0 ? 'Sem conexão com o servidor. Tente de novo.' : e.status >= 500 ? 'Algo deu errado do nosso lado. Tente de novo.' : (api?.message ?? fallback));
   }
 }

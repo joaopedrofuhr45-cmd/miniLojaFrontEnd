@@ -27,7 +27,7 @@
       <a uiButton variant="cta" routerLink="/catalogo">Ver catálogo</a></ui-empty-state></div>
   } @else {
     <div class="card"><ui-empty-state icon="x" title="Não deu pra carregar o produto" message="Tente de novo em instantes.">
-      <button uiButton variant="cta" (click)="reload.set(reload() + 1)">Tentar de novo</button></ui-empty-state></div>
+      <button uiButton variant="cta" (click)="retry()">Tentar de novo</button></ui-empty-state></div>
   }
   }
 </div>

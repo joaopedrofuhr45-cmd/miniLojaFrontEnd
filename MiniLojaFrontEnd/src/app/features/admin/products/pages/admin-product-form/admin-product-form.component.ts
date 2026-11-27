@@ -1,16 +1,10 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, effect, inject, input, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { AdminProductFormFacade } from '../../facades/admin-product-form.facade';
+import { Component, effect, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { catchError, of } from 'rxjs';
-import { CategoriesService } from '@core/catalog/services/categories.service';
-import { ApiError } from '@shared/models/api-error';
-import { Category } from '@shared/models/category';
+import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '@shared/ui/button/button.component';
 import { IconComponent } from '@shared/ui/icon/icon.component';
 import { ProductThumbComponent } from '@shared/ui/product-thumb/product-thumb.component';
-import { AdminProductRequest, AdminProductsService } from '../../services/admin-products.service';
 
 const MESSAGES: Record<string, string> = { required: 'Campo obrigatório', min: 'Valor inválido', };
 
@@ -19,20 +13,19 @@ const MESSAGES: Record<string, string> = { required: 'Campo obrigatório', min: 
   selector: 'app-admin-product-form-page',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, ButtonComponent, IconComponent, ProductThumbComponent],
+  providers: [AdminProductFormFacade],
   templateUrl: './admin-product-form.component.html',
   styleUrl: './admin-product-form.component.scss',
 })
 export class AdminProductFormComponent {
-  /** Parâmetro de rota :id (withComponentInputBinding). Ausente = novo produto. */
-  readonly id = input<string>();
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly api = inject(AdminProductsService);
-  private readonly router = inject(Router);
-  protected readonly categories = toSignal(inject(CategoriesService).list().pipe(catchError(() => of([] as Category[]))), { initialValue: [] as Category[] });
+  private readonly facade = inject(AdminProductFormFacade);
 
-  protected readonly busy = signal(false);
-  protected readonly loading = signal(false);
-  protected readonly error = signal('');
+  protected readonly id = this.facade.id;
+  protected readonly categories = this.facade.categories;
+  protected readonly busy = this.facade.busy;
+  protected readonly loading = this.facade.loading;
+  protected readonly error = this.facade.error;
 
   protected readonly form = this.fb.group({
     name: ['', Validators.required],
@@ -46,18 +39,11 @@ export class AdminProductFormComponent {
   });
 
   constructor() {
+    // edição: preenche o formulário quando o produto chega do back
     effect(() => {
-      const id = this.id();
-      if (!id) return;
-      this.loading.set(true);
-      this.api.get(+id).subscribe({
-        next: (p) => {
-          this.form.patchValue({ ...p, categoryId: p.category.id, imageUrl: p.imageUrl ?? '', description: p.description ?? '' });
-          this.loading.set(false);
-        },
-        error: () => { this.loading.set(false); this.error.set('Não foi possível carregar o produto.'); },
-      });
-    }, { allowSignalWrites: true });
+      const p = this.facade.product();
+      if (p) this.form.patchValue({ ...p, categoryId: p.category.id, imageUrl: p.imageUrl ?? '', description: p.description ?? '' });
+    });
   }
 
   protected err(name: keyof typeof this.form.controls): string {
@@ -66,25 +52,16 @@ export class AdminProductFormComponent {
     return c.errors['server'] ?? MESSAGES[Object.keys(c.errors)[0]] ?? 'Valor inválido';
   }
 
-  protected save(): void {
+  protected async save(): Promise<void> {
     this.error.set('');
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     const v = this.form.getRawValue();
-    const body: AdminProductRequest = {
+    const fail = await this.facade.save({
       name: v.name.trim(), description: v.description, price: v.price!, originalPrice: v.originalPrice || null,
       stock: v.stock!, categoryId: v.categoryId!, imageUrl: v.imageUrl.trim() || null, active: v.active,
-    };
-    this.busy.set(true);
-    const id = this.id();
-    (id ? this.api.update(+id, body) : this.api.create(body)).subscribe({
-      next: () => this.router.navigate(['/admin/produtos']),
-      error: (e: HttpErrorResponse) => {
-        this.busy.set(false);
-        const api = e.error as Partial<ApiError> | null;
-        api?.fields?.forEach((f) => this.form.get(f.field)?.setErrors({ server: f.message }));
-        this.form.markAllAsTouched();
-        this.error.set(e.status === 0 ? 'Sem conexão com o servidor.' : (api?.message ?? 'Não foi possível salvar o produto.'));
-      },
     });
+    if (!fail) return;
+    fail.fields.forEach((f) => this.form.get(f.field)?.setErrors({ server: f.message }));
+    this.form.markAllAsTouched();
   }
 }
