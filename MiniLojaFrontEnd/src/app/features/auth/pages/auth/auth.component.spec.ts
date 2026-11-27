@@ -21,4 +21,10 @@ describe('AuthComponent', () => {
   it('deve renderizar', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
+
+  it('mostra só um formulário por vez (entrar por padrão)', () => {
+    const cards = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('section.card')) as HTMLElement[];
+    const visible = cards.filter((c) => !c.classList.contains('hide')).map((c) => c.querySelector('h1')!.textContent);
+    expect(visible).toEqual(['Que bom te ver de novo']);
+  });
 });
