@@ -173,7 +173,7 @@ src/
    │
    ├─ core/                       # só auth e http
    │  ├─ auth/                    # guards/, services/ (auth.api.ts, auth.store.ts)
-   │  └─ http/                    # auth.interceptor.ts, error.interceptor.ts, mock
+   │  └─ http/                    # auth.interceptor.ts, error.interceptor.ts
    │
    ├─ shared/                     # reutilizável, sem regra de negócio
    │  ├─ ui/                      # button, input, badge, modal, pagination, empty-state, spinner,
@@ -430,7 +430,7 @@ Os wireframes são desktop. No mobile: grid 4 → 2 → 1 coluna, sidebar de fil
 
 1. Criar o projeto, SCSS com os tokens, `environment.ts`, rotas vazias e os dois shells (loja e admin).
 2. `shared/ui` básico: button, input, badge, spinner/skeleton, pagination.
-3. `product-card` e `price-block` em `shared/ui`, depois **Catálogo** (lista + filtros) usando `ProductsApi` — comece com JSON mockado se o back ainda não existir.
+3. `product-card` e `price-block` em `shared/ui`, depois **Catálogo** (lista + filtros) usando `ProductsApi`.
 4. **Detalhe do produto** + `CartStore` + botões Comprar agora / Adicionar. Em seguida a **Home** (reaproveita o `product-card`).
 5. **Carrinho** (página + badge do header).
 6. **Auth:** `AuthStore`, interceptors, guards, página de login/cadastro.

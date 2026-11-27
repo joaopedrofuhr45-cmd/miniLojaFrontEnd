@@ -41,38 +41,18 @@ npm start            # ng serve em http://localhost:4200
 
 | Comando | O que faz |
 |---|---|
-| `npm start` | servidor de desenvolvimento (API simulada) |
-| `npm run start:api` | servidor de desenvolvimento falando com o Spring Boot em `:8080` via proxy |
+| `npm start` | servidor de desenvolvimento (proxy de `/api` para o Spring Boot em `:8080`) |
 | `npm run build` | build de produção em `dist/mini-loja-front-end` (usa `environment.prod.ts`) |
 | `npm test` | testes unitários (Karma + Jasmine), modo watch |
 | `npm run test:ci` | testes uma vez, em Chrome headless sem sandbox (`CHROME_BIN` deve apontar para um Chrome/Chromium) |
 
 > O build de produção baixa a fonte Inter do Google Fonts para inlinar o CSS crítico, então precisa de internet.
 
-### Com ou sem o back
+### Conectando no back
 
-`src/environments/environment.ts` controla de onde vêm os dados:
+O front sempre chama `environment.apiUrl` (`/api`). No dev, o `proxy.conf.json` encaminha `/api` para `http://localhost:8080`, então o Spring Boot precisa estar no ar e o navegador só fala com `:4200` (não precisa configurar CORS). Se o back rodar em outra porta, mude o `target` em `proxy.conf.json`. Em produção (`environment.prod.ts`) o `/api` deve ser servido pelo mesmo domínio (ou por um proxy reverso).
 
-```ts
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8080/api',
-  useMock: true,   // true = API simulada no front; false = chama o Spring Boot de verdade
-};
-```
-
-- **`useMock: true` (padrão em dev):** o interceptor `core/http/mock-api.interceptor.ts` responde todos os endpoints em memória (dados em `core/http/mock-data.ts`, os mesmos produtos e pedidos do Figma). Recarregar a página reinicia os dados. Dá para navegar por tudo sem subir o back.
-- **`useMock: false`:** as requests vão para `apiUrl`. O back precisa liberar CORS para `http://localhost:4200`.
-- **`npm run start:api` (recomendado com o back no ar):** usa `environment.api.ts` (`apiUrl: '/api'`, `useMock: false`) e o `proxy.conf.json`, que encaminha `/api` para `http://localhost:8080`. Como o navegador só fala com `:4200`, não precisa configurar CORS no back. Se o back rodar em outra porta, mude o `target` em `proxy.conf.json`.
-- **Produção:** `environment.prod.ts` usa `apiUrl: '/api'` e `useMock: false`.
-
-### Logins de teste (só no mock)
-
-| E-mail | Senha | Perfil |
-|---|---|---|
-| qualquer e-mail (ex.: `joao@email.com`) | qualquer senha com 3+ caracteres | cliente (`joao…` vira "João Pedro" e já tem pedidos) |
-| qualquer e-mail contendo `admin` (ex.: `admin@miniloja.com`) | idem | admin |
-| `existe@email.com` no cadastro | — | simula erro 409 (e-mail já cadastrado) |
+Não existe usuário nem dado de exemplo no front: login, cadastro e admin dependem dos usuários que existirem no banco do back.
 
 ## Arquitetura
 
@@ -80,7 +60,7 @@ export const environment = {
 src/app/
 ├─ core/                  só o que é transversal ao app (igual ao App Saúde)
 │  ├─ auth/               guards/ (role/auth/guest/admin) · services/ (AuthApi, AuthStore)
-│  └─ http/               interceptors (auth, erro, mock) e mock-data
+│  └─ http/               interceptors (auth e erro)
 ├─ features/              1 pasta por assunto, cada uma com pages/ components/ services/ (models/ quando precisa)
 │  ├─ home/  catalog/  cart/  checkout/  orders/  auth/
 │  └─ admin/              admin.routes.ts · layout/admin-shell · pages/ · services/
@@ -104,7 +84,7 @@ Regras seguidas (seção 9 do planejamento):
 4. Dinheiro é formatado pelo `brl` pipe. Frete e total no front são **só para exibir**; o back recalcula no `POST /orders`.
 5. Os models em `shared/models` espelham os DTOs do back.
 
-Fluxo de dados: `página → store/api → HttpClient → interceptors (auth, erro, mock) → Spring Boot`. Estado com **signals** (`AuthStore`, `CartStore`, `StoreInfoStore`); filtros do catálogo e dos pedidos vivem na **URL** (query params), então dá para compartilhar o link e o botão voltar funciona. Toda lista tem estados de carregando (skeleton), vazio e erro.
+Fluxo de dados: `página → store/api → HttpClient → interceptors (auth, erro) → Spring Boot`. Estado com **signals** (`AuthStore`, `CartStore`, `StoreInfoStore`); filtros do catálogo e dos pedidos vivem na **URL** (query params), então dá para compartilhar o link e o botão voltar funciona. Toda lista tem estados de carregando (skeleton), vazio e erro.
 
 ### Onde a implementação difere do `PLANEJAMENTO-FRONT.md`
 
@@ -135,7 +115,7 @@ O trabalho foi dividido em uma branch por módulo, **empilhadas** (cada uma part
 
 | # | Branch | Conteúdo |
 |---|---|---|
-| 1 | `feat/core-shared` | tokens de design, environments, interceptors, guards, stores, shells (loja / enxuto / admin), UI compartilhada, models, API mock |
+| 1 | `feat/core-shared` | tokens de design, environments, interceptors, guards, stores, shells (loja / enxuto / admin), UI compartilhada, models |
 | 2 | `feat/catalog` | `/catalogo` (filtros na URL) e `/produtos/:id` |
 | 3 | `feat/home` | `/` com banner, benefícios, categorias e vitrines |
 | 4 | `feat/cart` | `/carrinho` com resumo e barra de frete grátis |
