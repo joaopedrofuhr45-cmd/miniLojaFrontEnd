@@ -41,7 +41,8 @@ npm start            # ng serve em http://localhost:4200
 
 | Comando | O que faz |
 |---|---|
-| `npm start` | servidor de desenvolvimento |
+| `npm start` | servidor de desenvolvimento (API simulada) |
+| `npm run start:api` | servidor de desenvolvimento falando com o Spring Boot em `:8080` via proxy |
 | `npm run build` | build de produção em `dist/mini-loja-front-end` (usa `environment.prod.ts`) |
 | `npm test` | testes unitários (Karma + Jasmine), modo watch |
 | `npm run test:ci` | testes uma vez, em Chrome headless sem sandbox (`CHROME_BIN` deve apontar para um Chrome/Chromium) |
@@ -61,7 +62,8 @@ export const environment = {
 ```
 
 - **`useMock: true` (padrão em dev):** o interceptor `core/http/mock-api.interceptor.ts` responde todos os endpoints em memória (dados em `core/http/mock-data.ts`, os mesmos produtos e pedidos do Figma). Recarregar a página reinicia os dados. Dá para navegar por tudo sem subir o back.
-- **`useMock: false`:** as requests vão para `apiUrl`. O back precisa liberar CORS para `http://localhost:4200` (ou use um `proxy.conf.json` apontando `/api` para `:8080`).
+- **`useMock: false`:** as requests vão para `apiUrl`. O back precisa liberar CORS para `http://localhost:4200`.
+- **`npm run start:api` (recomendado com o back no ar):** usa `environment.api.ts` (`apiUrl: '/api'`, `useMock: false`) e o `proxy.conf.json`, que encaminha `/api` para `http://localhost:8080`. Como o navegador só fala com `:4200`, não precisa configurar CORS no back. Se o back rodar em outra porta, mude o `target` em `proxy.conf.json`.
 - **Produção:** `environment.prod.ts` usa `apiUrl: '/api'` e `useMock: false`.
 
 ### Logins de teste (só no mock)
