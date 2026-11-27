@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of } from 'rxjs';
-import { CartStore } from '../../../../core/cart/cart.store';
-import { CategoriesApi } from '../../../../core/catalog/categories.api';
-import { ProductsApi } from '../../../../core/catalog/products.api';
+import { CartStore } from '../../../cart/services/cart.store';
+import { CategoriesApi } from '../../../catalog/services/categories.api';
+import { ProductsApi } from '../../../catalog/services/products.api';
 import { Category } from '../../../../shared/models/category';
 import { Product } from '../../../../shared/models/product';
 import { BenefitsStripComponent } from '../../components/benefits-strip/benefits-strip.component';

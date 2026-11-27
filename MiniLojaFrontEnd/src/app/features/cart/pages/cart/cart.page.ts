@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartStore } from '../../../../core/cart/cart.store';
+import { CartStore } from '../../services/cart.store';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { EmptyStateComponent } from '../../../../shared/ui/empty-state/empty-state.component';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';

@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { CartStore } from '../../../../core/cart/cart.store';
-import { StoreInfoStore } from '../../../../core/store-info/store-info.store';
+import { CartStore } from '../../../cart/services/cart.store';
+import { StoreInfoStore } from '../../../../shared/services/store-info.store';
 import { Product } from '../../../../shared/models/product';
 import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';

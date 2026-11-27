@@ -1,8 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStore } from '../../../../core/auth/auth.store';
-import { CartStore } from '../../../../core/cart/cart.store';
-import { StoreInfoStore } from '../../../../core/store-info/store-info.store';
+import { AuthStore } from '../../../../core/auth/services/auth.store';
+import { CartStore } from '../../services/cart.store';
+import { StoreInfoStore } from '../../../../shared/services/store-info.store';
 import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { installments } from '../../../../shared/utils/price';

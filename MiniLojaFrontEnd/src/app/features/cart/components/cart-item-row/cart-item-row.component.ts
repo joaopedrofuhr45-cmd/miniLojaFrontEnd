@@ -1,6 +1,6 @@
 import { Component, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartItem } from '../../../../core/cart/cart.store';
+import { CartItem } from '../../services/cart.store';
 import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 import { ProductThumbComponent } from '../../../../shared/ui/product-thumb/product-thumb.component';
