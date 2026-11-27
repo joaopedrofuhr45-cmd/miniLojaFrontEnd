@@ -1,6 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartStore } from '../../../../core/cart/cart.store';
+import { CartStore } from '../../../cart/services/cart.store';
 import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';

@@ -60,7 +60,7 @@ export const environment = {
 };
 ```
 
-- **`useMock: true` (padrão em dev):** o interceptor `core/mock/mock-api.interceptor.ts` responde todos os endpoints em memória (dados em `core/mock/mock-data.ts`, os mesmos produtos e pedidos do Figma). Recarregar a página reinicia os dados. Dá para navegar por tudo sem subir o back.
+- **`useMock: true` (padrão em dev):** o interceptor `core/http/mock-api.interceptor.ts` responde todos os endpoints em memória (dados em `core/http/mock-data.ts`, os mesmos produtos e pedidos do Figma). Recarregar a página reinicia os dados. Dá para navegar por tudo sem subir o back.
 - **`useMock: false`:** as requests vão para `apiUrl`. O back precisa liberar CORS para `http://localhost:4200` (ou use um `proxy.conf.json` apontando `/api` para `:8080`).
 - **Produção:** `environment.prod.ts` usa `apiUrl: '/api'` e `useMock: false`.
 
@@ -76,12 +76,18 @@ export const environment = {
 
 ```
 src/app/
-├─ core/            singletons: interceptors, guards, AuthStore, CartStore, StoreInfoStore,
-│                   layouts (shop / focus / admin), APIs compartilhadas (products, categories, orders) e o mock
-├─ shared/          UI sem regra de negócio: button, badge, icon, logo, product-card, price-block,
-│                   product-thumb, pagination, modal, empty-state · pipes (brl, order-status) · models · utils
-└─ features/        1 pasta por assunto: home, catalog, cart, auth, checkout, orders, admin
-                    (cada uma com pages/, components/ e data/; as páginas são carregadas em lazy loading pelo app.routes.ts)
+├─ core/                  só o que é transversal ao app (igual ao App Saúde)
+│  ├─ auth/               guards/ (role/auth/guest/admin) · services/ (AuthApi, AuthStore)
+│  └─ http/               interceptors (auth, erro, mock) e mock-data
+├─ features/              1 pasta por assunto, cada uma com pages/ components/ services/ (models/ quando precisa)
+│  ├─ home/  catalog/  cart/  checkout/  orders/  auth/
+│  └─ admin/              admin.routes.ts · layout/admin-shell · pages/ · services/
+└─ shared/                sem regra de negócio
+   ├─ layout/             shop-shell, focus-shell, shop-footer, not-found
+   ├─ ui/                 button, badge, icon, logo, product-card, price-block, product-thumb,
+   │                      pagination, modal, empty-state, order-status-badge
+   ├─ services/           StoreInfoApi / StoreInfoStore
+   ├─ pipes/  models/  utils/
 ```
 
 Cada componente vive na **própria pasta**, com 4 arquivos: `x/x.component.ts` (lógica), `x.component.html` (template), `x.component.scss` (estilos) e `x.component.spec.ts` (testes). O mesmo vale para páginas (`pages/cart/cart.page.*`) e pipes.
@@ -90,7 +96,7 @@ Cada componente vive na **própria pasta**, com 4 arquivos: `x/x.component.ts` (
 
 Regras seguidas (seção 9 do planejamento):
 
-1. `features/*` **não importam** umas das outras, só `core` e `shared`.
+1. `core` só tem auth e http. O que mais de uma feature usa mora na feature "dona" (`CartStore` em `features/cart`, `ProductsApi` em `features/catalog`, `OrdersApi` em `features/orders`) e as outras importam de lá, igual `consulta` no App Saúde. Nada de import circular entre features.
 2. Componente não chama `HttpClient`: quem chama é um `*.api.ts`.
 3. `shared` não tem regra de negócio. O `product-card` não conhece o carrinho: só emite `(add)`.
 4. Dinheiro é formatado pelo `brl` pipe. Frete e total no front são **só para exibir**; o back recalcula no `POST /orders`.
@@ -102,9 +108,8 @@ Fluxo de dados: `página → store/api → HttpClient → interceptors (auth, er
 
 | Planejamento | Implementado | Motivo |
 |---|---|---|
-| `cart.store.ts` em `features/cart` | `core/cart/cart.store.ts` | catálogo, detalhe, home e checkout também usam; features não podem importar umas das outras |
-| `products.api.ts` / `categories.api.ts` em `features/catalog/data` | `core/catalog/` | home, catálogo, detalhe, header e pedidos usam |
-| `orders.api.ts` em `features/orders/data` | `core/orders/orders.api.ts` | checkout (POST) e pedidos (GET/cancelar) usam |
+| `features/catalog/data`, `orders/data` | `services/` em cada feature | mesmo nome de pasta do App Saúde |
+| Layouts (shells) em `core/layout` | `shared/layout` (e `admin-shell` em `features/admin/layout`) | `core` fica só com auth e http |
 | `Product`, `Category`, `Order` em cada feature | `shared/models/` | usados por mais de uma feature |
 | `ui-input` como componente | classes globais `.field` / `.input` | formulários são Reactive Forms; classe CSS resolve sem boilerplate |
 | Container de 1180px | 1312px | é a largura real das telas do Figma (1440px com margem de 64px) |

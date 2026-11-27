@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { adminGuard, authGuard, guestGuard } from './core/guards/guards';
-import { AdminShellComponent } from './core/layout/admin-shell/admin-shell.component';
-import { FocusShellComponent } from './core/layout/focus-shell/focus-shell.component';
-import { NotFoundPage } from './core/layout/not-found/not-found.page';
-import { ShopShellComponent } from './core/layout/shop-shell/shop-shell.component';
+import { adminGuard, authGuard, guestGuard } from './core/auth/guards/guards';
+import { AdminShellComponent } from './features/admin/layout/admin-shell/admin-shell.component';
+import { FocusShellComponent } from './shared/layout/focus-shell/focus-shell.component';
+import { NotFoundPage } from './shared/layout/not-found/not-found.page';
+import { ShopShellComponent } from './shared/layout/shop-shell/shop-shell.component';
 
 /**
  * Mapa de todas as URLs do app. Cada página é carregada sob demanda (lazy).

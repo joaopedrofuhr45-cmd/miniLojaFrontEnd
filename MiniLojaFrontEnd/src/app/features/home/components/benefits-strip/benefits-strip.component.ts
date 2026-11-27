@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { StoreInfoStore } from '../../../../core/store-info/store-info.store';
+import { StoreInfoStore } from '../../../../shared/services/store-info.store';
 import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 

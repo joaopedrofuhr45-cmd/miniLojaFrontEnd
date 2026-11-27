@@ -1,4 +1,4 @@
-import { CartItem } from '../app/core/cart/cart.store';
+import { CartItem } from '../app/features/cart/services/cart.store';
 import { Order } from '../app/shared/models/order';
 import { Product } from '../app/shared/models/product';
 

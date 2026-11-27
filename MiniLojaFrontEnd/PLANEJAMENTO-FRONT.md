@@ -171,16 +171,15 @@ src/
    ├─ app.config.ts               # provideRouter, provideHttpClient(withInterceptors([...]))
    ├─ app.routes.ts               # lazy load por feature
    │
-   ├─ core/                       # singletons: carregam 1 vez
-   │  ├─ interceptors/            # auth.interceptor.ts, error.interceptor.ts
-   │  ├─ guards/                  # auth.guard.ts, guest.guard.ts, admin.guard.ts
-   │  ├─ auth/                    # auth.store.ts, auth.api.ts
-   │  ├─ store-info/              # store-info.api.ts, store-info.store.ts (frete grátis, parcelas)
-   │  └─ layout/                  # shop-shell (header+footer), admin-shell (sidebar)
+   ├─ core/                       # só auth e http
+   │  ├─ auth/                    # guards/, services/ (auth.api.ts, auth.store.ts)
+   │  └─ http/                    # auth.interceptor.ts, error.interceptor.ts, mock
    │
    ├─ shared/                     # reutilizável, sem regra de negócio
    │  ├─ ui/                      # button, input, badge, modal, pagination, empty-state, spinner,
    │  │                            # product-card, price-block (usados em home, catálogo e detalhe)
+   │  ├─ layout/                  # shop-shell, focus-shell, shop-footer, not-found
+   │  ├─ services/                # store-info.api.ts, store-info.store.ts
    │  ├─ pipes/                   # brl.pipe.ts, order-status.pipe.ts
    │  └─ models/                  # page.ts, api-error.ts
    │
@@ -192,13 +191,13 @@ src/
       ├─ catalog/
       │  ├─ pages/                # catalog.page.ts, product-detail.page.ts
       │  ├─ components/           # product-filters, product-gallery, buy-box
-      │  ├─ data/                 # products.api.ts, categories.api.ts
+      │  ├─ services/             # products.api.ts, categories.api.ts
       │  ├─ models/               # product.ts, category.ts
       │  └─ catalog.routes.ts
       ├─ cart/
       │  ├─ pages/                # cart.page.ts
       │  ├─ components/           # cart-item-row, cart-summary
-      │  ├─ cart.store.ts         # signals + localStorage
+      │  ├─ services/             # cart.store.ts (signals + localStorage)
       │  └─ cart.routes.ts
       ├─ checkout/
       │  ├─ pages/                # checkout.page.ts
@@ -207,7 +206,7 @@ src/
       ├─ orders/
       │  ├─ pages/                # orders.page.ts
       │  ├─ components/           # order-card, order-status-badge
-      │  ├─ data/                 # orders.api.ts
+      │  ├─ services/             # orders.api.ts
       │  ├─ models/               # order.ts
       │  └─ orders.routes.ts
       ├─ auth/
@@ -419,7 +418,7 @@ Os wireframes são desktop. No mobile: grid 4 → 2 → 1 coluna, sidebar de fil
 
 ## 9. Regras de arquitetura
 
-1. `features/*` **não importam** umas das outras. Só `core` e `shared`. Se duas features precisam da mesma coisa, ela sobe pra `shared` ou `core`.
+1. `core` só tem auth e http. Se mais de uma feature usa algo (ex.: `CartStore`, `ProductsApi`), ele fica na feature dona e as outras importam de lá. Sem import circular entre features.
 2. **Componente não chama `HttpClient`.** Quem chama é o `*.api.ts` (ou `*.store.ts`).
 3. `shared` não tem regra de negócio, só UI e utilidades.
 4. Valores em dinheiro: formatar com o `brl.pipe` (`Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })`). Nunca somar preço no front pra **decidir** algo; o total oficial vem do back.
