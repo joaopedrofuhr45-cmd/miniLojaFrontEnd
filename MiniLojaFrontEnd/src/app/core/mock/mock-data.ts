@@ -1,7 +1,7 @@
-import { Category } from '../../shared/models/category';
-import { Order, OrderStatus } from '../../shared/models/order';
-import { Product } from '../../shared/models/product';
-import { Address } from '../../shared/models/user';
+import { Category } from '@shared/models/category';
+import { Order, OrderStatus } from '@shared/models/order';
+import { Product } from '@shared/models/product';
+import { Address } from '@shared/models/user';
 
 export interface MockProduct extends Product { createdAt: string; }
 export interface MockOrder extends Order { mine: boolean; }

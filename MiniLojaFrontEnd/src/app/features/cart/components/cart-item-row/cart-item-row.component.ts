@@ -1,9 +1,9 @@
 import { Component, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CartItem } from '../../../../core/cart/cart.store';
-import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
-import { IconComponent } from '../../../../shared/ui/icon/icon.component';
-import { ProductThumbComponent } from '../../../../shared/ui/product-thumb/product-thumb.component';
+import { CartItem } from '@core/cart/services/cart.service';
+import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
+import { IconComponent } from '@shared/ui/icon/icon.component';
+import { ProductThumbComponent } from '@shared/ui/product-thumb/product-thumb.component';
 
 @Component({
   selector: 'app-cart-item-row',

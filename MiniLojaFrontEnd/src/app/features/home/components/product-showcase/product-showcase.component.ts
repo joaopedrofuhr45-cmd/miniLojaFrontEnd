@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Product } from '../../../../shared/models/product';
-import { ProductCardComponent } from '../../../../shared/ui/product-card/product-card.component';
+import { Product } from '@shared/models/product';
+import { ProductCardComponent } from '@shared/ui/product-card/product-card.component';
 
 /** Vitrine: título + "Ver todas" + 4 cards. `products = null` mostra o esqueleto de carregamento. */
 @Component({

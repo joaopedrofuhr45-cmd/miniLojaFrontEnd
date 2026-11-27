@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { OrderStatus } from '../../models/order';
+import { OrderStatus } from '@shared/models/order';
 
 export type Tone = 'ok' | 'warn' | 'info' | 'danger' | 'brand' | 'neutral';
 

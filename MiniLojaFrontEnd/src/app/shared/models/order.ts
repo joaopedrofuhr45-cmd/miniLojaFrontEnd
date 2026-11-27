@@ -1,4 +1,4 @@
-import { Address } from './user';
+import { Address } from '@shared/models/user';
 
 export type OrderStatus = 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELED';
 export type PaymentMethod = 'PIX' | 'CARD' | 'BOLETO';

@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { ORDER } from '../../../../../testing/fixtures';
+import { ORDER } from '@testing/fixtures';
 import { OrderCardComponent } from './order-card.component';
 
 describe('OrderCardComponent', () => {

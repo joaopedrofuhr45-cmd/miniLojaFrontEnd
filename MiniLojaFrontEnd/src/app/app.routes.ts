@@ -1,60 +1,46 @@
 import { Routes } from '@angular/router';
-import { adminGuard, authGuard, guestGuard } from './core/guards/guards';
-import { AdminShellComponent } from './core/layout/admin-shell/admin-shell.component';
-import { FocusShellComponent } from './core/layout/focus-shell/focus-shell.component';
-import { NotFoundPage } from './core/layout/not-found/not-found.page';
-import { ShopShellComponent } from './core/layout/shop-shell/shop-shell.component';
+import { adminGuard, authGuard, guestGuard } from '@core/auth/guards/guards';
+import { AdminShellComponent } from '@core/layout/admin-shell/admin-shell.component';
+import { FocusShellComponent } from '@core/layout/focus-shell/focus-shell.component';
+import { NotFoundComponent } from '@core/layout/not-found/not-found.component';
+import { ShopShellComponent } from '@core/layout/shop-shell/shop-shell.component';
 
 /**
- * Mapa de todas as URLs do app. Cada página é carregada sob demanda (lazy).
- *
- * Três "shells" (moldura da página):
- *  - FocusShell: topo enxuto, para login e checkout
- *  - AdminShell: menu lateral do painel admin
- *  - ShopShell:  header + footer completos da loja (inclui a página 404)
- *
+ * Cada feature tem o seu `*.routes.ts` e é carregada sob demanda (lazy).
+ * Três "shells" (moldura da página): FocusShell (login/checkout), AdminShell e ShopShell (loja + 404).
  * Ordem importa: o ShopShell fica por último porque tem o `**` (404).
  */
 export const routes: Routes = [
-  // ── Fluxos enxutos ───────────────────────────────────────────────
   {
     path: 'entrar',
     component: FocusShellComponent,
+    canActivate: [guestGuard],
     data: { note: 'Precisa de ajuda?' },
-    canActivate: [guestGuard], // logado não vê login
-    children: [
-      { path: '', title: 'Entrar · MiniLoja', loadComponent: () => import('./features/auth/pages/auth/auth.page').then((m) => m.AuthPage) },
-    ],
+    loadChildren: () => import('@features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
     path: 'checkout',
     component: FocusShellComponent,
-    data: { note: 'Compra 100% segura', icon: 'lock' },
     canActivate: [authGuard],
-    children: [
-      { path: '', title: 'Finalizar compra · MiniLoja', loadComponent: () => import('./features/checkout/pages/checkout/checkout.page').then((m) => m.CheckoutPage) },
-    ],
+    data: { note: 'Compra 100% segura', icon: 'lock' },
+    loadChildren: () => import('@features/checkout/checkout.routes').then((m) => m.CHECKOUT_ROUTES),
   },
-
-  // ── Painel admin (rotas internas em features/admin/admin.routes.ts) ──
   {
     path: 'admin',
     component: AdminShellComponent,
     canActivate: [adminGuard],
-    loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
+    loadChildren: () => import('@features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
-
-  // ── Loja ─────────────────────────────────────────────────────────
   {
     path: '',
     component: ShopShellComponent,
     children: [
-      { path: '', pathMatch: 'full', title: 'MiniLoja · Ofertas e lançamentos', loadComponent: () => import('./features/home/pages/home/home.page').then((m) => m.HomePage) },
-      { path: 'catalogo', title: 'Catálogo · MiniLoja', loadComponent: () => import('./features/catalog/pages/catalog/catalog.page').then((m) => m.CatalogPage) },
-      { path: 'produtos/:id', title: 'Produto · MiniLoja', loadComponent: () => import('./features/catalog/pages/product-detail/product-detail.page').then((m) => m.ProductDetailPage) },
-      { path: 'carrinho', title: 'Carrinho · MiniLoja', loadComponent: () => import('./features/cart/pages/cart/cart.page').then((m) => m.CartPage) },
-      { path: 'pedidos', title: 'Meus pedidos · MiniLoja', canActivate: [authGuard], loadComponent: () => import('./features/orders/pages/orders/orders.page').then((m) => m.OrdersPage) },
-      { path: '**', title: 'Página não encontrada · MiniLoja', component: NotFoundPage },
+      { path: '', pathMatch: 'full', loadChildren: () => import('@features/home/home.routes').then((m) => m.HOME_ROUTES) },
+      { path: 'catalogo', loadChildren: () => import('@features/catalog/catalog.routes').then((m) => m.CATALOG_ROUTES) },
+      { path: 'produtos', loadChildren: () => import('@features/product/product.routes').then((m) => m.PRODUCT_ROUTES) },
+      { path: 'carrinho', loadChildren: () => import('@features/cart/cart.routes').then((m) => m.CART_ROUTES) },
+      { path: 'pedidos', canActivate: [authGuard], loadChildren: () => import('@features/orders/orders.routes').then((m) => m.ORDERS_ROUTES) },
+      { path: '**', title: 'Página não encontrada · MiniLoja', component: NotFoundComponent },
     ],
   },
 ];

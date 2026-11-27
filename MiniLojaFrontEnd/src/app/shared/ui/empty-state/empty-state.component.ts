@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { IconComponent } from '../icon/icon.component';
+import { IconComponent } from '@shared/ui/icon/icon.component';
 
 /** Estado vazio ou de erro de qualquer lista. Ações vão no <ng-content>. */
 @Component({

@@ -1,11 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStore } from '../../../../core/auth/auth.store';
-import { CartStore } from '../../../../core/cart/cart.store';
-import { StoreInfoStore } from '../../../../core/store-info/store-info.store';
-import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
-import { ButtonComponent } from '../../../../shared/ui/button/button.component';
-import { installments } from '../../../../shared/utils/price';
+import { AuthService } from '@core/auth/services/auth.service';
+import { CartService } from '@core/cart/services/cart.service';
+import { StoreInfoService } from '@core/store-info/services/store-info.service';
+import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
+import { ButtonComponent } from '@shared/ui/button/button.component';
+import { installments } from '@shared/utils/price';
 
 /** Barra de frete grátis + resumo. Os valores são só de exibição: o back recalcula no pedido. */
 @Component({
@@ -16,10 +16,10 @@ import { installments } from '../../../../shared/utils/price';
   styleUrl: './cart-summary.component.scss',
 })
 export class CartSummaryComponent {
-  protected readonly cart = inject(CartStore);
-  private readonly auth = inject(AuthStore);
+  protected readonly cart = inject(CartService);
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly info = inject(StoreInfoStore).info;
+  private readonly info = inject(StoreInfoService).info;
   protected readonly parcels = computed(() => installments(this.cart.total(), this.info().maxInstallments));
 
   protected next(): void {

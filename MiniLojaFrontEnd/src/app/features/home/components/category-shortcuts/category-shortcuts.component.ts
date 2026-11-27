@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Category } from '../../../../shared/models/category';
-import { ProductThumbComponent } from '../../../../shared/ui/product-thumb/product-thumb.component';
+import { Category } from '@shared/models/category';
+import { ProductThumbComponent } from '@shared/ui/product-thumb/product-thumb.component';
 
 interface Shortcut { label: string; query: Record<string, string | number>; tint: number; }
 

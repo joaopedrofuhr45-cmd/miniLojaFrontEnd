@@ -1,0 +1,42 @@
+<div class="container page">
+  <nav class="breadcrumb" aria-label="Você está aqui"><a routerLink="/">Início</a><span aria-current="page">Catálogo</span></nav>
+  <div class="layout">
+    <aside>
+      <h1>Catálogo</h1>
+      <p class="muted count">{{ total() === null ? '…' : total() + ' resultados' }}</p>
+      <app-product-filters [categories]="categories()" [categoria]="f().categoria" [de]="f().de" [ate]="f().ate" [desconto]="f().desconto" (filtersChange)="set($event)" />
+    </aside>
+    <section>
+      <div class="bar">
+        <div class="chips">
+          @for (c of chips(); track c.label) {
+            <button type="button" class="chip" (click)="set(c.clear)">{{ c.label }} <ui-icon name="x" [size]="12" /></button>
+          }
+          @if (chips().length) { <button type="button" class="link" (click)="clearAll()">Limpar tudo</button> }
+        </div>
+        <label class="sort">Ordenar por
+          <select (change)="onSort($event)" aria-label="Ordenar por">
+            @for (o of sortOptions; track o.value) { <option [value]="o.value" [selected]="o.value === f().ordem">{{ o.label }}</option> }
+          </select>
+        </label>
+      </div>
+
+      @if (state(); as s) {
+      @if (s.status === 'loading') {
+        <div class="grid">@for (i of skeletons; track i) { <div class="skeleton card-sk"></div> }</div>
+      } @else if (s.status === 'error') {
+        <div class="card"><ui-empty-state icon="x" title="Não deu pra carregar os produtos" message="Verifique a conexão e tente de novo.">
+          <button uiButton variant="cta" (click)="retry()">Tentar de novo</button>
+        </ui-empty-state></div>
+      } @else if (s.page.content.length === 0) {
+        <div class="card"><ui-empty-state title="Nenhum produto encontrado" message="Tente remover algum filtro.">
+          <button uiButton variant="outline" (click)="clearAll()">Limpar filtros</button>
+        </ui-empty-state></div>
+      } @else {
+        <div class="grid">@for (p of s.page.content; track p.id) { <ui-product-card [product]="p" (add)="cart.add($event)" /> }</div>
+        <ui-pagination [page]="f().page" [totalPages]="s.page.totalPages" (pageChange)="set({ page: $event })" />
+      }
+      }
+    </section>
+  </div>
+</div>

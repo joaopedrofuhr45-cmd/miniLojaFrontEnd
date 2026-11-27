@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { StoreInfoStore } from '../../../../core/store-info/store-info.store';
-import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
-import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { StoreInfoService } from '@core/store-info/services/store-info.service';
+import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
+import { IconComponent } from '@shared/ui/icon/icon.component';
 
 /** Faixa de confiança. Frete, parcelas e troca vêm de /store-info, não ficam fixos no código. */
 @Component({
@@ -12,5 +12,5 @@ import { IconComponent } from '../../../../shared/ui/icon/icon.component';
   styleUrl: './benefits-strip.component.scss',
 })
 export class BenefitsStripComponent {
-  protected readonly info = inject(StoreInfoStore).info;
+  protected readonly info = inject(StoreInfoService).info;
 }

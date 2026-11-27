@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { ProductThumbComponent } from './product-thumb.component';
+import { ProductThumbComponent } from '@shared/ui/product-thumb/product-thumb.component';
 
 describe('ProductThumbComponent', () => {
   let fixture: ComponentFixture<ProductThumbComponent>;

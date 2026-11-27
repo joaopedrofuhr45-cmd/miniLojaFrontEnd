@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
-import { OrderStatus } from '../../models/order';
-import { ORDER_STATUS } from '../../pipes/order-status/order-status.pipe';
-import { BadgeComponent } from '../badge/badge.component';
+import { OrderStatus } from '@shared/models/order';
+import { ORDER_STATUS } from '@shared/pipes/order-status/order-status.pipe';
+import { BadgeComponent } from '@shared/ui/badge/badge.component';
 
 @Component({
   selector: 'ui-order-status-badge',

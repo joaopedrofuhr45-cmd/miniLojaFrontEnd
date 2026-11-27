@@ -1,6 +1,6 @@
-import { CartItem } from '../app/core/cart/cart.store';
-import { Order } from '../app/shared/models/order';
-import { Product } from '../app/shared/models/product';
+import { CartItem } from '@core/cart/services/cart.service';
+import { Order } from '@shared/models/order';
+import { Product } from '@shared/models/product';
 
 /** Dados de exemplo compartilhados pelos specs. */
 export const PRODUCT: Product = {

@@ -2,8 +2,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { PRODUCT } from '../../../../testing/fixtures';
-import { ProductCardComponent } from './product-card.component';
+import { PRODUCT } from '@testing/fixtures';
+import { ProductCardComponent } from '@shared/ui/product-card/product-card.component';
 
 describe('ProductCardComponent', () => {
   let fixture: ComponentFixture<ProductCardComponent>;

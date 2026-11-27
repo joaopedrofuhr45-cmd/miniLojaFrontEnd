@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
-import { IconComponent } from '../../../shared/ui/icon/icon.component';
-import { LogoComponent } from '../../../shared/ui/logo/logo.component';
+import { IconComponent } from '@shared/ui/icon/icon.component';
+import { LogoComponent } from '@shared/ui/logo/logo.component';
 import { ShopFooterComponent } from '../shop-footer/shop-footer.component';
 
 /**

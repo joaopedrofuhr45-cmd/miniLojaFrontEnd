@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { PriceBlockComponent } from './price-block.component';
+import { PriceBlockComponent } from '@shared/ui/price-block/price-block.component';
 
 describe('PriceBlockComponent', () => {
   let fixture: ComponentFixture<PriceBlockComponent>;

@@ -1,0 +1,33 @@
+<div class="container page narrow">
+  <nav class="breadcrumb" aria-label="Você está aqui"><a routerLink="/">Início</a><span aria-current="page">Meus pedidos</span></nav>
+  <h1>Meus pedidos</h1>
+  <div class="tabs" role="tablist">
+    @for (t of tabs; track t.key) { <button type="button" role="tab" [class.on]="t.key === tab()" [attr.aria-selected]="t.key === tab()" (click)="setTab(t.key)">{{ t.label }}</button> }
+  </div>
+  @if (actionError()) { <p class="alert error" role="alert">{{ actionError() }}</p> }
+
+  @if (state(); as s) {
+    @if (s.status === 'loading') {
+      <div class="skeleton" style="height:150px"></div><div class="skeleton" style="height:150px"></div>
+    } @else if (s.status === 'error') {
+      <div class="card"><ui-empty-state icon="x" title="Não deu pra carregar seus pedidos" message="Tente de novo em instantes.">
+        <button uiButton variant="cta" (click)="retry()">Tentar de novo</button></ui-empty-state></div>
+    } @else if (s.page.content.length === 0) {
+      <div class="card"><ui-empty-state icon="doc" title="Nenhum pedido por aqui" message="Quando você comprar, o acompanhamento aparece nesta tela.">
+        <a uiButton variant="cta" routerLink="/catalogo">Ver catálogo</a></ui-empty-state></div>
+    } @else {
+      @for (o of s.page.content; track o.id) {
+        <app-order-card [order]="o" [open]="isOpen(o, s.page.content)" (toggle)="toggle(o, s.page.content)" (cancel)="toCancel.set(o)" (reorder)="reorder(o)" />
+      }
+      <ui-pagination [page]="page()" [totalPages]="s.page.totalPages" (pageChange)="setPage($event)" />
+    }
+  }
+</div>
+
+<ui-modal [open]="toCancel() !== null" title="Cancelar pedido?" (closed)="toCancel.set(null)">
+  Você vai cancelar o pedido #{{ toCancel()?.id }}. Essa ação não pode ser desfeita.
+  <ng-container actions>
+    <button uiButton variant="line" (click)="toCancel.set(null)">Voltar</button>
+    <button uiButton variant="cta" [disabled]="cancelling()" (click)="confirmCancel()">{{ cancelling() ? 'Cancelando…' : 'Sim, cancelar' }}</button>
+  </ng-container>
+</ui-modal>

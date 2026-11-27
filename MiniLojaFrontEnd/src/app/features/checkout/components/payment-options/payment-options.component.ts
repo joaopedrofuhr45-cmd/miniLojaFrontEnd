@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { PaymentMethod } from '../../../../shared/models/order';
-import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { PaymentMethod } from '@shared/models/order';
+import { IconComponent } from '@shared/ui/icon/icon.component';
 
 const OPTIONS: { value: PaymentMethod; icon: string; title: string; hint: string }[] = [
   { value: 'PIX', icon: 'bolt', title: 'Pix', hint: 'Aprovação imediata' },

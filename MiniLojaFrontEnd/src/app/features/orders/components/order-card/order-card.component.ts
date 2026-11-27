@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
-import { Order, PaymentMethod } from '../../../../shared/models/order';
-import { BrlPipe } from '../../../../shared/pipes/brl/brl.pipe';
-import { ButtonComponent } from '../../../../shared/ui/button/button.component';
-import { OrderStatusBadgeComponent } from '../../../../shared/ui/order-status-badge/order-status-badge.component';
-import { ProductThumbComponent } from '../../../../shared/ui/product-thumb/product-thumb.component';
+import { Order, PaymentMethod } from '@shared/models/order';
+import { BrlPipe } from '@shared/pipes/brl/brl.pipe';
+import { ButtonComponent } from '@shared/ui/button/button.component';
+import { OrderStatusBadgeComponent } from '@shared/ui/order-status-badge/order-status-badge.component';
+import { ProductThumbComponent } from '@shared/ui/product-thumb/product-thumb.component';
 import { OrderTimelineComponent } from '../order-timeline/order-timeline.component';
 
 const PAYMENT: Record<PaymentMethod, string> = { PIX: 'Pix', CARD: 'Cartão de crédito', BOLETO: 'Boleto' };

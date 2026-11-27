@@ -1,5 +1,5 @@
 import { Component, computed, input, output } from '@angular/core';
-import { IconComponent } from '../icon/icon.component';
+import { IconComponent } from '@shared/ui/icon/icon.component';
 
 /** Paginação 1-based. */
 @Component({

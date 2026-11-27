@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LogoComponent } from '../../../shared/ui/logo/logo.component';
+import { LogoComponent } from '@shared/ui/logo/logo.component';
 
 @Component({
   selector: 'app-shop-footer',

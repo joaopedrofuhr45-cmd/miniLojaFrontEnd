@@ -1,11 +1,11 @@
 import { HttpErrorResponse, HttpInterceptorFn, HttpParams, HttpResponse } from '@angular/common/http';
 import { mergeMap, of, throwError, timer } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { ApiFieldError } from '../../shared/models/api-error';
-import { CreateOrderRequest, OrderStatus } from '../../shared/models/order';
-import { Page } from '../../shared/models/page';
-import { AuthResponse, AuthUser } from '../../shared/models/user';
-import { nextStatuses } from '../../shared/utils/order-flow';
+import { environment } from '@environment/environment';
+import { ApiFieldError } from '@shared/models/api-error';
+import { CreateOrderRequest, OrderStatus } from '@shared/models/order';
+import { Page } from '@shared/models/page';
+import { AuthResponse, AuthUser } from '@shared/models/user';
+import { nextStatuses } from '@shared/utils/order-flow';
 import { CATEGORIES, DEFAULT_ADDRESS, MockOrder, MockProduct, ORDERS, PRODUCTS, shortName, takeOrderId } from './mock-data';
 
 /**

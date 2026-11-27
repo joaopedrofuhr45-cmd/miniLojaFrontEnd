@@ -1,4 +1,4 @@
-import { Category } from './category';
+import { Category } from '@shared/models/category';
 
 export interface Product {
   id: number;

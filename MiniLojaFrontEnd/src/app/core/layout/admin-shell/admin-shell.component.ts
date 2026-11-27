@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { LogoComponent } from '../../../shared/ui/logo/logo.component';
-import { AuthStore } from '../../auth/auth.store';
+import { LogoComponent } from '@shared/ui/logo/logo.component';
+import { AuthService } from '@core/auth/services/auth.service';
 
 /** Sidebar do admin. Resumo, Categorias e Usuários ainda não têm tela (v2). */
 @Component({
@@ -12,7 +12,7 @@ import { AuthStore } from '../../auth/auth.store';
   styleUrl: './admin-shell.component.scss',
 })
 export class AdminShellComponent {
-  private readonly auth = inject(AuthStore);
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   protected logout(): void { this.auth.logout(); this.router.navigate(['/']); }
 }
