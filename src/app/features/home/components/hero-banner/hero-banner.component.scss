@@ -18,8 +18,7 @@
   inset: 0;
   z-index: -2;
   opacity: 0;
-  background-size: 180% 100%;
-  background-position: calc(var(--scroll, 0) * 100%) 50%;
+  right: -40%; /* camada mais larga que o banner: dá folga para o degradê deslizar */
   transition: opacity 1s ease;
 }
 .bg.on {
@@ -47,7 +46,6 @@
   padding: 4px 12px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(6px);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -162,16 +160,6 @@ p {
   .glow {
     animation: drift 14s ease-in-out infinite alternate;
   }
-  /* parallax: cada cubo anda numa velocidade conforme o scroll; o ícone flutua por dentro */
-  .a {
-    transform: translateY(calc(var(--scroll-y, 0) * -0.1px));
-  }
-  .b {
-    transform: translateY(calc(var(--scroll-y, 0) * 0.08px));
-  }
-  .c {
-    transform: translateY(calc(var(--scroll-y, 0) * -0.18px));
-  }
   .sq:hover {
     transform: scale(1.1) rotate(-6deg);
   }
@@ -183,6 +171,52 @@ p {
   }
   .c .ico {
     animation-delay: -3.2s;
+  }
+}
+
+/* atrelado ao scroll e executado pelo compositor (sem JS): o degradê desliza e os cubos sobem em
+   velocidades diferentes. Onde não há suporte, o banner só fica parado. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bg,
+    .sq {
+      animation-timeline: scroll(root);
+      animation-range: 0 600px;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    .bg {
+      animation-name: slide-bg;
+    }
+    .a {
+      animation-name: par-a;
+    }
+    .b {
+      animation-name: par-b;
+    }
+    .c {
+      animation-name: par-c;
+    }
+  }
+}
+@keyframes slide-bg {
+  to {
+    transform: translate3d(-28%, 0, 0);
+  }
+}
+@keyframes par-a {
+  to {
+    translate: 0 -34px;
+  }
+}
+@keyframes par-b {
+  to {
+    translate: 0 26px;
+  }
+}
+@keyframes par-c {
+  to {
+    translate: 0 -58px;
   }
 }
 

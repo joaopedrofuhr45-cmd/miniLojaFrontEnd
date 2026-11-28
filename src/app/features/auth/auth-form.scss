@@ -54,32 +54,32 @@
 .blob {
   position: absolute;
   z-index: -1;
-  width: 360px;
-  height: 360px;
+  width: 520px;
+  height: 520px;
   border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.45;
   pointer-events: none;
+  will-change: transform;
 }
+/* degradê radial em vez de filter: blur(), que é caro de pintar */
 .b1 {
-  top: -80px;
-  left: 6%;
-  background: var(--brand);
+  top: -170px;
+  left: 2%;
+  background: radial-gradient(closest-side, rgba(11, 110, 105, 0.3), transparent);
 }
 .b2 {
-  right: 4%;
-  bottom: -60px;
-  background: var(--accent);
+  right: 0;
+  bottom: -150px;
+  background: radial-gradient(closest-side, rgba(246, 196, 83, 0.5), transparent);
 }
 @media (prefers-reduced-motion: no-preference) {
   .stack {
     animation: enter 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
   .b1 {
-    animation: roam 16s ease-in-out infinite alternate;
+    animation: roam 22s ease-in-out infinite alternate;
   }
   .b2 {
-    animation: roam 19s ease-in-out infinite alternate-reverse;
+    animation: roam 26s ease-in-out infinite alternate-reverse;
   }
 }
 @keyframes enter {
@@ -90,7 +90,7 @@
 }
 @keyframes roam {
   to {
-    transform: translate(90px, 60px) scale(1.18);
+    transform: translate3d(70px, 40px, 0);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -170,7 +170,6 @@ form {
   background: rgba(255, 255, 255, 0.6);
 }
 .tabs a.on {
-  view-transition-name: auth-tab;
   background: #fff;
   color: var(--ink);
   font-weight: 600;

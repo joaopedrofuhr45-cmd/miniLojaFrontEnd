@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, afterNextRender, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RevealService } from './shared/effects/reveal.service';
 import { ScrollEffectsService } from './shared/effects/scroll-effects.service';
@@ -13,7 +13,11 @@ export class AppComponent {
   title = 'MiniLojaFrontEnd';
 
   constructor() {
-    inject(ScrollEffectsService).start();
-    inject(RevealService).start();
+    const scroll = inject(ScrollEffectsService);
+    const reveal = inject(RevealService);
+    afterNextRender(() => {
+      scroll.start(document.querySelector<HTMLElement>('.scroll-bar i'));
+      reveal.start();
+    });
   }
 }

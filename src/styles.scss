@@ -30,8 +30,8 @@
 }
 body {
   margin: 0;
-  /* o fundo vai de cinza para um verde-água suave conforme a página rola (--scroll: 0..1) */
-  background: color-mix(in oklab, var(--bg), var(--brand-soft) calc(var(--scroll, 0) * 85%));
+  background-color: var(--bg);
+  transition: background-color 0.9s ease;
   color: var(--ink);
   font:
     400 14px/1.4 'Inter',
@@ -288,66 +288,51 @@ img {
 }
 
 /* ───────────── Efeitos de movimento ─────────────
- * Variáveis --scroll, --scroll-y e --hdr-t vêm do ScrollEffectsService.
- * Tudo que se move fica dentro de prefers-reduced-motion: no-preference. */
+ * Pensados para serem baratos: só `transform`/`opacity` animam, e as cores mudam por classe
+ * no <html> (`scrolled`, `scrolled-far`), ligadas pelo ScrollEffectsService. */
 
-/* barra de progresso no topo: o amarelo vira vermelho conforme a página rola */
+/* depois de rolar um pouco, o fundo da página puxa para um verde-água suave */
+html.scrolled-far body {
+  background-color: color-mix(in oklab, var(--bg), var(--brand-soft) 85%);
+}
+
+/* barra de progresso no topo: o degradê é fixo na largura da tela, então a cor da ponta
+   vai do amarelo ao vermelho conforme a barra enche; só o transform muda */
 .scroll-bar {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 200;
   height: 3px;
-  background: color-mix(in oklab, var(--accent), var(--cta) calc(var(--scroll, 0) * 100%));
-  transform: scaleX(var(--scroll, 0));
-  transform-origin: left;
+  overflow: hidden;
   pointer-events: none;
 }
-
-/* cards e botões ganham contorno suave ao receber foco do teclado */
-:focus-visible {
-  transition: outline-offset 0.15s;
+.scroll-bar i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--cta));
+  transform: translate3d(-100%, 0, 0);
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   /* aparecer ao rolar (classes ligadas pelo RevealService) */
   .rv {
     opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(0.985);
+    transform: translate3d(0, 18px, 0);
   }
   .rv.rv-in {
     opacity: 1;
     transform: none;
     transition:
-      opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rv-delay, 0ms),
-      transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rv-delay, 0ms);
+      opacity 0.5s ease-out var(--rv-delay, 0ms),
+      transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rv-delay, 0ms);
   }
   ui-product-card.rv {
-    transform: translate3d(0, 40px, 0) scale(0.94);
+    transform: translate3d(0, 24px, 0);
   }
   .section-title.rv,
   .page-head.rv {
-    transform: translate3d(-28px, 0, 0);
-  }
-  .cols > .rv:nth-child(even) {
-    transform: translate3d(0, 36px, 0) scale(0.97);
-  }
-
-  /* troca de página: cruzamento suave */
-  ::view-transition-old(root) {
-    animation: 0.22s ease both vt-out;
-  }
-  ::view-transition-new(root) {
-    animation: 0.32s ease both vt-in;
-  }
-  @keyframes vt-out {
-    to {
-      opacity: 0;
-    }
-  }
-  @keyframes vt-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
+    transform: translate3d(-16px, 0, 0);
   }
 }

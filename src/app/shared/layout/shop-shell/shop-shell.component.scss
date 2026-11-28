@@ -17,9 +17,15 @@ main {
   position: sticky;
   top: 0;
   z-index: 30;
-  /* ao rolar, o header escurece, encolhe e ganha sombra (--hdr-t: 0..1) */
-  background: color-mix(in oklab, var(--brand), var(--brand-deep) calc(var(--hdr-t, 0) * 100%));
-  box-shadow: 0 calc(var(--hdr-t, 0) * 8px) calc(var(--hdr-t, 0) * 24px) rgba(0, 0, 0, calc(var(--hdr-t, 0) * 0.28));
+  /* ao rolar, o header escurece e ganha sombra (a classe `scrolled` vem do ScrollEffectsService) */
+  background: var(--brand);
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+:host-context(html.scrolled) .hdr {
+  background: var(--brand-deep);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
 }
 .row {
   display: flex;
@@ -27,7 +33,7 @@ main {
   gap: 24px;
 }
 .hdr .row {
-  height: calc(72px - var(--hdr-t, 0) * 14px);
+  height: 72px;
 }
 .logo {
   display: inline-block;

@@ -14,8 +14,14 @@ header {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: color-mix(in oklab, var(--brand), var(--brand-deep) calc(var(--hdr-t, 0) * 100%));
-  box-shadow: 0 calc(var(--hdr-t, 0) * 8px) calc(var(--hdr-t, 0) * 24px) rgba(0, 0, 0, calc(var(--hdr-t, 0) * 0.28));
+  background: var(--brand);
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+:host-context(html.scrolled) header {
+  background: var(--brand-deep);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
 }
 header a {
   display: inline-block;

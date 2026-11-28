@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 
 /**
  * Faz os blocos "aparecerem" quando entram na tela, em todas as páginas, sem precisar marcar
@@ -23,12 +23,18 @@ const SELECTOR = [
 
 @Injectable({ providedIn: 'root' })
 export class RevealService {
+  private readonly zone = inject(NgZone);
   private started = false;
 
   start(): void {
     if (this.started || typeof window === 'undefined') return;
     this.started = true;
     if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // observers dentro do NgZone disparam detecção de mudanças a cada callback; aqui não precisam
+    this.zone.runOutsideAngular(() => this.observe());
+  }
+
+  private observe(): void {
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -38,13 +44,13 @@ export class RevealService {
         batch.forEach((entry, i) => {
           const el = entry.target as HTMLElement;
           io.unobserve(el);
-          const delay = Math.min(i * 70, 420);
+          const delay = Math.min(i * 45, 225);
           el.style.setProperty('--rv-delay', `${delay}ms`);
           requestAnimationFrame(() => el.classList.add('rv-in'));
           setTimeout(() => {
             el.classList.remove('rv', 'rv-in');
             el.style.removeProperty('--rv-delay');
-          }, delay + 1000);
+          }, delay + 600);
         });
       },
       { threshold: 0.1, rootMargin: '0px 0px -5% 0px' },

@@ -1,39 +1,58 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 
 /**
- * Publica a posição do scroll como variáveis CSS no <html>, para qualquer estilo reagir a ela:
- *  --scroll    0..1 do progresso na página (barra do topo, cor do fundo, degradê do banner)
- *  --scroll-y  pixels rolados, sem unidade (parallax: calc(var(--scroll-y) * -0.1px))
- *  --hdr-t     0..1 nos primeiros 160px (header escurece e encolhe)
- * e liga a classe `scrolled` quando a página saiu do topo.
+ * Efeitos ligados ao scroll, feitos para custar quase nada:
+ *  - nada de variáveis CSS na raiz (mudar uma variável herdada recalcula o estilo da página inteira);
+ *  - a barra de progresso é movida direto por `transform` (só compositor, sem layout nem pintura);
+ *  - cores de header e fundo mudam por classe no <html>, só quando o scroll cruza um limite,
+ *    e quem anima a cor é uma `transition` do CSS (por tempo, não por quadro de scroll);
+ *  - tudo roda fora do NgZone, para o Angular não rodar detecção de mudanças a cada scroll.
  */
 @Injectable({ providedIn: 'root' })
 export class ScrollEffectsService {
+  private readonly zone = inject(NgZone);
   private started = false;
 
-  start(): void {
+  start(bar: HTMLElement | null): void {
     if (this.started || typeof window === 'undefined') return;
     this.started = true;
-    const root = document.documentElement;
-    let queued = false;
 
-    const update = () => {
-      queued = false;
-      const y = window.scrollY;
-      const max = Math.max(root.scrollHeight - window.innerHeight, 1);
-      root.style.setProperty('--scroll', Math.min(y / max, 1).toFixed(4));
-      root.style.setProperty('--scroll-y', y.toFixed(0));
-      root.style.setProperty('--hdr-t', Math.min(y / 160, 1).toFixed(3));
-      root.classList.toggle('scrolled', y > 8);
-    };
-    const schedule = () => {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(update);
-    };
+    this.zone.runOutsideAngular(() => {
+      const root = document.documentElement;
+      let max = 1;
+      let queued = false;
+      let scrolled = false;
+      let far = false;
+      let lastP = -1;
 
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule, { passive: true });
-    update();
+      const measure = () => {
+        max = Math.max(root.scrollHeight - window.innerHeight, 1);
+      };
+      const update = () => {
+        queued = false;
+        const y = window.scrollY;
+        const p = Math.min(y / max, 1);
+        if (bar && Math.abs(p - lastP) > 0.001) {
+          lastP = p;
+          bar.style.transform = `translate3d(${(p - 1) * 100}%,0,0)`;
+        }
+        const s = y > 8;
+        if (s !== scrolled) root.classList.toggle('scrolled', (scrolled = s));
+        const f = y > 480;
+        if (f !== far) root.classList.toggle('scrolled-far', (far = f));
+      };
+      const schedule = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(update);
+      };
+
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', () => { measure(); schedule(); }, { passive: true });
+      // a altura da página muda quando o conteúdo carrega: re-mede sem ler layout a cada scroll
+      if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); schedule(); }).observe(document.body);
+      measure();
+      update();
+    });
   }
 }
