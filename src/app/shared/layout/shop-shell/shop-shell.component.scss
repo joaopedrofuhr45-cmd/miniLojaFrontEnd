@@ -80,7 +80,7 @@ main {
   border: 0;
   border-radius: 50%;
   background: var(--cta);
-  color: var(--on-brand);
+  color: var(--on-cta);
   transition:
     transform 0.25s,
     background 0.2s;
@@ -124,6 +124,12 @@ main {
 .icon:hover {
   transform: translateY(-3px) scale(1.12);
   color: var(--accent);
+}
+.theme-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
 }
 .acc-btn {
   transition: transform 0.2s;

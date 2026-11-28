@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { IconComponent } from '../../ui/icon/icon.component';
+import { ThemeService } from '../../../core/theme.service';
 import { LogoComponent } from '../../ui/logo/logo.component';
 import { ShopFooterComponent } from '../shop-footer/shop-footer.component';
 
@@ -16,6 +17,7 @@ import { ShopFooterComponent } from '../shop-footer/shop-footer.component';
   styleUrl: './focus-shell.component.scss',
 })
 export class FocusShellComponent {
+  protected readonly theme = inject(ThemeService);
   private readonly data = inject(ActivatedRoute).snapshot.data;
   protected readonly note: string = this.data['note'] ?? '';
   protected readonly icon: string | null = this.data['icon'] ?? null;

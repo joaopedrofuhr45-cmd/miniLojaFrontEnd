@@ -20,6 +20,8 @@ const ICONS: Record<string, string[]> = {
   'arrow-left': ['M19 12H5', 'm11 6-6 6 6 6'],
   'chevron-left': ['m15 6-6 6 6 6'],
   'chevron-right': ['m9 6 6 6-6 6'],
+  sun: ['M12 8a4 4 0 1 0 .01 0Z', 'M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6'],
+  moon: ['M20 14.2A8 8 0 0 1 9.8 4a8 8 0 1 0 10.2 10.2Z'],
   'chevron-down': ['m6 9 6 6 6-6'],
 };
 

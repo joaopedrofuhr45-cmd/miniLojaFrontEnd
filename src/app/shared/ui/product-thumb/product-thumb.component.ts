@@ -3,9 +3,8 @@ import { IconComponent } from '../icon/icon.component';
 
 /** [fundo, traço] — o ciclo bate com as telas do Figma (Produto 01 = índigo, 02 = rosa...). */
 const TINTS: [string, string][] = [
-  ['#2b3527', '#7c8f6e'], ['#35302a', '#e39a6a'], ['#273127', '#8fa67f'], ['#38312a', '#eaaa81'],
-  ['#2a352f', '#86a08f'], ['#332f28', '#d9a77f'], ['#2e3a28', '#9bb08b'], ['#3a322b', '#e3b08a'],
-];
+  '#8a9e7b', '#e8a478', '#9bb08b', '#eaaa81', '#86a08f', '#d9a77f', '#a3b894', '#e3b08a',
+].map((c): [string, string] => [`color-mix(in oklab, ${c} 22%, var(--surface))`, c]);
 
 /** Mostra a imagem do produto ou, sem imagem, o placeholder colorido com o cubo. */
 @Component({

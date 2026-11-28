@@ -4,11 +4,12 @@ import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from 
 
 import { routes } from './app.routes';
 import { authInterceptor } from './core/http/auth.interceptor';
+import { mockInterceptor } from './core/http/mock.interceptor';
 import { errorInterceptor } from './core/http/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
-    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+    provideHttpClient(withInterceptors([mockInterceptor, authInterceptor, errorInterceptor])),
   ],
 };
