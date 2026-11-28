@@ -2,6 +2,6 @@
 export const environment = {
   production: false,
   apiUrl: '/api',
-  /** Só em dev: entra como um usuário fictício (sem backend) para ver a home logada. Ponha `false` para desligar. */
-  mockUser: true,
+  /** Só em dev: usuário e dados (produtos, categorias) fictícios, sem backend. Ponha `false` para usar o Spring Boot de verdade. */
+  mock: true,
 };

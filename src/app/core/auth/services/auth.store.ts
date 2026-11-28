@@ -33,6 +33,6 @@ export class AuthStore {
       const saved = JSON.parse(localStorage.getItem(KEY) ?? 'null');
       if (saved) return saved;
     } catch { /* storage indisponível */ }
-    return environment.mockUser ? MOCK : null;
+    return environment.mock ? MOCK : null;
   }
 }
