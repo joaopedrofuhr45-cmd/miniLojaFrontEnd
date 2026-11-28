@@ -2,38 +2,12 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 24px;
   padding: 56px 0 72px;
 }
 .card {
   width: 440px;
+  max-width: 100%;
   padding: 32px;
-}
-.hide {
-  display: none;
-}
-.tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  padding: 3px;
-  margin-bottom: 20px;
-  background: #ececec;
-  border-radius: 8px;
-}
-.tabs button {
-  height: 34px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: var(--muted);
-  font-weight: 500;
-}
-.tabs .on {
-  background: #fff;
-  color: var(--ink);
-  font-weight: 600;
-  box-shadow: var(--shadow);
 }
 h1 {
   font-size: 24px;
@@ -75,13 +49,16 @@ form {
   font-size: 12px;
   color: var(--muted);
 }
-@media (min-width: 861px) {
-  .hide {
-    display: block;
-  }
-  .tabs button {
-    cursor: pointer;
-  }
+.switch {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--ink2);
+}
+.switch a {
+  font-weight: 600;
+  margin-left: 4px;
 }
 @media (max-width: 480px) {
   .card {

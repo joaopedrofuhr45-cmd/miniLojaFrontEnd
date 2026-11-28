@@ -12,7 +12,8 @@ Design no Figma: [MiniLoja — Telas](https://www.figma.com/design/sRhX23QH5p82P
 | Catálogo | `/catalogo` | público |
 | Detalhe do produto | `/produtos/:id` | público |
 | Carrinho | `/carrinho` | público |
-| Login / Cadastro | `/entrar` | só deslogado (`guestGuard`) |
+| Login | `/entrar` | só deslogado (`guestGuard`) |
+| Cadastro | `/cadastrar` | só deslogado (`guestGuard`) |
 | Checkout | `/checkout` | logado (`authGuard`) |
 | Meus pedidos | `/pedidos` | logado (`authGuard`) |
 | Admin · Produtos | `/admin/produtos` | admin (`adminGuard`) |
@@ -119,7 +120,7 @@ O trabalho foi dividido em uma branch por módulo, **empilhadas** (cada uma part
 | 2 | `feat/catalog` | `/catalogo` (filtros na URL) e `/produtos/:id` |
 | 3 | `feat/home` | `/` com banner, benefícios, categorias e vitrines |
 | 4 | `feat/cart` | `/carrinho` com resumo e barra de frete grátis |
-| 5 | `feat/auth` | `/entrar` (login e cadastro) |
+| 5 | `feat/auth` | `/entrar` (login) e `/cadastrar` (cadastro), telas separadas com link uma para a outra |
 | 6 | `feat/checkout` | `/checkout` e `POST /orders` |
 | 7 | `feat/orders` | `/pedidos` com filtro, linha do tempo e cancelamento |
 | 8 | `feat/admin` | `/admin/produtos`, formulário de produto e `/admin/pedidos` |

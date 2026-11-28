@@ -1,0 +1,26 @@
+<div class="container wrap">
+  <section class="card" aria-labelledby="t-reg">
+    <h1 id="t-reg">Crie sua conta</h1>
+    <p class="sub">Leva menos de um minuto.</p>
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      @if (error()) { <p class="alert error" role="alert">{{ error() }}</p> }
+      <div class="field"><label for="r-name">Nome completo</label>
+        <input id="r-name" formControlName="name" autocomplete="name" placeholder="João Pedro" />
+        @if (err('name'); as m) { <span class="error">{{ m }}</span> }</div>
+      <div class="field"><label for="r-email">E-mail</label>
+        <input id="r-email" type="email" formControlName="email" autocomplete="email" placeholder="voce@email.com" />
+        @if (err('email'); as m) { <span class="error">{{ m }}</span> }</div>
+      <div class="two">
+        <div class="field"><label for="r-pass">Senha</label>
+          <input id="r-pass" type="password" formControlName="password" autocomplete="new-password" placeholder="••••••••" />
+          @if (err('password'); as m) { <span class="error">{{ m }}</span> }</div>
+        <div class="field"><label for="r-conf">Confirmar senha</label>
+          <input id="r-conf" type="password" formControlName="confirm" autocomplete="new-password" placeholder="••••••••" />
+          @if (form.controls['confirm'].touched && form.errors?.['mismatch']) { <span class="error">{{ mismatch }}</span> }</div>
+      </div>
+      <button uiButton variant="cta" size="lg" [block]="true" type="submit" [disabled]="busy()">{{ busy() ? 'Criando…' : 'Criar conta' }}</button>
+      <p class="note">Mínimo de 8 caracteres na senha</p>
+    </form>
+    <p class="switch">Já tem conta? <a routerLink="/entrar" queryParamsHandling="preserve">Entrar</a></p>
+  </section>
+</div>

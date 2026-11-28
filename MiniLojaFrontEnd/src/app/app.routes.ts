@@ -18,12 +18,13 @@ import { ShopShellComponent } from './shared/layout/shop-shell/shop-shell.compon
 export const routes: Routes = [
   // ── Fluxos enxutos ───────────────────────────────────────────────
   {
-    path: 'entrar',
+    path: '',
     component: FocusShellComponent,
     data: { note: 'Precisa de ajuda?' },
-    canActivate: [guestGuard], // logado não vê login
+    canActivate: [guestGuard], // logado não vê login nem cadastro
     children: [
-      { path: '', title: 'Entrar · MiniLoja', loadComponent: () => import('./features/auth/pages/auth/auth.page').then((m) => m.AuthPage) },
+      { path: 'entrar', title: 'Entrar · MiniLoja', loadComponent: () => import('./features/auth/pages/login/login.page').then((m) => m.LoginPage) },
+      { path: 'cadastrar', title: 'Criar conta · MiniLoja', loadComponent: () => import('./features/auth/pages/register/register.page').then((m) => m.RegisterPage) },
     ],
   },
   {
