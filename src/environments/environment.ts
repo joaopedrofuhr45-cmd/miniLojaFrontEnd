@@ -3,5 +3,5 @@ export const environment = {
   production: false,
   apiUrl: '/api',
   /** Só em dev: usuário e dados (produtos, categorias) fictícios, sem backend. Ponha `false` para usar o Spring Boot de verdade. */
-  mock: true,
+  mock: false,
 };
