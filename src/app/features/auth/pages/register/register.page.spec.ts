@@ -22,8 +22,8 @@ describe('RegisterPage', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('deve ter o link para a outra tela', () => {
-    const href = (fixture.nativeElement as HTMLElement).querySelector('.switch a')?.getAttribute('href');
+  it('deve ter a aba que leva para a outra tela', () => {
+    const href = (fixture.nativeElement as HTMLElement).querySelector('.tabs a:not(.on)')?.getAttribute('href');
     expect(href).toBe('/entrar');
   });
 });

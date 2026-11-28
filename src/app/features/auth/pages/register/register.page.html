@@ -1,5 +1,9 @@
 <div class="container wrap">
   <section class="card" aria-labelledby="t-reg">
+    <nav class="tabs" aria-label="Acesso à conta">
+      <a routerLink="/entrar" queryParamsHandling="preserve">Entrar</a>
+      <a routerLink="/cadastrar" queryParamsHandling="preserve" class="on" aria-current="page">Criar conta</a>
+    </nav>
     <h1 id="t-reg">Crie sua conta</h1>
     <p class="sub">Leva menos de um minuto.</p>
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -21,6 +25,5 @@
       <button uiButton variant="cta" size="lg" [block]="true" type="submit" [disabled]="busy()">{{ busy() ? 'Criando…' : 'Criar conta' }}</button>
       <p class="note">Mínimo de 8 caracteres na senha</p>
     </form>
-    <p class="switch">Já tem conta? <a routerLink="/entrar" queryParamsHandling="preserve">Entrar</a></p>
   </section>
 </div>

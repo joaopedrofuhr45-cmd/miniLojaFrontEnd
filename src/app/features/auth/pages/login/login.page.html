@@ -1,5 +1,9 @@
 <div class="container wrap">
   <section class="card" aria-labelledby="t-login">
+    <nav class="tabs" aria-label="Acesso à conta">
+      <a routerLink="/entrar" queryParamsHandling="preserve" class="on" aria-current="page">Entrar</a>
+      <a routerLink="/cadastrar" queryParamsHandling="preserve">Criar conta</a>
+    </nav>
     <h1 id="t-login">Que bom te ver de novo</h1>
     <p class="sub">Entre para acompanhar pedidos e comprar mais rápido.</p>
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
@@ -17,6 +21,5 @@
       <button uiButton variant="cta" size="lg" [block]="true" type="submit" [disabled]="busy()">{{ busy() ? 'Entrando…' : 'Entrar' }}</button>
       <p class="note"><ui-icon name="lock" [size]="14" /> Seus dados ficam protegidos</p>
     </form>
-    <p class="switch">Ainda não tem conta? <a routerLink="/cadastrar" queryParamsHandling="preserve">Criar conta</a></p>
   </section>
 </div>
