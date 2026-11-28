@@ -17,14 +17,23 @@ import { ShopShellComponent } from './shared/layout/shop-shell/shop-shell.compon
  */
 export const routes: Routes = [
   // ── Fluxos enxutos ───────────────────────────────────────────────
+  // Um pai com `path: ''` casaria também com a URL `/` (e mostraria o shell vazio), por isso cada tela tem o seu.
   {
-    path: '',
+    path: 'entrar',
     component: FocusShellComponent,
     data: { note: 'Precisa de ajuda?' },
-    canActivate: [guestGuard], // logado não vê login nem cadastro
+    canActivate: [guestGuard], // logado não vê login
     children: [
-      { path: 'entrar', title: 'Entrar · MiniLoja', loadComponent: () => import('./features/auth/pages/login/login.page').then((m) => m.LoginPage) },
-      { path: 'cadastrar', title: 'Criar conta · MiniLoja', loadComponent: () => import('./features/auth/pages/register/register.page').then((m) => m.RegisterPage) },
+      { path: '', title: 'Entrar · MiniLoja', loadComponent: () => import('./features/auth/pages/login/login.page').then((m) => m.LoginPage) },
+    ],
+  },
+  {
+    path: 'cadastrar',
+    component: FocusShellComponent,
+    data: { note: 'Precisa de ajuda?' },
+    canActivate: [guestGuard], // logado não vê cadastro
+    children: [
+      { path: '', title: 'Criar conta · MiniLoja', loadComponent: () => import('./features/auth/pages/register/register.page').then((m) => m.RegisterPage) },
     ],
   },
   {
