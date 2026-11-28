@@ -5,7 +5,7 @@
 }
 .ship {
   padding: 12px 16px;
-  border: 1px solid #bfe3cd;
+  border: 1px solid rgba(143, 199, 154, 0.35);
   border-radius: var(--radius);
   background: var(--ok-soft);
   color: var(--ok);
@@ -15,7 +15,7 @@
 .bar {
   height: 5px;
   border-radius: 3px;
-  background: #c8e8d4;
+  background: rgba(143, 199, 154, 0.25);
   overflow: hidden;
 }
 .bar span {

@@ -7,9 +7,9 @@
   padding: 36px 42px;
   border-radius: 12px;
   overflow: hidden;
-  color: #fff;
+  color: var(--ink);
   isolation: isolate;
-  box-shadow: 0 18px 40px rgba(11, 63, 60, 0.22);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 /* camadas de cor: o degradê desliza com o scroll e o slide ativo aparece com fade */
@@ -85,21 +85,21 @@ p {
   height: 116px;
   top: 0;
   left: 22%;
-  color: #6c74f0;
+  color: #e39a6a;
 }
 .b {
   width: 116px;
   height: 116px;
   top: 28px;
   left: 52%;
-  color: #ec4c9b;
+  color: #7c8f6e;
 }
 .c {
   width: 96px;
   height: 96px;
   top: 88px;
   left: 32%;
-  color: #2dbe85;
+  color: #efebdd;
 }
 
 .dots {
@@ -134,7 +134,7 @@ p {
 .fill {
   position: absolute;
   inset: 0;
-  background: #fff;
+  background: var(--surface);
   transform-origin: left;
   transform: scaleX(0);
   animation: fill linear forwards;

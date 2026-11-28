@@ -9,7 +9,7 @@ button {
   padding: 0 8px;
   display: inline-grid;
   place-items: center;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-weight: 600;
@@ -20,7 +20,7 @@ button:hover:not(:disabled) {
 button.active {
   background: var(--brand);
   border-color: var(--brand);
-  color: #fff;
+  color: var(--on-brand);
 }
 button:disabled {
   opacity: 0.45;

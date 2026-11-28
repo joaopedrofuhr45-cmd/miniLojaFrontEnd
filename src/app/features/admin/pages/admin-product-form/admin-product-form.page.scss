@@ -55,7 +55,7 @@ h2 {
   font-size: 12px;
 }
 .pill.off {
-  background: #ececec;
+  background: var(--line);
   color: var(--ink2);
 }
 .toggle input:focus-visible + .pill {
@@ -68,9 +68,9 @@ h2 {
   align-content: center;
   gap: 6px;
   min-height: 190px;
-  border: 2px dashed #c4c8d4;
+  border: 2px dashed var(--line-strong);
   border-radius: 8px;
-  background: #f6f7f9;
+  background: var(--surface-2);
   color: var(--brand);
   text-align: center;
   overflow: hidden;

@@ -8,7 +8,7 @@ main {
 }
 .strip {
   background: var(--brand-deep);
-  color: #fff;
+  color: var(--ink);
   text-align: center;
   font-size: 12px;
   padding: 6px 12px;
@@ -18,13 +18,15 @@ main {
   top: 0;
   z-index: 30;
   /* ao rolar, o header escurece e ganha sombra (a classe `scrolled` vem do ScrollEffectsService) */
-  background: var(--brand);
+  background: var(--brand-deep);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
   transition:
     background-color 0.35s ease,
     box-shadow 0.35s ease;
 }
 :host-context(html.scrolled) .hdr {
-  background: var(--brand-deep);
+  background: var(--surface-2);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
 }
 .row {
@@ -48,9 +50,9 @@ main {
   align-items: center;
   height: 44px;
   padding: 0 4px 0 20px;
-  background: #fff;
+  background: var(--bg);
   border-radius: 999px;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 1px var(--line-strong);
   transition:
     box-shadow 0.3s,
     transform 0.3s;
@@ -78,7 +80,7 @@ main {
   border: 0;
   border-radius: 50%;
   background: var(--cta);
-  color: #fff;
+  color: var(--on-brand);
   transition:
     transform 0.25s,
     background 0.2s;
@@ -91,11 +93,11 @@ main {
   display: flex;
   align-items: center;
   gap: 22px;
-  color: #fff;
+  color: var(--ink);
 }
 .actions a,
 .acc-btn {
-  color: #fff;
+  color: var(--ink);
 }
 .acc-btn {
   display: grid;
@@ -163,7 +165,7 @@ main {
   left: 0;
   min-width: 160px;
   padding: 6px;
-  background: #fff;
+  background: var(--surface);
   border-radius: var(--radius);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
 }
@@ -186,7 +188,7 @@ main {
   background: var(--brand-soft);
 }
 .menu-bar {
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 1px 0 var(--line);
 }
 .menu-bar .row {

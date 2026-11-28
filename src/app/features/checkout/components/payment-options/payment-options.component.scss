@@ -7,7 +7,7 @@ label {
   align-items: center;
   gap: 14px;
   padding: 12px 16px;
-  border: 1px solid #cfcfcf;
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
   cursor: pointer;
   color: var(--ink2);
@@ -29,7 +29,7 @@ input:focus-visible + .radio {
 .radio {
   width: 20px;
   height: 20px;
-  border: 2px solid #9a9a9a;
+  border: 2px solid var(--muted);
   border-radius: 50%;
   display: grid;
   place-items: center;

@@ -72,7 +72,7 @@
 :host([data-variant='outline'])::after,
 :host([data-variant='ghost'])::after,
 :host([data-variant='line'])::after {
-  background: linear-gradient(110deg, transparent 30%, rgba(11, 110, 105, 0.14) 50%, transparent 70%);
+  background: linear-gradient(110deg, transparent 30%, rgba(124, 143, 110, 0.14) 50%, transparent 70%);
 }
 :host(:hover:not(:disabled)) {
   transform: translateY(-1px);
@@ -96,28 +96,28 @@
 }
 :host([data-variant='cta']) {
   background: var(--cta);
-  color: #fff;
+  color: var(--on-brand);
 }
 :host([data-variant='cta']:hover) {
   background: var(--cta-hover);
-  box-shadow: 0 8px 20px rgba(201, 61, 27, 0.35);
+  box-shadow: 0 8px 20px rgba(227, 154, 106, 0.35);
 }
 :host([data-variant='outline']) {
-  background: #fff;
+  background: var(--surface);
   color: var(--brand);
   border-color: var(--brand);
 }
 :host([data-variant='outline']:hover) {
   background: var(--brand-soft);
-  box-shadow: 0 6px 16px rgba(11, 110, 105, 0.18);
+  box-shadow: 0 6px 16px rgba(124, 143, 110, 0.18);
 }
 :host([data-variant='line']) {
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
-  border-color: #cfcfcf;
+  border-color: var(--line-strong);
 }
 :host([data-variant='line']:hover) {
-  background: #f7f7f7;
+  background: var(--surface-2);
 }
 :host([data-variant='ghost']) {
   background: transparent;
@@ -131,7 +131,7 @@
   color: var(--danger);
 }
 :host([data-variant='danger']:hover) {
-  background: #f9d0d7;
+  background: rgba(236, 138, 148, 0.28);
 }
 :host(:disabled),
 :host([disabled]) {

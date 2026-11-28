@@ -41,9 +41,9 @@ a:hover .circle,
 a:focus-visible .circle {
   transform: scale(1.12) rotate(-5deg);
   box-shadow:
-    0 0 0 3px #fff,
+    0 0 0 3px var(--bg),
     0 0 0 5px var(--brand),
-    0 10px 20px rgba(11, 110, 105, 0.3);
+    0 10px 20px rgba(124, 143, 110, 0.3);
 }
 @media (prefers-reduced-motion: reduce) {
   a,
