@@ -93,11 +93,11 @@ Cada imagem mostra, na barra escura inferior, o que a tela consome da API.
 - Confirmar → `POST /api/orders`. Sucesso: limpa o carrinho e navega para `/pedidos`. Erro 422 (estoque): mostra a mensagem do back e mantém o carrinho.
 - Desabilitar o botão enquanto a request está em andamento (evita pedido duplicado).
 
-### 3.5 Login / Cadastro — `/entrar` (`guestGuard`)
+### 3.5 Login e Cadastro — `/entrar` e `/cadastrar` (`guestGuard`)
 
 <img src="docs/telas/05-login-cadastro.png" alt="Login e cadastro" width="760">
 
-- Uma página com duas abas (`?aba=cadastro`). No desktop dá pra mostrar lado a lado, no mobile vira abas.
+- Duas telas separadas, cada uma com um link para a outra ("Criar conta" / "Entrar") que mantém o `returnUrl`.
 - Sucesso: guarda `{ token, user }` no `AuthStore` e vai para `returnUrl` (ou `/catalogo`).
 - API: `POST /api/auth/login`, `POST /api/auth/register`.
 
@@ -146,7 +146,8 @@ Cada imagem mostra, na barra escura inferior, o que a tela consome da API.
 | `/catalogo` | CatalogPage | público |
 | `/produtos/:id` | ProductDetailPage | público |
 | `/carrinho` | CartPage | público |
-| `/entrar` | AuthPage | `guestGuard` (logado vai pro catálogo) |
+| `/entrar` | LoginPage | `guestGuard` (logado vai pro catálogo) |
+| `/cadastrar` | RegisterPage | `guestGuard` |
 | `/checkout` | CheckoutPage | `authGuard` |
 | `/pedidos` | OrdersPage | `authGuard` |
 | `/admin` | AdminShell (sidebar) | `adminGuard` |
@@ -210,7 +211,7 @@ src/
       │  ├─ models/               # order.ts
       │  └─ orders.routes.ts
       ├─ auth/
-      │  ├─ pages/                # auth.page.ts (abas login / cadastro)
+      │  ├─ pages/                # login.page.ts, register.page.ts
       │  └─ auth.routes.ts
       └─ admin/
          ├─ products/             # pages/, components/, data/admin-products.api.ts
