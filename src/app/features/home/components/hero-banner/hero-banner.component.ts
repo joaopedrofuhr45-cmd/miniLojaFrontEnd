@@ -11,9 +11,9 @@ const SLIDES: Slide[] = [
   { tag: 'MENOR PREÇO', title: 'Achados para o seu bolso', text: 'Ordene do menor preço e compre sem pesar no orçamento.', cta: 'Ver menores preços', hover: 'Quero pagar menos', query: { ordem: 'menor-preco' }, bg: 'linear-gradient(100deg, #44301f 0%, #77523a 50%, #bf8259 100%)' },
 ];
 
-const AUTOPLAY_MS = 6500;
+const AUTOPLAY_MS = 3000;
 
-/** Banner da home: troca sozinho de slide (e de cor), pausa com mouse/foco e respeita movimento reduzido. */
+/** Banner da home: troca sozinho de slide (e de cor) a cada 3s e pausa com mouse/foco. */
 @Component({
   selector: 'app-hero-banner',
   standalone: true,
@@ -28,7 +28,7 @@ export class HeroBannerComponent {
   protected readonly paused = signal(false);
 
   constructor() {
-    if (typeof window === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (typeof window === 'undefined') return;
     const timer = setInterval(() => {
       if (!this.paused()) this.i.update((n) => (n + 1) % SLIDES.length);
     }, AUTOPLAY_MS);
