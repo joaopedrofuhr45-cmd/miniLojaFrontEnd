@@ -6,9 +6,9 @@ import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 interface Slide { tag: string; title: string; text: string; cta: string; hover: string; query: Record<string, string | number>; bg: string; }
 
 const SLIDES: Slide[] = [
-  { tag: 'OFERTAS DA SEMANA', title: 'Até 30% OFF em produtos selecionados', text: 'Frete grátis acima de R$ 199 e parcelamento em até 10x sem juros.', cta: 'Ver ofertas', hover: 'Bora economizar', query: { desconto: 1 }, bg: 'linear-gradient(100deg, #0d746d 0%, #0b6e69 45%, #8aa660 100%)' },
-  { tag: 'LANÇAMENTOS', title: 'Novidades chegando toda semana', text: 'Veja primeiro o que acabou de entrar no catálogo.', cta: 'Ver lançamentos', hover: 'Quero ver primeiro', query: { ordem: 'lancamentos' }, bg: 'linear-gradient(100deg, #0b3f3c 0%, #24508f 55%, #6c74f0 100%)' },
-  { tag: 'MENOR PREÇO', title: 'Achados para o seu bolso', text: 'Ordene do menor preço e compre sem pesar no orçamento.', cta: 'Ver menores preços', hover: 'Quero pagar menos', query: { ordem: 'menor-preco' }, bg: 'linear-gradient(100deg, #8f2a12 0%, #c93d1b 50%, #f08a3c 100%)' },
+  { tag: 'OFERTAS DA SEMANA', title: 'Até 30% OFF em produtos selecionados', text: 'Frete grátis acima de R$ 199 e parcelamento em até 10x sem juros.', cta: 'Ver ofertas', hover: 'Bora economizar', query: { desconto: 1 }, bg: 'linear-gradient(100deg, #2b3527 0%, #3a4a33 50%, #5c6e50 100%)' },
+  { tag: 'LANÇAMENTOS', title: 'Novidades chegando toda semana', text: 'Veja primeiro o que acabou de entrar no catálogo.', cta: 'Ver lançamentos', hover: 'Quero ver primeiro', query: { ordem: 'lancamentos' }, bg: 'linear-gradient(100deg, #232b20 0%, #2b3527 50%, #4b5a44 100%)' },
+  { tag: 'MENOR PREÇO', title: 'Achados para o seu bolso', text: 'Ordene do menor preço e compre sem pesar no orçamento.', cta: 'Ver menores preços', hover: 'Quero pagar menos', query: { ordem: 'menor-preco' }, bg: 'linear-gradient(100deg, #3a2a1e 0%, #6b4a33 50%, #b57a52 100%)' },
 ];
 
 const AUTOPLAY_MS = 6500;

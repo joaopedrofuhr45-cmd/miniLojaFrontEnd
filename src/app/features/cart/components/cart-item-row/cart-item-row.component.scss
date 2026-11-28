@@ -31,7 +31,7 @@
 .stepper {
   display: inline-flex;
   align-items: center;
-  border: 1px solid #cfcfcf;
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
 }
 .stepper button {

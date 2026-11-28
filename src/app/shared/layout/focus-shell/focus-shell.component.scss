@@ -14,13 +14,15 @@ header {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: var(--brand);
+  background: var(--brand-deep);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
   transition:
     background-color 0.35s ease,
     box-shadow 0.35s ease;
 }
 :host-context(html.scrolled) header {
-  background: var(--brand-deep);
+  background: var(--surface-2);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
 }
 header a {
@@ -48,7 +50,7 @@ header a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #fff;
+  color: var(--ink);
   font-size: 13px;
   opacity: 0.92;
 }

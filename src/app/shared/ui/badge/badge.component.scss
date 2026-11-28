@@ -29,6 +29,6 @@
   color: var(--brand);
 }
 :host([data-tone='neutral']) {
-  background: #ececec;
+  background: var(--line);
   color: var(--ink2);
 }

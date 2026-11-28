@@ -12,9 +12,9 @@ h1 {
 }
 .tabs button {
   padding: 8px 18px;
-  border: 1px solid #cfcfcf;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
-  background: #fff;
+  background: var(--surface);
 }
 .tabs .on {
   border-color: var(--brand);

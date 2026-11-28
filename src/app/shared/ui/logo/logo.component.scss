@@ -5,7 +5,7 @@
   line-height: 1;
 }
 :host([data-on='dark']) {
-  color: #fff;
+  color: var(--ink);
 }
 :host([data-on='dark']) span {
   color: var(--accent);

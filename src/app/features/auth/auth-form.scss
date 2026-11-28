@@ -25,7 +25,7 @@
   gap: 8px;
   padding: 7px 14px 7px 12px;
   border-radius: 999px;
-  background: #fff;
+  background: var(--surface);
   box-shadow: var(--shadow);
   color: var(--brand);
   font-weight: 600;
@@ -42,8 +42,8 @@
 .back:hover,
 .back:focus-visible {
   background: var(--brand);
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(11, 110, 105, 0.3);
+  color: var(--on-brand);
+  box-shadow: 0 8px 18px rgba(124, 143, 110, 0.3);
 }
 .back:hover .arrow,
 .back:focus-visible .arrow {
@@ -64,12 +64,12 @@
 .b1 {
   top: -170px;
   left: 2%;
-  background: radial-gradient(closest-side, rgba(11, 110, 105, 0.3), transparent);
+  background: radial-gradient(closest-side, rgba(124, 143, 110, 0.3), transparent);
 }
 .b2 {
   right: 0;
   bottom: -150px;
-  background: radial-gradient(closest-side, rgba(246, 196, 83, 0.5), transparent);
+  background: radial-gradient(closest-side, rgba(227, 154, 106, 0.5), transparent);
 }
 @media (prefers-reduced-motion: no-preference) {
   .stack {
@@ -148,7 +148,7 @@ form {
   gap: 4px;
   padding: 3px;
   margin-bottom: 20px;
-  background: #ececec;
+  background: var(--line);
   border-radius: 8px;
 }
 .tabs a {
@@ -167,10 +167,10 @@ form {
 }
 .tabs a:not(.on):hover {
   color: var(--brand);
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(239, 235, 221, 0.08);
 }
 .tabs a.on {
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   font-weight: 600;
   box-shadow: var(--shadow);

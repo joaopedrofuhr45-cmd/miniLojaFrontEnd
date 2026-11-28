@@ -18,8 +18,8 @@ li {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: #d4d4d4;
-  color: #fff;
+  background: var(--line-strong);
+  color: var(--on-brand);
   font-size: 12px;
 }
 .done,
@@ -36,7 +36,7 @@ li {
 .line {
   flex: 1;
   height: 2px;
-  background: #d4d4d4;
+  background: var(--line-strong);
   min-width: 24px;
 }
 .line.done {
