@@ -1,6 +1,7 @@
 <header>
   <div class="container row">
     <a routerLink="/" aria-label="MiniLoja — início"><ui-logo /></a>
+    <button type="button" class="theme-btn" (click)="theme.toggle()" [attr.aria-label]="theme.theme() === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'"><ui-icon [name]="theme.theme() === 'dark' ? 'sun' : 'moon'" [size]="20" /></button>
     <span class="note">@if (icon) { <ui-icon [name]="icon" [size]="16" /> } {{ note }}</span>
   </div>
 </header>

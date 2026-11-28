@@ -96,7 +96,7 @@
 }
 :host([data-variant='cta']) {
   background: var(--cta);
-  color: var(--on-brand);
+  color: var(--on-cta);
 }
 :host([data-variant='cta']:hover) {
   background: var(--cta-hover);

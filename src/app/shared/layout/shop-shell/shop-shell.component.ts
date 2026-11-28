@@ -6,6 +6,7 @@ import { BrlPipe } from '../../pipes/brl/brl.pipe';
 import { Category } from '../../models/category';
 import { IconComponent } from '../../ui/icon/icon.component';
 import { LogoComponent } from '../../ui/logo/logo.component';
+import { ThemeService } from '../../../core/theme.service';
 import { AuthStore } from '../../../core/auth/services/auth.store';
 import { CartStore } from '../../../features/cart/services/cart.store';
 import { CategoriesApi } from '../../../features/catalog/services/categories.api';
@@ -23,6 +24,7 @@ import { SwapComponent } from '../../ui/swap/swap.component';
 })
 export class ShopShellComponent {
   protected readonly auth = inject(AuthStore);
+  protected readonly theme = inject(ThemeService);
   protected readonly cart = inject(CartStore);
   private readonly router = inject(Router);
   protected readonly info = inject(StoreInfoStore).info;
