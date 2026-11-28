@@ -11,12 +11,13 @@ import { CartStore } from '../../../features/cart/services/cart.store';
 import { CategoriesApi } from '../../../features/catalog/services/categories.api';
 import { StoreInfoStore } from '../../services/store-info.store';
 import { ShopFooterComponent } from '../shop-footer/shop-footer.component';
+import { SwapComponent } from '../../ui/swap/swap.component';
 
 /** Layout da loja: faixa de benefícios, header com busca, menu de categorias, conteúdo e footer. */
 @Component({
   selector: 'app-shop-shell',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, BrlPipe, IconComponent, LogoComponent, ShopFooterComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, BrlPipe, IconComponent, LogoComponent, ShopFooterComponent, SwapComponent],
   templateUrl: './shop-shell.component.html',
   styleUrl: './shop-shell.component.scss',
 })

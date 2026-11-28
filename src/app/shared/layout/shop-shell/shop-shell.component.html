@@ -18,14 +18,14 @@
             <button type="button" (click)="logout()">Sair</button>
           </div>
         } @else {
-          <a routerLink="/entrar" class="acc-btn"><strong>Entrar</strong><small>ou cadastre-se</small></a>
+          <a routerLink="/entrar" class="acc-btn"><strong><ui-swap text="Entrar" hover="Vamos lá" /></strong><small><ui-swap text="ou cadastre-se" hover="é rapidinho" /></small></a>
         }
       </div>
-      <a routerLink="/pedidos" class="acc-btn"><strong>Meus</strong><small>pedidos</small></a>
+      <a routerLink="/pedidos" class="acc-btn"><strong><ui-swap text="Meus" hover="Onde está" /></strong><small><ui-swap text="pedidos" hover="meu pedido?" /></small></a>
       <a routerLink="/catalogo" class="icon" aria-label="Favoritos"><ui-icon name="heart" [size]="24" /></a>
       <a routerLink="/carrinho" class="icon" [attr.aria-label]="'Carrinho, ' + cart.count() + ' itens'">
         <ui-icon name="cart" [size]="26" />
-        @if (cart.count() > 0) { <span class="count">{{ cart.count() }}</span> }
+        @if (cart.count() > 0) { @for (n of [cart.count()]; track n) { <span class="count">{{ n }}</span> } }
       </a>
     </nav>
   </div>
@@ -36,9 +36,9 @@
     @for (c of categories(); track c.id) {
       <a routerLink="/catalogo" [queryParams]="{ categoria: c.id }">{{ c.name }}</a>
     }
-    <a routerLink="/catalogo" [queryParams]="{ desconto: 1 }" class="hot">Ofertas</a>
-    <a routerLink="/catalogo" [queryParams]="{ ordem: 'lancamentos' }">Lançamentos</a>
-    <a href="#" class="help">Ajuda</a>
+    <a routerLink="/catalogo" [queryParams]="{ desconto: 1 }" class="hot"><ui-swap text="Ofertas" hover="Aproveite" /></a>
+    <a routerLink="/catalogo" [queryParams]="{ ordem: 'lancamentos' }"><ui-swap text="Lançamentos" hover="Novidades" /></a>
+    <a href="#" class="help"><ui-swap text="Ajuda" hover="Fale conosco" /></a>
   </div>
 </nav>
 <main><router-outlet /></main>

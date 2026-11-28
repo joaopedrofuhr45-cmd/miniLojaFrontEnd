@@ -6,13 +6,14 @@ import { AuthApi } from '../../../../core/auth/services/auth.api';
 import { AuthStore } from '../../../../core/auth/services/auth.store';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { SwapComponent } from '../../../../shared/ui/swap/swap.component';
 import { applyServerError, fieldError, safeReturnUrl } from '../../auth-form';
 
 /** Tela de login (/entrar). O link "Criar conta" leva para /cadastrar mantendo o returnUrl. */
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, ButtonComponent, IconComponent],
+  imports: [ReactiveFormsModule, RouterLink, ButtonComponent, IconComponent, SwapComponent],
   templateUrl: './login.page.html',
   styleUrls: ['../../auth-form.scss', './login.page.scss'],
 })

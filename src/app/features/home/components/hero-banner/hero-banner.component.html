@@ -1,18 +1,39 @@
-<section class="hero" aria-roledescription="carrossel">
-  <div class="copy">
-    <span class="tag">{{ slide().tag }}</span>
-    <h1>{{ slide().title }}</h1>
-    <p>{{ slide().text }}</p>
-    <a uiButton variant="cta" size="lg" routerLink="/catalogo" [queryParams]="slide().query">{{ slide().cta }}</a>
-  </div>
+<section
+  class="hero"
+  [class.paused]="paused()"
+  aria-roledescription="carrossel"
+  (mouseenter)="paused.set(true)"
+  (mouseleave)="paused.set(false)"
+  (focusin)="paused.set(true)"
+  (focusout)="paused.set(false)"
+>
+  <!-- uma camada de cor por slide: a troca é um fade entre degradês -->
+  @for (s of slides; track s.tag; let n = $index) {
+    <div class="bg" [class.on]="n === i()" [style.background]="s.bg" aria-hidden="true"></div>
+  }
+  <div class="glow" aria-hidden="true"></div>
+
+  <!-- recriado a cada slide, para a entrada do texto tocar de novo -->
+  @for (s of [slide()]; track s.tag) {
+    <div class="copy" aria-live="polite">
+      <span class="tag">{{ s.tag }}</span>
+      <h1>{{ s.title }}</h1>
+      <p>{{ s.text }}</p>
+      <a uiButton variant="cta" size="lg" routerLink="/catalogo" [queryParams]="s.query" [hoverText]="s.hover">{{ s.cta }}</a>
+    </div>
+  }
+
   <div class="art" aria-hidden="true">
-    <span class="sq a"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span>
-    <span class="sq b"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span>
-    <span class="sq c"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span>
+    <span class="sq a"><span class="ico"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span></span>
+    <span class="sq b"><span class="ico"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span></span>
+    <span class="sq c"><span class="ico"><ui-icon name="cube" [size]="44" [stroke]="1.4" /></span></span>
   </div>
+
   <div class="dots">
-    @for (s of slides; track $index) {
-      <button type="button" [class.on]="$index === i()" [attr.aria-label]="'Slide ' + ($index + 1)" [attr.aria-current]="$index === i()" (click)="i.set($index)"></button>
+    @for (s of slides; track s.tag; let n = $index) {
+      <button type="button" [class.on]="n === i()" [attr.aria-label]="'Slide ' + (n + 1)" [attr.aria-current]="n === i()" (click)="go(n)">
+        @if (n === i()) { <span class="fill" [style.animation-duration.ms]="autoplayMs"></span> }
+      </button>
     }
   </div>
 </section>

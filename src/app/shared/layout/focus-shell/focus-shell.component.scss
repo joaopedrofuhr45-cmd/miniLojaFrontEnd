@@ -5,9 +5,32 @@
 }
 main {
   flex: 1;
+  /* as manchas de cor do login ocupam a área toda; `clip` não cria rolagem e não quebra elementos sticky */
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
 }
 header {
-  background: var(--brand);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in oklab, var(--brand), var(--brand-deep) calc(var(--hdr-t, 0) * 100%));
+  box-shadow: 0 calc(var(--hdr-t, 0) * 8px) calc(var(--hdr-t, 0) * 24px) rgba(0, 0, 0, calc(var(--hdr-t, 0) * 0.28));
+}
+header a {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+header a:hover {
+  transform: scale(1.06) rotate(-2deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  header a {
+    transition: none;
+  }
+  header a:hover {
+    transform: none;
+  }
 }
 .row {
   display: flex;

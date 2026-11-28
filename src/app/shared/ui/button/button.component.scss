@@ -13,9 +13,73 @@
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   transition:
-    background 0.15s,
-    border-color 0.15s;
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.25s,
+    transform 0.2s;
+}
+/* conteúdo: o rótulo e (se houver) o texto do hover ocupam a mesma célula */
+.a,
+.b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  grid-area: 1 / 1;
+  transition:
+    transform 0.38s cubic-bezier(0.7, 0, 0.2, 1),
+    opacity 0.38s;
+}
+:host(.has-swap) {
+  display: inline-grid;
+  place-items: center;
+}
+:host(.has-swap.block) {
+  display: grid;
+}
+.b {
+  transform: translateY(120%);
+  opacity: 0;
+}
+:host(.has-swap:hover) .a,
+:host(.has-swap:focus-visible) .a {
+  transform: translateY(-120%);
+  opacity: 0;
+}
+:host(.has-swap:hover) .b,
+:host(.has-swap:focus-visible) .b {
+  transform: none;
+  opacity: 1;
+}
+/* brilho que cruza o botão no hover */
+:host::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.38) 50%, transparent 70%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+:host(:hover)::after {
+  transform: translateX(130%);
+  transition: transform 0.75s ease;
+}
+:host([data-variant='outline'])::after,
+:host([data-variant='ghost'])::after,
+:host([data-variant='line'])::after {
+  background: linear-gradient(110deg, transparent 30%, rgba(11, 110, 105, 0.14) 50%, transparent 70%);
+}
+:host(:hover:not(:disabled)) {
+  transform: translateY(-1px);
+}
+:host(:active:not(:disabled)) {
+  transform: translateY(1px) scale(0.98);
+  transition-duration: 0.08s;
 }
 :host(.block) {
   display: flex;
@@ -36,6 +100,7 @@
 }
 :host([data-variant='cta']:hover) {
   background: var(--cta-hover);
+  box-shadow: 0 8px 20px rgba(201, 61, 27, 0.35);
 }
 :host([data-variant='outline']) {
   background: #fff;
@@ -44,6 +109,7 @@
 }
 :host([data-variant='outline']:hover) {
   background: var(--brand-soft);
+  box-shadow: 0 6px 16px rgba(11, 110, 105, 0.18);
 }
 :host([data-variant='line']) {
   background: #fff;
@@ -72,4 +138,22 @@
   opacity: 0.55;
   cursor: not-allowed;
   pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host,
+  .a,
+  .b {
+    transition: none;
+  }
+  :host::after {
+    display: none;
+  }
+  :host(:hover:not(:disabled)),
+  :host(:active:not(:disabled)) {
+    transform: none;
+  }
+  .b {
+    transform: none;
+  }
 }

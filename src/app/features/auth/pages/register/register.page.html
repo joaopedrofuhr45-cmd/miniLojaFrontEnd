@@ -1,5 +1,9 @@
 <div class="container wrap">
-  <section class="card" aria-labelledby="t-reg">
+  <span class="blob b1" aria-hidden="true"></span>
+  <span class="blob b2" aria-hidden="true"></span>
+  <div class="stack">
+  <a class="back" routerLink="/"><span class="arrow" aria-hidden="true">←</span><ui-swap text="Voltar para a home" hover="Ir para a loja" /></a>
+  <section class="card" data-no-reveal aria-labelledby="t-reg">
     <nav class="tabs" aria-label="Acesso à conta">
       <a routerLink="/entrar" queryParamsHandling="preserve">Entrar</a>
       <a routerLink="/cadastrar" queryParamsHandling="preserve" class="on" aria-current="page">Criar conta</a>
@@ -22,8 +26,9 @@
           <input id="r-conf" type="password" formControlName="confirm" autocomplete="new-password" placeholder="••••••••" />
           @if (form.controls['confirm'].touched && form.errors?.['mismatch']) { <span class="error">{{ mismatch }}</span> }</div>
       </div>
-      <button uiButton variant="cta" size="lg" [block]="true" type="submit" [disabled]="busy()">{{ busy() ? 'Criando…' : 'Criar conta' }}</button>
+      <button uiButton variant="cta" size="lg" [block]="true" type="submit" [disabled]="busy()" hoverText="Começar agora">{{ busy() ? 'Criando…' : 'Criar conta' }}</button>
       <p class="note">Mínimo de 8 caracteres na senha</p>
     </form>
   </section>
+  </div>
 </div>

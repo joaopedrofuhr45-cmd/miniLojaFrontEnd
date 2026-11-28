@@ -8,8 +8,26 @@
   align-items: baseline;
 }
 .head a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
   font-size: 13px;
   font-weight: 600;
+}
+.arr {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.all:hover .arr {
+  transform: translateX(5px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .arr {
+    transition: none;
+  }
+  .all:hover .arr {
+    transform: none;
+  }
 }
 .grid {
   display: grid;

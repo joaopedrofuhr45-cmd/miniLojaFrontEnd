@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthApi } from '../../../../core/auth/services/auth.api';
 import { AuthStore } from '../../../../core/auth/services/auth.store';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
+import { SwapComponent } from '../../../../shared/ui/swap/swap.component';
 import { applyServerError, authMessage, fieldError, safeReturnUrl } from '../../auth-form';
 
 const sameAsPassword = (g: AbstractControl): ValidationErrors | null =>
@@ -14,7 +15,7 @@ const sameAsPassword = (g: AbstractControl): ValidationErrors | null =>
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, ButtonComponent],
+  imports: [ReactiveFormsModule, RouterLink, ButtonComponent, SwapComponent],
   templateUrl: './register.page.html',
   styleUrls: ['../../auth-form.scss', './register.page.scss'],
 })

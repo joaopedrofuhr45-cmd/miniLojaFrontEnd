@@ -3,13 +3,41 @@
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   align-items: center;
-  min-height: 220px;
-  padding: 32px 38px;
-  border-radius: 8px;
+  min-height: 240px;
+  padding: 36px 42px;
+  border-radius: 12px;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(100deg, #0d746d 0%, #0b6e69 45%, #8aa660 100%);
+  isolation: isolate;
+  box-shadow: 0 18px 40px rgba(11, 63, 60, 0.22);
 }
+
+/* camadas de cor: o degradê desliza com o scroll e o slide ativo aparece com fade */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: 0;
+  background-size: 180% 100%;
+  background-position: calc(var(--scroll, 0) * 100%) 50%;
+  transition: opacity 1s ease;
+}
+.bg.on {
+  opacity: 1;
+}
+/* brilho que passeia atrás do texto */
+.glow {
+  position: absolute;
+  z-index: -1;
+  width: 420px;
+  height: 420px;
+  left: -120px;
+  top: -160px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.22), transparent);
+  pointer-events: none;
+}
+
 .copy {
   display: grid;
   gap: 14px;
@@ -19,30 +47,40 @@
   padding: 4px 12px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.04em;
 }
 h1 {
-  font-size: 38px;
-  line-height: 1.1;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  max-width: 440px;
+  font-size: 40px;
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  max-width: 460px;
+  text-wrap: balance;
 }
 p {
+  max-width: 420px;
   opacity: 0.95;
 }
+
 .art {
   position: relative;
-  height: 180px;
+  height: 190px;
 }
 .sq {
   position: absolute;
   display: grid;
   place-items: center;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.88);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.ico {
+  display: grid;
+  place-items: center;
 }
 .a {
   width: 116px;
@@ -61,33 +99,119 @@ p {
 .c {
   width: 96px;
   height: 96px;
-  top: 82px;
+  top: 88px;
   left: 32%;
   color: #2dbe85;
 }
+
 .dots {
   position: absolute;
-  bottom: 12px;
+  bottom: 14px;
   left: 50%;
   display: flex;
-  gap: 6px;
+  gap: 8px;
   transform: translateX(-50%);
 }
 .dots button {
-  width: 6px;
-  height: 6px;
+  position: relative;
+  width: 8px;
+  height: 8px;
   padding: 0;
+  overflow: hidden;
   border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  transition:
+    width 0.4s cubic-bezier(0.3, 1.4, 0.5, 1),
+    background 0.2s;
+}
+.dots button:hover {
+  background: rgba(255, 255, 255, 0.8);
 }
 .dots button.on {
-  background: #fff;
+  width: 34px;
+  background: rgba(255, 255, 255, 0.4);
 }
+/* barrinha que enche até o próximo slide */
+.fill {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: fill linear forwards;
+}
+.paused .fill {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* entrada orquestrada do texto a cada slide */
+  .copy > * {
+    animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .copy > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .copy > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .copy > :nth-child(4) {
+    animation-delay: 0.26s;
+  }
+  .glow {
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  /* parallax: cada cubo anda numa velocidade conforme o scroll; o ícone flutua por dentro */
+  .a {
+    transform: translateY(calc(var(--scroll-y, 0) * -0.1px));
+  }
+  .b {
+    transform: translateY(calc(var(--scroll-y, 0) * 0.08px));
+  }
+  .c {
+    transform: translateY(calc(var(--scroll-y, 0) * -0.18px));
+  }
+  .sq:hover {
+    transform: scale(1.1) rotate(-6deg);
+  }
+  .ico {
+    animation: float 5s ease-in-out infinite;
+  }
+  .b .ico {
+    animation-delay: -1.7s;
+  }
+  .c .ico {
+    animation-delay: -3.2s;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+@keyframes float {
+  50% {
+    transform: translateY(-9px) rotate(4deg);
+  }
+}
+@keyframes drift {
+  to {
+    transform: translate(280px, 120px);
+  }
+}
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     grid-template-columns: 1fr;
-    padding: 24px 20px 32px;
+    padding: 28px 20px 40px;
   }
   h1 {
     font-size: 28px;

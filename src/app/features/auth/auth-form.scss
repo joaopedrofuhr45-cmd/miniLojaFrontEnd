@@ -2,12 +2,105 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 56px 0 72px;
+  padding: 40px 0 72px;
 }
-.card {
+.stack {
+  position: relative;
+  display: grid;
+  gap: 14px;
   width: 440px;
   max-width: 100%;
+}
+.card {
+  width: 100%;
   padding: 32px;
+  box-shadow: 0 18px 44px rgba(11, 63, 60, 0.14);
+}
+
+/* voltar para a home: a seta recua no hover */
+.back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 12px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  color: var(--brand);
+  font-weight: 600;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.25s,
+    transform 0.25s;
+}
+.back .arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.back:hover,
+.back:focus-visible {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(11, 110, 105, 0.3);
+}
+.back:hover .arrow,
+.back:focus-visible .arrow {
+  transform: translateX(-5px);
+}
+
+/* manchas de cor que flutuam atrás do card */
+.blob {
+  position: absolute;
+  z-index: -1;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.b1 {
+  top: -80px;
+  left: 6%;
+  background: var(--brand);
+}
+.b2 {
+  right: 4%;
+  bottom: -60px;
+  background: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .stack {
+    animation: enter 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .b1 {
+    animation: roam 16s ease-in-out infinite alternate;
+  }
+  .b2 {
+    animation: roam 19s ease-in-out infinite alternate-reverse;
+  }
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.97);
+  }
+}
+@keyframes roam {
+  to {
+    transform: translate(90px, 60px) scale(1.18);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .back,
+  .back .arrow {
+    transition: none;
+  }
+  .back:hover .arrow {
+    transform: none;
+  }
 }
 h1 {
   font-size: 24px;
@@ -67,7 +160,17 @@ form {
   font-weight: 500;
   cursor: pointer;
 }
+.tabs a {
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+.tabs a:not(.on):hover {
+  color: var(--brand);
+  background: rgba(255, 255, 255, 0.6);
+}
 .tabs a.on {
+  view-transition-name: auth-tab;
   background: #fff;
   color: var(--ink);
   font-weight: 600;

@@ -14,7 +14,12 @@ main {
   padding: 6px 12px;
 }
 .hdr {
-  background: var(--brand);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  /* ao rolar, o header escurece, encolhe e ganha sombra (--hdr-t: 0..1) */
+  background: color-mix(in oklab, var(--brand), var(--brand-deep) calc(var(--hdr-t, 0) * 100%));
+  box-shadow: 0 calc(var(--hdr-t, 0) * 8px) calc(var(--hdr-t, 0) * 24px) rgba(0, 0, 0, calc(var(--hdr-t, 0) * 0.28));
 }
 .row {
   display: flex;
@@ -22,7 +27,14 @@ main {
   gap: 24px;
 }
 .hdr .row {
-  height: 72px;
+  height: calc(72px - var(--hdr-t, 0) * 14px);
+}
+.logo {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.logo:hover {
+  transform: scale(1.06) rotate(-2deg);
 }
 .search {
   flex: 1;
@@ -33,6 +45,15 @@ main {
   background: #fff;
   border-radius: 999px;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+  transition:
+    box-shadow 0.3s,
+    transform 0.3s;
+}
+.search:focus-within {
+  box-shadow:
+    0 0 0 3px var(--accent),
+    0 8px 22px rgba(0, 0, 0, 0.25);
+  transform: scale(1.015);
 }
 .search input {
   flex: 1;
@@ -52,6 +73,13 @@ main {
   border-radius: 50%;
   background: var(--cta);
   color: #fff;
+  transition:
+    transform 0.25s,
+    background 0.2s;
+}
+.search button:hover {
+  background: var(--cta-hover);
+  transform: rotate(-12deg) scale(1.1);
 }
 .actions {
   display: flex;
@@ -81,6 +109,19 @@ main {
 .icon {
   position: relative;
   display: inline-flex;
+  transition:
+    transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1),
+    color 0.2s;
+}
+.icon:hover {
+  transform: translateY(-3px) scale(1.12);
+  color: var(--accent);
+}
+.acc-btn {
+  transition: transform 0.2s;
+}
+.acc-btn:hover {
+  transform: translateY(-1px);
 }
 .count {
   position: absolute;
@@ -95,6 +136,15 @@ main {
   font-weight: 700;
   display: grid;
   place-items: center;
+  animation: bump 0.5s cubic-bezier(0.3, 1.8, 0.5, 1);
+}
+@keyframes bump {
+  0% {
+    transform: scale(0.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .account {
   position: relative;
@@ -142,6 +192,17 @@ main {
 }
 .menu-bar a {
   color: var(--ink);
+  background: linear-gradient(currentColor, currentColor) 0 calc(100% - 8px) / 0 2px no-repeat;
+  transition:
+    background-size 0.3s ease,
+    color 0.2s;
+}
+.menu-bar a:hover {
+  background-size: 100% 2px;
+  color: var(--brand);
+}
+.menu-bar .hot:hover {
+  color: var(--cta-hover);
 }
 .menu-bar .all {
   display: inline-flex;
@@ -172,5 +233,25 @@ main {
   }
   .acc-btn:not(.icon) {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .search,
+  .search button,
+  .icon,
+  .acc-btn {
+    transition: none;
+  }
+  .logo:hover,
+  .search:focus-within,
+  .search button:hover,
+  .icon:hover,
+  .acc-btn:hover {
+    transform: none;
+  }
+  .count {
+    animation: none;
   }
 }

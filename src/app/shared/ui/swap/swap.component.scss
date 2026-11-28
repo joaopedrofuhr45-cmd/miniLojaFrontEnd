@@ -1,0 +1,41 @@
+:host {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+.a,
+.b {
+  grid-area: 1 / 1;
+  transition:
+    transform 0.38s cubic-bezier(0.7, 0, 0.2, 1),
+    opacity 0.38s;
+}
+.b {
+  transform: translateY(115%);
+  opacity: 0;
+}
+:host-context(a:hover) .a,
+:host-context(button:hover) .a,
+:host-context(a:focus-visible) .a,
+:host-context(button:focus-visible) .a,
+:host(:hover) .a {
+  transform: translateY(-115%);
+  opacity: 0;
+}
+:host-context(a:hover) .b,
+:host-context(button:hover) .b,
+:host-context(a:focus-visible) .b,
+:host-context(button:focus-visible) .b,
+:host(:hover) .b {
+  transform: none;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .a,
+  .b {
+    transition: none;
+    transform: none !important;
+  }
+}

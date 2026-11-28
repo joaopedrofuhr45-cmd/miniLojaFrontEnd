@@ -1,4 +1,4 @@
-<div class="head"><h2 class="section-title">{{ title() }}</h2><a routerLink="/catalogo" [queryParams]="query()">Ver todas ›</a></div>
+<div class="head"><h2 class="section-title">{{ title() }}</h2><a class="all" routerLink="/catalogo" [queryParams]="query()"><ui-swap text="Ver todas" hover="Explorar" /> <span class="arr">›</span></a></div>
 <div class="grid">
   @if (products(); as list) {
     @for (p of list; track p.id) { <ui-product-card [product]="p" (add)="add.emit($event)" /> }

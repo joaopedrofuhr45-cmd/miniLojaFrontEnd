@@ -38,8 +38,42 @@ h3 {
   margin-bottom: 4px;
 }
 nav a {
+  justify-self: start;
   color: var(--ink2);
   font-size: 13px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  transition:
+    background-size 0.3s ease,
+    color 0.2s,
+    transform 0.25s;
+}
+nav a:hover {
+  background-size: 100% 1.5px;
+  color: var(--brand);
+  transform: translateX(4px);
+}
+.chips span {
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    transform 0.25s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.chips span:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  transform: translateY(-3px) rotate(-3deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  nav a,
+  .chips span {
+    transition: none;
+  }
+  nav a:hover,
+  .chips span:hover {
+    transform: none;
+  }
 }
 .bottom {
   display: flex;

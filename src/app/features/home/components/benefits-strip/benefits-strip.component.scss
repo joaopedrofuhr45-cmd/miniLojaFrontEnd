@@ -35,3 +35,32 @@ small {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* o ícone vira cor de destaque e dá um giro no hover */
+li {
+  transition: transform 0.25s;
+}
+li:hover {
+  transform: translateY(-2px);
+}
+.ico {
+  transition:
+    background 0.3s,
+    color 0.3s,
+    transform 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+li:hover .ico {
+  background: var(--brand);
+  color: #fff;
+  transform: rotate(-12deg) scale(1.15);
+}
+@media (prefers-reduced-motion: reduce) {
+  li,
+  .ico {
+    transition: none;
+  }
+  li:hover,
+  li:hover .ico {
+    transform: none;
+  }
+}

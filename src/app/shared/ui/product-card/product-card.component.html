@@ -10,7 +10,7 @@
     <a class="title" [routerLink]="['/produtos', product().id]">{{ product().name }}</a>
     <ui-price-block [price]="product().price" [originalPrice]="product().originalPrice" />
     <span class="cat">{{ product().category.name }}</span>
-    <button uiButton variant="outline" size="sm" [block]="true" [disabled]="product().stock === 0" (click)="onAdd()">
+    <button uiButton variant="outline" size="sm" [block]="true" [disabled]="product().stock === 0" [hoverText]="product().stock === 0 || added() ? '' : 'Quero esse!'" (click)="onAdd()">
       {{ product().stock === 0 ? 'Sem estoque' : added() ? 'Adicionado ✓' : 'Adicionar ao carrinho' }}
     </button>
   </div>

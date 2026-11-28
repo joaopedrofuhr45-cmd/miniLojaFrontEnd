@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { RevealService } from './shared/effects/reveal.service';
+import { ScrollEffectsService } from './shared/effects/scroll-effects.service';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +11,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'MiniLojaFrontEnd';
+
+  constructor() {
+    inject(ScrollEffectsService).start();
+    inject(RevealService).start();
+  }
 }

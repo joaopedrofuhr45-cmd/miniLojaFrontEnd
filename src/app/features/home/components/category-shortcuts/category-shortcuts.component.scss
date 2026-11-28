@@ -20,3 +20,38 @@ a {
   border-radius: 50%;
   overflow: hidden;
 }
+
+/* o círculo sobe, ganha anel e o texto muda de cor */
+a {
+  transition:
+    transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1),
+    color 0.2s;
+}
+.circle {
+  transition:
+    box-shadow 0.3s,
+    transform 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+a:hover,
+a:focus-visible {
+  transform: translateY(-5px);
+  color: var(--brand);
+}
+a:hover .circle,
+a:focus-visible .circle {
+  transform: scale(1.12) rotate(-5deg);
+  box-shadow:
+    0 0 0 3px #fff,
+    0 0 0 5px var(--brand),
+    0 10px 20px rgba(11, 110, 105, 0.3);
+}
+@media (prefers-reduced-motion: reduce) {
+  a,
+  .circle {
+    transition: none;
+  }
+  a:hover,
+  a:hover .circle {
+    transform: none;
+  }
+}
