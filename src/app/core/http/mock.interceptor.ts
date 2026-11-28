@@ -1,11 +1,16 @@
-import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
-import { of } from 'rxjs';
+import { HttpErrorResponse, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import { of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Category } from '../../shared/models/category';
 import { Page } from '../../shared/models/page';
 import { Product } from '../../shared/models/product';
 import { StoreInfo } from '../../shared/models/store-info';
+import { AuthUser } from '../../shared/models/user';
+
+/** Login fictício (dev): joao@exemplo.com / 123456 */
+export const MOCK_LOGIN = { email: 'joao@exemplo.com', password: '123456' };
+const MOCK_USER: AuthUser = { id: 0, name: 'João Pedro Fuhr', email: MOCK_LOGIN.email, role: 'USER' };
 
 /** Dados fictícios para ver a loja sem o Spring Boot. Só atua em dev com `environment.mock = true`. */
 
@@ -58,9 +63,23 @@ function listProducts(q: URLSearchParams): Page<Product> {
 }
 
 export const mockInterceptor: HttpInterceptorFn = (req, next) => {
-  if (!environment.mock || req.method !== 'GET') return next(req);
+  if (!environment.mock) return next(req);
   const url = new URL(req.urlWithParams, 'http://x');
   const path = url.pathname.replace(/^\/api/, '');
+
+  if (req.method === 'POST' && path === '/auth/login') {
+    const b = req.body as { email?: string; password?: string } | null;
+    if (b?.email?.trim().toLowerCase() === MOCK_LOGIN.email && b.password === MOCK_LOGIN.password) {
+      return of(new HttpResponse({ status: 200, body: { token: 'mock-token', user: MOCK_USER } })).pipe(delay(300));
+    }
+    return throwError(() => new HttpErrorResponse({ status: 401, error: { status: 401, error: 'Unauthorized', message: 'E-mail ou senha inválidos' } }));
+  }
+  if (req.method === 'POST' && path === '/auth/register') {
+    const b = req.body as { name?: string; email?: string } | null;
+    return of(new HttpResponse({ status: 201, body: { token: 'mock-token', user: { ...MOCK_USER, name: b?.name ?? MOCK_USER.name, email: b?.email ?? MOCK_USER.email } } })).pipe(delay(300));
+  }
+  if (req.method !== 'GET') return next(req);
+  if (path === '/users/me') return of(new HttpResponse({ status: 200, body: { ...MOCK_USER, address: null } }));
   let body: unknown;
   if (path === '/store-info') body = STORE_INFO;
   else if (path === '/categories') body = CATEGORIES;
